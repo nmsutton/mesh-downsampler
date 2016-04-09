@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;mesh_downsampler&apos; to &apos;mesh-downsampler&apos;" description="Rename resource &apos;mesh_downsampler&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/mesh_downsampler" name="mesh-downsampler" stamp="1460166995288" updateReferences="true"/>
+</session>

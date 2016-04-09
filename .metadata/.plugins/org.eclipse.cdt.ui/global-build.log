@@ -1,0 +1,1140 @@
+20:00:52 **** Build of configuration Debug for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp:8:1: error: ‘include’ does not name a type
+ include <stdio>
+ ^
+make: *** [main.o] Error 1
+20:01:06 **** Incremental Build of configuration Debug for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp:8:1: error: ‘include’ does not name a type
+ include <stdio>
+ ^
+make: *** [main.o] Error 1
+20:01:39 **** Incremental Build of configuration Debug for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp: In function ‘int main()’:
+../main.cpp:11:2: error: ‘cout’ was not declared in this scope
+  cout<<"test";
+  ^
+make: *** [main.o] Error 1
+20:02:38 **** Incremental Build of configuration Debug for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp:10:16: error: expected ‘{’ before ‘;’ token
+ namespace stdio;
+                ^
+../main.cpp: In function ‘int stdio::main()’:
+../main.cpp:13:2: error: ‘cout’ was not declared in this scope
+  cout<<"test";
+  ^
+../main.cpp: At global scope:
+../main.cpp:15:1: error: expected ‘}’ at end of input
+ }
+ ^
+make: *** [main.o] Error 1
+20:03:01 **** Incremental Build of configuration Debug for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp:10:14: error: expected ‘{’ before ‘;’ token
+ namespace std;
+              ^
+../main.cpp: In function ‘int std::main()’:
+../main.cpp:13:2: error: ‘cout’ was not declared in this scope
+  cout<<"test";
+  ^
+../main.cpp: At global scope:
+../main.cpp:15:1: error: expected ‘}’ at end of input
+ }
+ ^
+make: *** [main.o] Error 1
+20:03:29 **** Incremental Build of configuration Debug for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp:11:14: error: expected ‘{’ before ‘;’ token
+ namespace std;
+              ^
+../main.cpp:16:1: error: expected ‘}’ at end of input
+ }
+ ^
+make: *** [main.o] Error 1
+20:03:54 **** Incremental Build of configuration Debug for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+Finished building: ../main.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./main.o   
+Finished building target: mesh_downsampler
+ 
+20:04:21 **** Incremental Build of configuration Debug for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+Finished building: ../main.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./main.o   
+Finished building target: mesh_downsampler
+ 
+20:04:42 **** Incremental Build of configuration Debug for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+Finished building: ../main.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./main.o   
+Finished building target: mesh_downsampler
+ 
+20:06:16 **** Incremental Build of configuration Debug for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+Finished building: ../main.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./main.o   
+Finished building target: mesh_downsampler
+ 
+20:08:21 **** Incremental Build of configuration Debug for project mesh_downsampler ****
+make all 
+make: Nothing to be done for `all'.
+20:37:29 **** Incremental Build of configuration Debug for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp:18:18: error: expected unqualified-id before ‘)’ token
+ struct load_mesh() {
+                  ^
+make: *** [main.o] Error 1
+20:39:00 **** Incremental Build of configuration Debug for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp:14:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double x[3] = {1,2,3};
+                      ^
+../main.cpp:15:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double y[3] = {4,5,6};
+                      ^
+../main.cpp:16:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double z[3] = {3,2,1};
+                      ^
+../main.cpp:14:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double x[3] = {1,2,3};
+                      ^
+../main.cpp:15:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double y[3] = {4,5,6};
+                      ^
+../main.cpp:16:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double z[3] = {3,2,1};
+                      ^
+../main.cpp:17:2: error: qualifiers can only be specified for objects and functions
+ };
+  ^
+make: *** [main.o] Error 1
+20:39:21 **** Incremental Build of configuration Debug for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp:14:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double x[3] = {1,2,3};
+                      ^
+../main.cpp:15:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double y[3] = {4,5,6};
+                      ^
+../main.cpp:16:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double z[3] = {3,2,1};
+                      ^
+../main.cpp:14:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double x[3] = {1,2,3};
+                      ^
+../main.cpp:15:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+Finished building: ../main.cpp
+  double y[3] = {4,5,6};
+ 
+                      ^
+Building target: mesh_downsampler
+../main.cpp:16:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double z[3] = {3,2,1};
+                      ^
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./main.o   
+Finished building target: mesh_downsampler
+ 
+20:51:44 **** Incremental Build of configuration Debug for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp:14:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double x[3] = {1,2,3};
+                      ^
+../main.cpp:15:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double y[3] = {4,5,6};
+                      ^
+../main.cpp:16:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double z[3] = {3,2,1};
+                      ^
+../main.cpp:14:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double x[3] = {1,2,3};
+                      ^
+../main.cpp:15:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double y[3] = {4,5,6};
+                      ^
+../main.cpp:16:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double z[3] = {3,2,1};
+                      ^
+../main.cpp: In function ‘void downsample_mesh()’:
+../main.cpp:32:33: error: expected primary-expression before ‘.’ token
+  for (int i = 0; i < sizeof(mesh.x); i++) {
+                                 ^
+make: *** [main.o] Error 1
+20:52:11 **** Incremental Build of configuration Debug for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp:14:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double x[3] = {1,2,3};
+                      ^
+../main.cpp:15:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double y[3] = {4,5,6};
+                      ^
+../main.cpp:16:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double z[3] = {3,2,1};
+                      ^
+../main.cpp:14:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double x[3] = {1,2,3};
+                      ^
+../main.cpp:15:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double y[3] = {4,5,6};
+                      ^
+../main.cpp:16:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double z[3] = {3,2,1};
+                      ^
+../main.cpp: In function ‘void downsample_mesh()’:
+../main.cpp:32:33: error: expected primary-expression before ‘->’ token
+  for (int i = 0; i < sizeof(mesh->x); i++) {
+                                 ^
+make: *** [main.o] Error 1
+20:52:22 **** Incremental Build of configuration Debug for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp:14:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double x[3] = {1,2,3};
+                      ^
+../main.cpp:15:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double y[3] = {4,5,6};
+                      ^
+../main.cpp:16:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double z[3] = {3,2,1};
+                      ^
+../main.cpp:14:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double x[3] = {1,2,3};
+                      ^
+../main.cpp:15:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double y[3] = {4,5,6};
+                      ^
+../main.cpp:16:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double z[3] = {3,2,1};
+                      ^
+../main.cpp: In function ‘void downsample_mesh()’:
+../main.cpp:32:33: error: expected primary-expression before ‘.’ token
+  for (int i = 0; i < sizeof(mesh.x); i++) {
+                                 ^
+make: *** [main.o] Error 1
+20:57:49 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp:14:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double x[3] = {1,2,3};
+                      ^
+../main.cpp:15:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double y[3] = {4,5,6};
+                      ^
+../main.cpp:16:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double z[3] = {3,2,1};
+                      ^
+../main.cpp:14:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double x[3] = {1,2,3};
+                      ^
+../main.cpp:15:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double y[3] = {4,5,6};
+                      ^
+../main.cpp:16:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double z[3] = {3,2,1};
+                      ^
+../main.cpp: In function ‘void downsample_mesh()’:
+../main.cpp:32:33: error: expected primary-expression before ‘.’ token
+  for (int i = 0; i < sizeof(mesh.x); i++) {
+                                 ^
+make: *** [main.o] Error 1
+20:59:32 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp:14:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double x[3] = {1,2,3};
+                      ^
+../main.cpp:15:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double y[3] = {4,5,6};
+                      ^
+../main.cpp:16:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double z[3] = {3,2,1};
+                      ^
+../main.cpp:14:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double x[3] = {1,2,3};
+                      ^
+../main.cpp:15:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double y[3] = {4,5,6};
+                      ^
+../main.cpp:16:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double z[3] = {3,2,1};
+                      ^
+../main.cpp: In function ‘void downsample_mesh(mesh)’:
+../main.cpp:33:35: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < sizeof(mesh.x); i++) {
+                                   ^
+Finished building: ../main.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./main.o   
+Finished building target: mesh_downsampler
+ 
+20:59:57 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp:14:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double x[3] = {1,2,3};
+                      ^
+../main.cpp:15:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double y[3] = {4,5,6};
+                      ^
+../main.cpp:16:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double z[3] = {3,2,1};
+                      ^
+../main.cpp:14:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double x[3] = {1,2,3};
+                      ^
+../main.cpp:15:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double y[3] = {4,5,6};
+                      ^
+../main.cpp:16:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double z[3] = {3,2,1};
+                      ^
+../main.cpp: In function ‘int main()’:
+../main.cpp:28:24: error: ‘downsample_mesh’ was not declared in this scope
+  downsample_mesh(mesh_1);
+                        ^
+../main.cpp: In function ‘void downsample_mesh(mesh)’:
+../main.cpp:35:35: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < sizeof(mesh.x); i++) {
+                                   ^
+make: *** [main.o] Error 1
+21:00:13 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp:14:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double x[3] = {1,2,3};
+                      ^
+../main.cpp:15:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double y[3] = {4,5,6};
+                      ^
+../main.cpp:16:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double z[3] = {3,2,1};
+                      ^
+../main.cpp:14:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double x[3] = {1,2,3};
+                      ^
+../main.cpp:15:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double y[3] = {4,5,6};
+                      ^
+../main.cpp:16:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double z[3] = {3,2,1};
+                      ^
+../main.cpp: In function ‘void downsample_mesh(mesh)’:
+../main.cpp:27:35: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < sizeof(mesh.x); i++) {
+                                   ^
+Finished building: ../main.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./main.o   
+Finished building target: mesh_downsampler
+ 
+21:00:37 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp:14:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double x[3] = {1,2,3};
+                      ^
+../main.cpp:15:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double y[3] = {4,5,6};
+                      ^
+../main.cpp:16:22: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double z[3] = {3,2,1};
+                      ^
+../main.cpp:14:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double x[3] = {1,2,3};
+                      ^
+../main.cpp:15:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+Finished building: ../main.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./main.o   
+  double y[3] = {4,5,6};
+                      ^
+../main.cpp:16:22: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  double z[3] = {3,2,1};
+                      ^
+../main.cpp: In function ‘void downsample_mesh(mesh)’:
+../main.cpp:27:35: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < sizeof(mesh.x); i++) {
+                                   ^
+Finished building target: mesh_downsampler
+ 
+21:00:57 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+make: Nothing to be done for `all'.
+22:29:11 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp: In function ‘void downsample_mesh(original_mesh, downsampled_mesh)’:
+../main.cpp:44:47: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < sizeof(downsampled_mesh.x); i++) {
+                                               ^
+../main.cpp: In function ‘void create_mesh(int, int, int, std::string)’:
+../main.cpp:65:19: error: expected unqualified-id before ‘.’ token
+      original_mesh.x[i]=x;
+                   ^
+make: *** [main.o] Error 1
+22:32:14 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp: In function ‘void downsample_mesh(original_mesh, downsampled_mesh)’:
+../main.cpp:44:47: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < sizeof(downsampled_mesh.x); i++) {
+                                               ^
+../main.cpp: In function ‘void create_mesh(int, int, int, std::string)’:
+../main.cpp:65:19: error: expected unqualified-id before ‘.’ token
+      original_mesh.x[i]=x;
+                   ^
+make: *** [main.o] Error 1
+22:32:23 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp: In function ‘void downsample_mesh(original_mesh, downsampled_mesh)’:
+../main.cpp:44:47: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < sizeof(downsampled_mesh.x); i++) {
+                                               ^
+../main.cpp: In function ‘void create_mesh(int, int, int, std::string)’:
+../main.cpp:65:6: error: ‘original_mesh_obj’ was not declared in this scope
+      original_mesh_obj.x[i]=x;
+      ^
+make: *** [main.o] Error 1
+22:33:46 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp: In function ‘void downsample_mesh(original_mesh, downsampled_mesh)’:
+../main.cpp:44:47: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < sizeof(downsampled_mesh.x); i++) {
+                                               ^
+../main.cpp: In function ‘void create_mesh(int, int, int, std::string, original_mesh, downsampled_mesh)’:
+../main.cpp:56:20: warning: variable ‘y’ set but not used [-Wunused-but-set-variable]
+  int i = 0, x = 0, y = 0, z = 0;
+                    ^
+../main.cpp:56:27: warning: variable ‘z’ set but not used [-Wunused-but-set-variable]
+  int i = 0, x = 0, y = 0, z = 0;
+                           ^
+Finished building: ../main.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./main.o   
+Finished building target: mesh_downsampler
+ 
+22:42:29 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp: In function ‘void downsample_mesh(original_mesh, downsampled_mesh)’:
+../main.cpp:47:47: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < sizeof(downsampled_mesh.x); i++) {
+                                               ^
+../main.cpp: In function ‘int main()’:
+../main.cpp:88:41: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < sizeof(downs_mesh.x); i++) {
+                                         ^
+Finished building: ../main.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./main.o   
+Finished building target: mesh_downsampler
+ 
+22:42:41 **** Incremental Build of configuration Debug for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp: In function ‘void downsample_mesh(original_mesh, downsampled_mesh)’:
+../main.cpp:47:47: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < sizeof(downsampled_mesh.x); i++) {
+                                               ^
+../main.cpp: In function ‘int main()’:
+../main.cpp:88:41: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < sizeof(downs_mesh.x); i++) {
+                                         ^
+Finished building: ../main.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./main.o   
+Finished building target: mesh_downsampler
+ 
+22:43:58 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp: In function ‘void downsample_mesh()’:
+../main.cpp:47:41: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < sizeof(downs_mesh.x); i++) {
+                                         ^
+../main.cpp: In function ‘int main()’:
+../main.cpp:88:41: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < sizeof(downs_mesh.x); i++) {
+                                         ^
+Finished building: ../main.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./main.o   
+Finished building target: mesh_downsampler
+ 
+22:44:01 **** Incremental Build of configuration Debug for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp: In function ‘void downsample_mesh()’:
+../main.cpp:47:41: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < sizeof(downs_mesh.x); i++) {
+                                         ^
+../main.cpp: In function ‘int main()’:
+../main.cpp:88:41: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < sizeof(downs_mesh.x); i++) {
+                                         ^
+Finished building: ../main.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./main.o   
+Finished building target: mesh_downsampler
+ 
+22:52:17 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+Finished building: ../main.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./main.o   
+Finished building target: mesh_downsampler
+ 
+22:52:20 **** Incremental Build of configuration Debug for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+Finished building: ../main.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./main.o   
+Finished building target: mesh_downsampler
+ 
+22:54:22 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+Finished building: ../main.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./main.o   
+Finished building target: mesh_downsampler
+ 
+22:54:24 **** Incremental Build of configuration Debug for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+Finished building: ../main.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./main.o   
+Finished building target: mesh_downsampler
+ 
+23:01:36 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp: In function ‘void downsample_mesh()’:
+../main.cpp:49:9: warning: unused variable ‘W’ [-Wunused-variable]
+  double W[DOWNS_MESH_VERTS];
+         ^
+../main.cpp:50:6: warning: unused variable ‘s’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+      ^
+../main.cpp:50:13: warning: unused variable ‘t’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+             ^
+../main.cpp:50:20: warning: unused variable ‘v’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                    ^
+../main.cpp:50:27: warning: unused variable ‘u’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                           ^
+../main.cpp:50:34: warning: unused variable ‘theta’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                                  ^
+../main.cpp:50:45: warning: unused variable ‘alpha’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                                             ^
+../main.cpp:51:6: warning: unused variable ‘L’ [-Wunused-variable]
+  int L = 10;
+      ^
+Finished building: ../main.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./main.o   
+Finished building target: mesh_downsampler
+ 
+23:01:37 **** Incremental Build of configuration Debug for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp: In function ‘void downsample_mesh()’:
+../main.cpp:49:9: warning: unused variable ‘W’ [-Wunused-variable]
+  double W[DOWNS_MESH_VERTS];
+         ^
+../main.cpp:50:6: warning: unused variable ‘s’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+      ^
+../main.cpp:50:13: warning: unused variable ‘t’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+             ^
+../main.cpp:50:20: warning: unused variable ‘v’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                    ^
+../main.cpp:50:27: warning: unused variable ‘u’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                           ^
+../main.cpp:50:34: warning: unused variable ‘theta’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                                  ^
+../main.cpp:50:45: warning: unused variable ‘alpha’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                                             ^
+../main.cpp:51:6: warning: unused variable ‘L’ [-Wunused-variable]
+  int L = 10;
+      ^
+Finished building: ../main.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./main.o   
+Finished building target: mesh_downsampler
+ 
+23:02:11 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../main.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp: In function ‘void downsample_mesh()’:
+../main.cpp:49:9: warning: unused variable ‘W’ [-Wunused-variable]
+  double W[DOWNS_MESH_VERTS];
+         ^
+../main.cpp:50:6: warning: unused variable ‘s’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+      ^
+../main.cpp:50:13: warning: unused variable ‘t’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+             ^
+../main.cpp:50:20: warning: unused variable ‘v’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                    ^
+../main.cpp:50:27: warning: unused variable ‘u’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                           ^
+../main.cpp:50:34: warning: unused variable ‘theta’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                                  ^
+../main.cpp:50:45: warning: unused variable ‘alpha’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                                             ^
+../main.cpp:51:6: warning: unused variable ‘L’ [-Wunused-variable]
+  int L = 10;
+      ^
+Finished building: ../main.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./main.o   
+Finished building target: mesh_downsampler
+ 
+23:07:27 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../meshDownsampler.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"meshDownsampler.d" -MT"meshDownsampler.d" -o "meshDownsampler.o" "../meshDownsampler.cpp"
+../meshDownsampler.cpp: In function ‘void downsample_mesh()’:
+../meshDownsampler.cpp:49:9: warning: unused variable ‘W’ [-Wunused-variable]
+  double W[DOWNS_MESH_VERTS];
+         ^
+../meshDownsampler.cpp:50:6: warning: unused variable ‘s’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+      ^
+../meshDownsampler.cpp:50:13: warning: unused variable ‘t’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+             ^
+../meshDownsampler.cpp:50:20: warning: unused variable ‘v’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                    ^
+../meshDownsampler.cpp:50:27: warning: unused variable ‘u’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                           ^
+../meshDownsampler.cpp:50:34: warning: unused variable ‘theta’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                                  ^
+../meshDownsampler.cpp:50:45: warning: unused variable ‘alpha’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                                             ^
+../meshDownsampler.cpp:51:6: warning: unused variable ‘L’ [-Wunused-variable]
+  int L = 10;
+      ^
+Finished building: ../meshDownsampler.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./meshDownsampler.o   
+Finished building target: mesh_downsampler
+ 
+22:17:12 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../meshDownsampler.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"meshDownsampler.d" -MT"meshDownsampler.d" -o "meshDownsampler.o" "../meshDownsampler.cpp"
+../meshDownsampler.cpp: In function ‘void downsample_mesh()’:
+../meshDownsampler.cpp:55:9: warning: variable ‘W’ set but not used [-Wunused-but-set-variable]
+  double W[DOWNS_MESH_VERTS];
+         ^
+../meshDownsampler.cpp:56:6: warning: unused variable ‘s’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+      ^
+../meshDownsampler.cpp:56:13: warning: unused variable ‘t’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+             ^
+../meshDownsampler.cpp:56:20: warning: unused variable ‘v’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                    ^
+../meshDownsampler.cpp:56:27: warning: unused variable ‘u’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                           ^
+../meshDownsampler.cpp:56:34: warning: unused variable ‘theta’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                                  ^
+../meshDownsampler.cpp:56:45: warning: unused variable ‘alpha’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                                             ^
+Finished building: ../meshDownsampler.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./meshDownsampler.o   
+Finished building target: mesh_downsampler
+ 
+22:17:16 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+make: Nothing to be done for `all'.
+22:23:12 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../meshDownsampler.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"meshDownsampler.d" -MT"meshDownsampler.d" -o "meshDownsampler.o" "../meshDownsampler.cpp"
+../meshDownsampler.cpp: In function ‘double find_euclidean_dist()’:
+../meshDownsampler.cpp:33:29: error: ‘yDirPath’ was not declared in this scope
+  double distance = sqrt(pow(yDirPath-(imageYPixels*((double)y/(double)yMaxAmount)),2)+pow(xDirPath-(imageXPixels*((double)x/(double)xMaxAmount)),2));
+                             ^
+../meshDownsampler.cpp:33:39: error: ‘imageYPixels’ was not declared in this scope
+  double distance = sqrt(pow(yDirPath-(imageYPixels*((double)y/(double)yMaxAmount)),2)+pow(xDirPath-(imageXPixels*((double)x/(double)xMaxAmount)),2));
+                                       ^
+../meshDownsampler.cpp:33:61: error: ‘y’ was not declared in this scope
+  double distance = sqrt(pow(yDirPath-(imageYPixels*((double)y/(double)yMaxAmount)),2)+pow(xDirPath-(imageXPixels*((double)x/(double)xMaxAmount)),2));
+                                                             ^
+../meshDownsampler.cpp:33:71: error: ‘yMaxAmount’ was not declared in this scope
+  double distance = sqrt(pow(yDirPath-(imageYPixels*((double)y/(double)yMaxAmount)),2)+pow(xDirPath-(imageXPixels*((double)x/(double)xMaxAmount)),2));
+                                                                       ^
+../meshDownsampler.cpp:33:85: error: ‘pow’ was not declared in this scope
+  double distance = sqrt(pow(yDirPath-(imageYPixels*((double)y/(double)yMaxAmount)),2)+pow(xDirPath-(imageXPixels*((double)x/(double)xMaxAmount)),2));
+                                                                                     ^
+../meshDownsampler.cpp:33:91: error: ‘xDirPath’ was not declared in this scope
+  double distance = sqrt(pow(yDirPath-(imageYPixels*((double)y/(double)yMaxAmount)),2)+pow(xDirPath-(imageXPixels*((double)x/(double)xMaxAmount)),2));
+                                                                                           ^
+../meshDownsampler.cpp:33:101: error: ‘imageXPixels’ was not declared in this scope
+  double distance = sqrt(pow(yDirPath-(imageYPixels*((double)y/(double)yMaxAmount)),2)+pow(xDirPath-(imageXPixels*((double)x/(double)xMaxAmount)),2));
+                                                                                                     ^
+../meshDownsampler.cpp:33:123: error: ‘x’ was not declared in this scope
+  double distance = sqrt(pow(yDirPath-(imageYPixels*((double)y/(double)yMaxAmount)),2)+pow(xDirPath-(imageXPixels*((double)x/(double)xMaxAmount)),2));
+                                                                                                                           ^
+../meshDownsampler.cpp:33:133: error: ‘xMaxAmount’ was not declared in this scope
+  double distance = sqrt(pow(yDirPath-(imageYPixels*((double)y/(double)yMaxAmount)),2)+pow(xDirPath-(imageXPixels*((double)x/(double)xMaxAmount)),2));
+                                                                                                                                     ^
+../meshDownsampler.cpp:33:148: error: ‘sqrt’ was not declared in this scope
+  double distance = sqrt(pow(yDirPath-(imageYPixels*((double)y/(double)yMaxAmount)),2)+pow(xDirPath-(imageXPixels*((double)x/(double)xMaxAmount)),2));
+                                                                                                                                                    ^
+../meshDownsampler.cpp: In function ‘void downsample_mesh()’:
+../meshDownsampler.cpp:66:6: warning: unused variable ‘s’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+      ^
+../meshDownsampler.cpp:66:13: warning: unused variable ‘t’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+             ^
+../meshDownsampler.cpp:66:20: warning: unused variable ‘v’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                    ^
+../meshDownsampler.cpp:66:27: warning: unused variable ‘u’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                           ^
+../meshDownsampler.cpp:66:34: warning: unused variable ‘theta’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                                  ^
+../meshDownsampler.cpp:66:45: warning: unused variable ‘alpha’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                                             ^
+make: *** [meshDownsampler.o] Error 1
+22:24:23 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../meshDownsampler.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"meshDownsampler.d" -MT"meshDownsampler.d" -o "meshDownsampler.o" "../meshDownsampler.cpp"
+../meshDownsampler.cpp: In function ‘double find_euclidean_dist()’:
+../meshDownsampler.cpp:33:29: error: ‘yDirPath’ was not declared in this scope
+  double distance = sqrt(pow(yDirPath-(imageYPixels*((double)y/(double)yMaxAmount)),2)+pow(xDirPath-(imageXPixels*((double)x/(double)xMaxAmount)),2));
+                             ^
+../meshDownsampler.cpp:33:39: error: ‘imageYPixels’ was not declared in this scope
+  double distance = sqrt(pow(yDirPath-(imageYPixels*((double)y/(double)yMaxAmount)),2)+pow(xDirPath-(imageXPixels*((double)x/(double)xMaxAmount)),2));
+                                       ^
+../meshDownsampler.cpp:33:61: error: ‘y’ was not declared in this scope
+  double distance = sqrt(pow(yDirPath-(imageYPixels*((double)y/(double)yMaxAmount)),2)+pow(xDirPath-(imageXPixels*((double)x/(double)xMaxAmount)),2));
+                                                             ^
+../meshDownsampler.cpp:33:71: error: ‘yMaxAmount’ was not declared in this scope
+  double distance = sqrt(pow(yDirPath-(imageYPixels*((double)y/(double)yMaxAmount)),2)+pow(xDirPath-(imageXPixels*((double)x/(double)xMaxAmount)),2));
+                                                                       ^
+../meshDownsampler.cpp:33:91: error: ‘xDirPath’ was not declared in this scope
+  double distance = sqrt(pow(yDirPath-(imageYPixels*((double)y/(double)yMaxAmount)),2)+pow(xDirPath-(imageXPixels*((double)x/(double)xMaxAmount)),2));
+                                                                                           ^
+../meshDownsampler.cpp:33:101: error: ‘imageXPixels’ was not declared in this scope
+  double distance = sqrt(pow(yDirPath-(imageYPixels*((double)y/(double)yMaxAmount)),2)+pow(xDirPath-(imageXPixels*((double)x/(double)xMaxAmount)),2));
+                                                                                                     ^
+../meshDownsampler.cpp:33:123: error: ‘x’ was not declared in this scope
+  double distance = sqrt(pow(yDirPath-(imageYPixels*((double)y/(double)yMaxAmount)),2)+pow(xDirPath-(imageXPixels*((double)x/(double)xMaxAmount)),2));
+                                                                                                                           ^
+../meshDownsampler.cpp:33:133: error: ‘xMaxAmount’ was not declared in this scope
+  double distance = sqrt(pow(yDirPath-(imageYPixels*((double)y/(double)yMaxAmount)),2)+pow(xDirPath-(imageXPixels*((double)x/(double)xMaxAmount)),2));
+                                                                                                                                     ^
+../meshDownsampler.cpp: In function ‘void downsample_mesh()’:
+../meshDownsampler.cpp:66:6: warning: unused variable ‘s’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+      ^
+../meshDownsampler.cpp:66:13: warning: unused variable ‘t’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+             ^
+../meshDownsampler.cpp:66:20: warning: unused variable ‘v’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                    ^
+../meshDownsampler.cpp:66:27: warning: unused variable ‘u’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                           ^
+../meshDownsampler.cpp:66:34: warning: unused variable ‘theta’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                                  ^
+../meshDownsampler.cpp:66:45: warning: unused variable ‘alpha’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                                             ^
+make: *** [meshDownsampler.o] Error 1
+22:27:31 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../meshDownsampler.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"meshDownsampler.d" -MT"meshDownsampler.d" -o "meshDownsampler.o" "../meshDownsampler.cpp"
+../meshDownsampler.cpp: In function ‘double find_euclidean_dist(double, double, double, double)’:
+../meshDownsampler.cpp:33:53: error: too few arguments to function ‘double pow(double, double)’
+  double distance = sqrt(pow((x_2-x_1),2)+pow(y_2-y_1),2));
+                                                     ^
+In file included from /usr/include/features.h:374:0,
+                 from /usr/include/stdio.h:27,
+                 from ../meshDownsampler.cpp:8:
+/usr/include/x86_64-linux-gnu/bits/mathcalls.h:153:1: note: declared here
+ __MATHCALL (pow,, (_Mdouble_ __x, _Mdouble_ __y));
+ ^
+../meshDownsampler.cpp: In function ‘void downsample_mesh()’:
+../meshDownsampler.cpp:66:6: warning: unused variable ‘s’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+      ^
+../meshDownsampler.cpp:66:13: warning: unused variable ‘t’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+             ^
+../meshDownsampler.cpp:66:20: warning: unused variable ‘v’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                    ^
+../meshDownsampler.cpp:66:27: warning: unused variable ‘u’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                           ^
+../meshDownsampler.cpp:66:34: warning: unused variable ‘theta’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                                  ^
+../meshDownsampler.cpp:66:45: warning: unused variable ‘alpha’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                                             ^
+make: *** [meshDownsampler.o] Error 1
+22:27:51 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../meshDownsampler.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"meshDownsampler.d" -MT"meshDownsampler.d" -o "meshDownsampler.o" "../meshDownsampler.cpp"
+../meshDownsampler.cpp: In function ‘void downsample_mesh()’:
+../meshDownsampler.cpp:65:9: warning: variable ‘W’ set but not used [-Wunused-but-set-variable]
+  double W[DOWNS_MESH_VERTS];
+         ^
+../meshDownsampler.cpp:66:6: warning: unused variable ‘s’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+      ^
+../meshDownsampler.cpp:66:13: warning: unused variable ‘t’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+             ^
+../meshDownsampler.cpp:66:20: warning: unused variable ‘v’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                    ^
+../meshDownsampler.cpp:66:27: warning: unused variable ‘u’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                           ^
+../meshDownsampler.cpp:66:34: warning: unused variable ‘theta’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                                  ^
+../meshDownsampler.cpp:66:45: warning: unused variable ‘alpha’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, theta = 0, alpha = 0;
+                                             ^
+Finished building: ../meshDownsampler.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./meshDownsampler.o   
+Finished building target: mesh_downsampler
+ 
+22:47:56 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../meshDownsampler.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"meshDownsampler.d" -MT"meshDownsampler.d" -o "meshDownsampler.o" "../meshDownsampler.cpp"
+../meshDownsampler.cpp: In function ‘void downsample_mesh()’:
+../meshDownsampler.cpp:83:44: error: expected unqualified-id before ‘.’ token
+  for (int map_i = 0; map_i < T; map_i++) {W.x[map_i] = 1;}
+                                            ^
+../meshDownsampler.cpp:92:8: error: expected ‘(’ before ‘new_dist’
+     if new_dist < bmu_dist {bmu_dist = new_dist; u = in_i;}
+        ^
+../meshDownsampler.cpp:76:6: warning: unused variable ‘s’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, alpha = 1;
+      ^
+../meshDownsampler.cpp:76:13: warning: unused variable ‘t’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, alpha = 1;
+             ^
+../meshDownsampler.cpp:76:20: warning: unused variable ‘v’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, alpha = 1;
+                    ^
+../meshDownsampler.cpp:76:34: warning: unused variable ‘alpha’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, alpha = 1;
+                                  ^
+make: *** [meshDownsampler.o] Error 1
+22:48:03 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../meshDownsampler.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"meshDownsampler.d" -MT"meshDownsampler.d" -o "meshDownsampler.o" "../meshDownsampler.cpp"
+../meshDownsampler.cpp: In function ‘void downsample_mesh()’:
+../meshDownsampler.cpp:83:44: error: expected unqualified-id before ‘.’ token
+  for (int map_i = 0; map_i < T; map_i++) {W.x[map_i] = 1;}
+                                            ^
+../meshDownsampler.cpp:92:8: error: expected ‘(’ before ‘new_dist’
+     if new_dist < bmu_dist {bmu_dist = new_dist; u = in_i;}
+        ^
+../meshDownsampler.cpp:76:6: warning: unused variable ‘s’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, alpha = 1;
+      ^
+../meshDownsampler.cpp:76:13: warning: unused variable ‘t’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, alpha = 1;
+             ^
+../meshDownsampler.cpp:76:20: warning: unused variable ‘v’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, alpha = 1;
+                    ^
+../meshDownsampler.cpp:76:34: warning: unused variable ‘alpha’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, alpha = 1;
+                                  ^
+make: *** [meshDownsampler.o] Error 1
+22:49:17 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../meshDownsampler.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"meshDownsampler.d" -MT"meshDownsampler.d" -o "meshDownsampler.o" "../meshDownsampler.cpp"
+../meshDownsampler.cpp: In function ‘void downsample_mesh()’:
+../meshDownsampler.cpp:94:8: error: expected ‘(’ before ‘new_dist’
+     if new_dist < bmu_dist {bmu_dist = new_dist; u = in_i;}
+        ^
+../meshDownsampler.cpp:76:6: warning: unused variable ‘s’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, alpha = 1;
+      ^
+../meshDownsampler.cpp:76:13: warning: unused variable ‘t’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, alpha = 1;
+             ^
+../meshDownsampler.cpp:76:20: warning: unused variable ‘v’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, alpha = 1;
+                    ^
+../meshDownsampler.cpp:76:34: warning: unused variable ‘alpha’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, alpha = 1;
+                                  ^
+make: *** [meshDownsampler.o] Error 1
+22:49:34 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../meshDownsampler.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"meshDownsampler.d" -MT"meshDownsampler.d" -o "meshDownsampler.o" "../meshDownsampler.cpp"
+../meshDownsampler.cpp: In function ‘void downsample_mesh()’:
+../meshDownsampler.cpp:94:8: error: expected ‘(’ before ‘new_dist’
+     if new_dist < bmu_dist {bmu_dist = new_dist; u = in_i;}
+        ^
+../meshDownsampler.cpp:76:6: warning: unused variable ‘s’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, alpha = 1;
+      ^
+../meshDownsampler.cpp:76:13: warning: unused variable ‘t’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, alpha = 1;
+             ^
+../meshDownsampler.cpp:76:20: warning: unused variable ‘v’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, alpha = 1;
+                    ^
+../meshDownsampler.cpp:76:34: warning: unused variable ‘alpha’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0, alpha = 1;
+                                  ^
+make: *** [meshDownsampler.o] Error 1
+23:02:57 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../meshDownsampler.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"meshDownsampler.d" -MT"meshDownsampler.d" -o "meshDownsampler.o" "../meshDownsampler.cpp"
+../meshDownsampler.cpp: In function ‘void downsample_mesh()’:
+../meshDownsampler.cpp:82:6: warning: unused variable ‘s’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0;
+      ^
+../meshDownsampler.cpp:82:13: warning: unused variable ‘t’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0;
+             ^
+../meshDownsampler.cpp:82:20: warning: unused variable ‘v’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0;
+                    ^
+../meshDownsampler.cpp:82:27: warning: variable ‘u’ set but not used [-Wunused-but-set-variable]
+  int s = 0, t = 0, v = 0, u = 0;
+                           ^
+Finished building: ../meshDownsampler.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./meshDownsampler.o   
+Finished building target: mesh_downsampler
+ 
+23:04:02 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+Building file: ../meshDownsampler.cpp
+Invoking: Cross G++ Compiler
+g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"meshDownsampler.d" -MT"meshDownsampler.d" -o "meshDownsampler.o" "../meshDownsampler.cpp"
+../meshDownsampler.cpp: In function ‘void downsample_mesh()’:
+../meshDownsampler.cpp:86:6: warning: unused variable ‘s’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0;
+      ^
+../meshDownsampler.cpp:86:13: warning: unused variable ‘t’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0;
+             ^
+../meshDownsampler.cpp:86:20: warning: unused variable ‘v’ [-Wunused-variable]
+  int s = 0, t = 0, v = 0, u = 0;
+                    ^
+../meshDownsampler.cpp:86:27: warning: variable ‘u’ set but not used [-Wunused-but-set-variable]
+  int s = 0, t = 0, v = 0, u = 0;
+                           ^
+Finished building: ../meshDownsampler.cpp
+ 
+Building target: mesh_downsampler
+Invoking: Cross G++ Linker
+g++  -o "mesh_downsampler"  ./meshDownsampler.o   
+Finished building target: mesh_downsampler
+ 
+23:04:09 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+make: Nothing to be done for `all'.

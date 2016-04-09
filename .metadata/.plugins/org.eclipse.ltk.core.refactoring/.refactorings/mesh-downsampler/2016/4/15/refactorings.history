@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;mesh_downsampler/main.cpp&apos; to &apos;meshDownsampler.cpp&apos;" description="Rename resource &apos;main.cpp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="main.cpp" name="meshDownsampler.cpp" stamp="1459998419924" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;mesh-downsampler/meshDownsampler.cpp&apos; to &apos;mesh_downsampler.cpp&apos;" description="Rename resource &apos;meshDownsampler.cpp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="meshDownsampler.cpp" name="mesh_downsampler.cpp" stamp="1460167018725" updateReferences="true"/>
+</session>

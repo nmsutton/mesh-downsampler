@@ -1,0 +1,39 @@
+/*
+ * main.cpp
+ *
+ *  Created on: Apr 6, 2016
+ *      Author: nmsutton
+ */
+
+#include <stdio.h>
+#include <iostream>
+
+using namespace std;
+
+struct mesh {
+	double x[3] = {1,2,3};
+	double y[3] = {4,5,6};
+	double z[3] = {3,2,1};
+};
+
+struct downsampled_mesh {
+	double x[2];
+	double y[2];
+	double z[2];
+};
+
+int main() {
+	mesh mesh_1;
+	cout<<endl<<endl<<"test"<<endl<<endl;
+	return 0;
+}
+
+void downsample_mesh(mesh mesh) {
+	//	int mesh_x, int mesh_y, int mesh_z
+	for (int i = 0; i < sizeof(mesh.x); i++) {
+
+	}
+}
+
+
+

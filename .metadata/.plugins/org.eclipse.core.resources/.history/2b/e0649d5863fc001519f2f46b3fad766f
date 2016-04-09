@@ -1,0 +1,62 @@
+/*
+ * main.cpp
+ *
+ *  Created on: Apr 6, 2016
+ *      Author: nmsutton
+ */
+
+#include <stdio.h>
+#include <iostream>
+
+using namespace std;
+
+struct mesh {
+	double x[3] = {1,2,3};
+	double y[3] = {4,5,6};
+	double z[3] = {3,2,1};
+};
+
+struct downsampled_mesh {
+	double x[2];
+	double y[2];
+	double z[2];
+};
+
+void downsample_mesh(mesh mesh) {
+	/*
+	Use self organizing maps to cluster downsampled verticies
+
+	from: https://en.wikipedia.org/wiki/Self-organizing_map
+
+	s is the current iteration
+	L is the iteration limit
+	t is the index of the target input data vector in the input data set \mathbf{D}
+	D(t) is a target input data vector
+	v is the index of the node in the map
+	W_v is the current weight vector of node v
+	u is the index of the best matching unit (BMU) in the map
+	Θ(u, v, s) is a restraint due to distance from BMU, usually called the neighborhood function, and
+	α (s) is a learning restraint due to iteration progress.
+
+	Wv(s + 1) = Wv(s) + Θ(u, v, s) α(s)(D(t) - Wv(s))
+	*/
+	//	int mesh_x, int mesh_y, int mesh_z
+
+	for (int i = 0; i < sizeof(mesh.x); i++) {
+
+	}
+}
+
+int main() {
+	mesh mesh_1;
+
+	downsample_mesh(mesh_1);
+
+	cout<<"finished"<<endl;
+	return 0;
+}
+
+
+
+
+

@@ -1,0 +1,6 @@
+23:04:09 **** Incremental Build of configuration Release for project mesh_downsampler ****
+make all 
+make: Nothing to be done for `all'.
+
+23:04:09 Build Finished (took 61ms)
+
