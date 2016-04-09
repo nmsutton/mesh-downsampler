@@ -96,7 +96,8 @@ void downsample_mesh() {
 	for (int map_i = 0; map_i < T; map_i++) {W.x[map_i] = 1; W.y[map_i] = 1; W.z[map_i] = 1;}
 
 	for (int L_i = 0; L_i < L; L_i++) {
-		for (int in_i = 0; in_i < IV; IV++) {
+		cout<<endl<<"SOM iter "<<L_i;
+		for (int in_i = 0; in_i < IV; in_i++) {
 			u = 0;
 			new_dist = 0;
 			bmu_dist = find_euclidean_dist(orig_mesh.x[0], orig_mesh.y[0], orig_mesh.z[0], downs_mesh.x[0], downs_mesh.y[0], downs_mesh.z[0]); // reinitialize
@@ -146,12 +147,14 @@ int main() {
 	/*
 	 * Create downsampling
 	 */
+	cout<<endl<<"started"<<endl;
+
 	create_mesh(3,2,2,"orig");
 	create_mesh(2,2,2,"downs");
 
 	downsample_mesh();
 
-	cout<<"downsampled mesh coordinates:"<<endl;
+	cout<<endl<<endl<<"downsampled mesh coordinates:"<<endl;
 	for (int i = 0; i < DOWNS_MESH_VERTS; i++) {
 		cout<<downs_mesh.x[i]<<"\t"<<downs_mesh.y[i]<<"\t"<<downs_mesh.z[i]<<endl;
 	}
