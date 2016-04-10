@@ -43,7 +43,7 @@ double find_euclidean_dist(double x_1, double y_1, double z_1, double x_2, doubl
 	return distance;
 }
 
-double neighbor(double v_x, double v_y, double v_z, double bmu_x, double bmu_y, double bmu_z, double bmu_dist, int time_step) {
+double neighbor(int map_i, int u, double bmu_dist, int time_step) {
 	/*
 	 * Neighbor function determines the area of neighboring verticies to the bmu
 	 * that are able to effect weights
@@ -58,7 +58,8 @@ double neighbor(double v_x, double v_y, double v_z, double bmu_x, double bmu_y, 
 	 */
 	double neighbor_score = 0.0;
 	double neighbor_region = 1 / (double) (time_step + 1); // +1 to avoid division by 0
-	double v_dist = find_euclidean_dist(v_x, v_y, v_z, bmu_x, bmu_y, bmu_z);
+	double v_dist = find_euclidean_dist(downs_mesh.x[map_i], downs_mesh.y[map_i], downs_mesh.z[map_i], downs_mesh.x[u], downs_mesh.y[u], downs_mesh.z[u]);
+	cout<<endl<<"v_dist\t"<<v_dist<<endl;//<<" v_x "<<v_x<<" v_y "<<v_y<<" v_z "<<v_z;
 
 	if (v_dist <= neighbor_region) {
 		neighbor_score = (1 - (v_dist / neighbor_region));
@@ -73,20 +74,23 @@ double learning_alpha(double time_step) {
 	 */
 	double alpha = 1;
 
-	alpha = alpha / time_step;
+	alpha = alpha / (time_step + 1); // +1 to avoid division by 0
 
 	return alpha;
 }
 
-double weight_update(double orig_coord, double downs_weight, double bmu_dist, double time_step, int map_i, int u) {
+double weight_update(double orig_coord, double weight, double bmu_dist, double time_step, int map_i, int u) {
 	/*
 	 * SOM formula:
 	 * Wv(s + 1) = Wv(s) + Θ(u, v, s) α(s)(D(t) - Wv(s))
 	 */
-	double neighbor_score = neighbor(downs_mesh.x[map_i], downs_mesh.x[map_i], downs_mesh.x[map_i], orig_mesh.x[u], orig_mesh.y[u], orig_mesh.z[u], bmu_dist, time_step);
+	double neighbor_score = neighbor(map_i, u, bmu_dist, time_step);
 	double alpha = learning_alpha(time_step);
 
-	double weight = downs_weight + neighbor_score * alpha * (orig_coord - downs_weight);
+	weight = weight + neighbor_score * alpha * (orig_coord - weight);
+	if (time_step < 4) {
+		cout<<"weight "<<weight<<" neighbor score "<<neighbor_score<<" alpha "<<alpha<<" orig_coord "<<orig_coord<<" map_i "<<map_i<<" u "<<u;
+	}
 
 	return weight;
 }
@@ -148,21 +152,24 @@ void downsample_mesh() {
 	// train
 	for (int L_i = 0; L_i < L; L_i++) {
 		cout<<endl<<"SOM iteration "<<L_i;
-		for (int map_i = 0; map_i < T; map_i++) {
+		for (int in_i = 0; in_i < IV; in_i++) {
 			u = 0;
 			new_dist = 0;
 			bmu_dist = find_euclidean_dist(orig_mesh.x[0], orig_mesh.y[0], orig_mesh.z[0], downs_mesh.x[0], downs_mesh.y[0], downs_mesh.z[0]); // reinitialize
 			cout<<endl<<"bmu find";
-			for (int in_i = 0; in_i < IV; in_i++) {
+			for (int map_i = 0; map_i < T; map_i++) {
 				new_dist = find_euclidean_dist(orig_mesh.x[in_i], orig_mesh.y[in_i], orig_mesh.z[in_i], downs_mesh.x[map_i], downs_mesh.y[map_i], downs_mesh.z[map_i]);
-				if (new_dist < bmu_dist) {bmu_dist = new_dist; u = in_i;}
-				cout<<endl<<"\tu"<<u<<" o_x "<<orig_mesh.x[in_i]<<"\to_y "<<orig_mesh.y[in_i]<<"\to_z "<< orig_mesh.z[in_i]<<"\td_x "<< downs_mesh.x[map_i]<<"\td_y "<< downs_mesh.y[map_i]<<"\td_z "<< downs_mesh.z[map_i]<<"\tbmu_dist "<<bmu_dist<<" new_dist "<<new_dist;
+				if (new_dist < bmu_dist) {bmu_dist = new_dist; u = map_i;}
+				//cout<<endl<<"\tu"<<u<<" o_x "<<orig_mesh.x[in_i]<<"\to_y "<<orig_mesh.y[in_i]<<"\to_z "<< orig_mesh.z[in_i]<<"\td_x "<< downs_mesh.x[map_i]<<"\td_y "<< downs_mesh.y[map_i]<<"\td_z "<< downs_mesh.z[map_i]<<"\tbmu_dist "<<bmu_dist<<" new_dist "<<new_dist;
 			}
 			//cout<<endl<<"\tu\t"<<u<<"\tbmu_dist\t"<<bmu_dist;
-			for (int in_i = 0; in_i < IV; in_i++) {
-				W.x[map_i] = weight_update(W.x[map_i], orig_mesh.x[in_i], bmu_dist, L_i, map_i, u);
-				W.y[map_i] = weight_update(W.y[map_i], orig_mesh.y[in_i], bmu_dist, L_i, map_i, u);
-				W.z[map_i] = weight_update(W.z[map_i], orig_mesh.z[in_i], bmu_dist, L_i, map_i, u);
+			for (int map_i = 0; map_i < T; map_i++) {
+				cout<<endl<<"x ";
+				W.x[map_i] = weight_update(orig_mesh.x[in_i], W.x[map_i], bmu_dist, L_i, map_i, u);
+				cout<<endl<<"y ";
+				W.y[map_i] = weight_update(orig_mesh.y[in_i], W.y[map_i], bmu_dist, L_i, map_i, u);
+				cout<<endl<<"z ";
+				W.z[map_i] = weight_update(orig_mesh.z[in_i], W.z[map_i], bmu_dist, L_i, map_i, u);
 			}
 		}
 		print_weights(W);
@@ -183,7 +190,6 @@ void create_mesh(int mesh_x, int mesh_y, int mesh_z, string type) {
 	 * x,y,z can be modified in loop to change resulting verticies
 	 */
 	int i = 0, x = 0, y = 0, z = 0;
-	int x2 = 0, y2 = 0, z2 = 0;
 
 	for (int x_i = 0; x_i < mesh_x; x_i++) {
 		for (int y_i = 0; y_i < mesh_y; y_i++) {
@@ -196,10 +202,10 @@ void create_mesh(int mesh_x, int mesh_y, int mesh_z, string type) {
 					//cout<<endl<<x<<"\t"<<y<<"\t"<<z<<"\t"<<i<<"\t"<<(double)x;
 				}
 				if (type == "downs") {
-					x2 = 5;
-					y2 = 4;
-					z2 = 4;
-					downs_mesh.x[i]=(double)x2; downs_mesh.y[i]=(double)y2; downs_mesh.z[i]=(double)z2;
+					x = x_i*2;
+					y = y_i*2;
+					z = z_i*2;
+					downs_mesh.x[i]=(double)x; downs_mesh.y[i]=(double)y; downs_mesh.z[i]=(double)z;
 					//cout<<endl<<x2<<"\t"<<y2<<"\t"<<z2<<"\t"<<i<<"\t"<<(double)x;
 				}
 				i++;
@@ -218,7 +224,7 @@ int main() {
 	create_mesh(3,2,2,"orig");
 	create_mesh(2,2,2,"downs");
 
-	downsample_mesh();
+	//downsample_mesh();
 
 	cout<<endl<<endl<<"original mesh coordinates:"<<endl;
 	for (int i = 0; i < ORIG_MESH_VERTS; i++) {
