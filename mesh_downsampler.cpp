@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <math.h>       /* sqrt */
+#include <sstream>		/* ostringstream */
 
 using namespace std;
 
@@ -59,7 +60,7 @@ double neighbor(int map_i, int u, double bmu_dist, int time_step) {
 	double neighbor_score = 0.0;
 	double neighbor_region = 1 / (double) (time_step + 1); // +1 to avoid division by 0
 	double v_dist = find_euclidean_dist(downs_mesh.x[map_i], downs_mesh.y[map_i], downs_mesh.z[map_i], downs_mesh.x[u], downs_mesh.y[u], downs_mesh.z[u]);
-	cout<<endl<<"v_dist\t"<<v_dist<<endl;//<<" v_x "<<v_x<<" v_y "<<v_y<<" v_z "<<v_z;
+	cout<<" v_d "<<v_dist<<" ";//<<" v_x "<<v_x<<" v_y "<<v_y<<" v_z "<<v_z;
 
 	if (v_dist <= neighbor_region) {
 		neighbor_score = (1 - (v_dist / neighbor_region));
@@ -88,9 +89,9 @@ double weight_update(double orig_coord, double weight, double bmu_dist, double t
 	double alpha = learning_alpha(time_step);
 
 	weight = weight + neighbor_score * alpha * (orig_coord - weight);
-	if (time_step < 4) {
-		cout<<"weight "<<weight<<" neighbor score "<<neighbor_score<<" alpha "<<alpha<<" orig_coord "<<orig_coord<<" map_i "<<map_i<<" u "<<u;
-	}
+	/*if (time_step < 4) {
+		cout<<"w "<<weight<<" n s "<<neighbor_score<<" a "<<alpha<<" o_c "<<orig_coord<<" m_i "<<map_i<<" u "<<u;
+	}*/
 
 	return weight;
 }
@@ -155,20 +156,20 @@ void downsample_mesh() {
 		for (int in_i = 0; in_i < IV; in_i++) {
 			u = 0;
 			new_dist = 0;
-			bmu_dist = find_euclidean_dist(orig_mesh.x[0], orig_mesh.y[0], orig_mesh.z[0], downs_mesh.x[0], downs_mesh.y[0], downs_mesh.z[0]); // reinitialize
-			cout<<endl<<"bmu find";
+			bmu_dist = 100000;//find_euclidean_dist(orig_mesh.x[0], orig_mesh.y[0], orig_mesh.z[0], downs_mesh.x[0], downs_mesh.y[0], downs_mesh.z[0]); // reinitialize
+			cout<<endl<<"bmu find o_m index "<<in_i;
 			for (int map_i = 0; map_i < T; map_i++) {
 				new_dist = find_euclidean_dist(orig_mesh.x[in_i], orig_mesh.y[in_i], orig_mesh.z[in_i], downs_mesh.x[map_i], downs_mesh.y[map_i], downs_mesh.z[map_i]);
 				if (new_dist < bmu_dist) {bmu_dist = new_dist; u = map_i;}
-				//cout<<endl<<"\tu"<<u<<" o_x "<<orig_mesh.x[in_i]<<"\to_y "<<orig_mesh.y[in_i]<<"\to_z "<< orig_mesh.z[in_i]<<"\td_x "<< downs_mesh.x[map_i]<<"\td_y "<< downs_mesh.y[map_i]<<"\td_z "<< downs_mesh.z[map_i]<<"\tbmu_dist "<<bmu_dist<<" new_dist "<<new_dist;
+				cout<<endl<<"\tu"<<u<<" o_x "<<orig_mesh.x[in_i]<<"\to_y "<<orig_mesh.y[in_i]<<"\to_z "<< orig_mesh.z[in_i]<<"\td_x "<< downs_mesh.x[map_i]<<"\td_y "<< downs_mesh.y[map_i]<<"\td_z "<< downs_mesh.z[map_i]<<"\tbmu_dist "<<bmu_dist<<" new_dist "<<new_dist;
 			}
-			//cout<<endl<<"\tu\t"<<u<<"\tbmu_dist\t"<<bmu_dist;
+			cout<<endl<<"\tu\t"<<u<<"\tbmu_dist\t"<<bmu_dist;
 			for (int map_i = 0; map_i < T; map_i++) {
-				cout<<endl<<"x ";
+				cout<<" *x*";
 				W.x[map_i] = weight_update(orig_mesh.x[in_i], W.x[map_i], bmu_dist, L_i, map_i, u);
-				cout<<endl<<"y ";
+				cout<<" *y* ";
 				W.y[map_i] = weight_update(orig_mesh.y[in_i], W.y[map_i], bmu_dist, L_i, map_i, u);
-				cout<<endl<<"z ";
+				cout<<" *z* ";
 				W.z[map_i] = weight_update(orig_mesh.z[in_i], W.z[map_i], bmu_dist, L_i, map_i, u);
 			}
 		}
@@ -177,9 +178,9 @@ void downsample_mesh() {
 
 	// apply
 	for (int i = 0; i < T; i++) {
-		downs_mesh.x[i] = downs_mesh.x[i] * W.x[i];
-		downs_mesh.y[i] = downs_mesh.y[i] * W.y[i];//W.y[map_i] = 1;
-		downs_mesh.z[i] = downs_mesh.z[i] * W.z[i];//W.z[map_i] = 1;
+		downs_mesh.x[i] = downs_mesh.x[i] + W.x[i];
+		downs_mesh.y[i] = downs_mesh.y[i] + W.y[i];//W.y[map_i] = 1;
+		downs_mesh.z[i] = downs_mesh.z[i] + W.z[i];//W.z[map_i] = 1;
 	}
 }
 
@@ -189,23 +190,24 @@ void create_mesh(int mesh_x, int mesh_y, int mesh_z, string type) {
 	 *
 	 * x,y,z can be modified in loop to change resulting verticies
 	 */
-	int i = 0, x = 0, y = 0, z = 0;
+	int i = 0;
+	double x = 0, y = 0, z = 0;
 
 	for (int x_i = 0; x_i < mesh_x; x_i++) {
 		for (int y_i = 0; y_i < mesh_y; y_i++) {
 			for (int z_i = 0; z_i < mesh_z; z_i++) {
 				if (type == "orig") {
-					x = x_i+10;
-					y = y_i+10;
-					z = z_i+10;
-					orig_mesh.x[i]=(double)x; orig_mesh.y[i]=(double)y; orig_mesh.z[i]=(double)z;
+					x = x_i*4-1.5;
+					y = y_i*4-1.5;
+					z = z_i*4-1.5;
+					orig_mesh.x[i]=x; orig_mesh.y[i]=y; orig_mesh.z[i]=z;
 					//cout<<endl<<x<<"\t"<<y<<"\t"<<z<<"\t"<<i<<"\t"<<(double)x;
 				}
 				if (type == "downs") {
 					x = x_i*2;
 					y = y_i*2;
 					z = z_i*2;
-					downs_mesh.x[i]=(double)x; downs_mesh.y[i]=(double)y; downs_mesh.z[i]=(double)z;
+					downs_mesh.x[i]=x; downs_mesh.y[i]=y; downs_mesh.z[i]=z;
 					//cout<<endl<<x2<<"\t"<<y2<<"\t"<<z2<<"\t"<<i<<"\t"<<(double)x;
 				}
 				i++;
@@ -219,17 +221,28 @@ int main() {
 	/*
 	 * Create downsampling
 	 */
+	ostringstream orig_mesh_print;
+	ostringstream targ_mesh_print;
+
 	cout<<endl<<"started"<<endl;
 
 	create_mesh(3,2,2,"orig");
 	create_mesh(2,2,2,"downs");
 
-	//downsample_mesh();
-
-	cout<<endl<<endl<<"original mesh coordinates:"<<endl;
+	orig_mesh_print<<"\r\n"<<"\r\n"<<"original mesh coordinates:"<<"\r\n";
 	for (int i = 0; i < ORIG_MESH_VERTS; i++) {
-		cout<<orig_mesh.x[i]<<"\t"<<orig_mesh.y[i]<<"\t"<<orig_mesh.z[i]<<endl;
+		orig_mesh_print<<orig_mesh.x[i]<<"\t"<<orig_mesh.y[i]<<"\t"<<orig_mesh.z[i]<<"\r\n";
 	}
+
+	targ_mesh_print<<"\r\n"<<"\r\n"<<"target mesh coordinates:"<<"\r\n";
+	for (int i = 0; i < DOWNS_MESH_VERTS; i++) {
+		targ_mesh_print<<downs_mesh.x[i]<<"\t"<<downs_mesh.y[i]<<"\t"<<downs_mesh.z[i]<<"\r\n";
+	}
+
+	downsample_mesh();
+
+	cout<<targ_mesh_print.str();
+	cout<<orig_mesh_print.str();
 
 	cout<<endl<<endl<<"downsampled mesh coordinates:"<<endl;
 	for (int i = 0; i < DOWNS_MESH_VERTS; i++) {
