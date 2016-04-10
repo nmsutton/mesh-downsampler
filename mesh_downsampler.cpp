@@ -43,12 +43,51 @@ double find_euclidean_dist(double x_1, double y_1, double z_1, double x_2, doubl
 	return distance;
 }
 
-double weight_update_formula(double orig_coord, double downs_weight, double bmu_dist, double alpha) {
+double neighbor(double v_x, double v_y, double v_z, double bmu_x, double bmu_y, double bmu_z, double bmu_dist, int time_step) {
+	/*
+	 * Neighbor function determines the area of neighboring verticies to the bmu
+	 * that are able to effect weights
+	 *
+	 * The neigborhood reduces its area over timesteps
+	 *
+	 * Max score is 1;
+	 *
+	 * neighbor_score = 1 for the bmu.  else score is reduced by distance
+	 *
+	 * TODO: A gaussian formula could be used for region calculation if wanted.
+	 */
+	double neighbor_score = 0.0;
+	double neighbor_region = 1 / (double) (time_step + 1); // +1 to avoid division by 0
+	double v_dist = find_euclidean_dist(v_x, v_y, v_z, bmu_x, bmu_y, bmu_z);
+
+	if (v_dist <= neighbor_region) {
+		neighbor_score = (1 - (v_dist / neighbor_region));
+	}
+
+	return neighbor_score;
+}
+
+double learning_alpha(double time_step) {
+	/*
+	 * α(s) is a monotonically decreasing learning coefficient
+	 */
+	double alpha = 1;
+
+	alpha = alpha / time_step;
+
+	return alpha;
+}
+
+double weight_update(double orig_coord, double downs_weight, double bmu_dist, double time_step, int map_i, int u) {
 	/*
 	 * SOM formula:
 	 * Wv(s + 1) = Wv(s) + Θ(u, v, s) α(s)(D(t) - Wv(s))
 	 */
-	double weight = downs_weight + bmu_dist * alpha * (orig_coord - downs_weight);
+	double neighbor_score = neighbor(downs_mesh.x[map_i], downs_mesh.x[map_i], downs_mesh.x[map_i], orig_mesh.x[u], orig_mesh.y[u], orig_mesh.z[u], bmu_dist, time_step);
+	double alpha = learning_alpha(time_step);
+
+	double weight = downs_weight + neighbor_score * alpha * (orig_coord - downs_weight);
+
 	return weight;
 }
 
@@ -97,7 +136,7 @@ void downsample_mesh() {
 	int L = 10;
 	int IV = ORIG_MESH_VERTS;
 	int T = DOWNS_MESH_VERTS;
-	double alpha = 1.0;
+	//double alpha = 1.0;
 	double new_dist = 0;
 	double bmu_dist = 0;
 
@@ -121,9 +160,9 @@ void downsample_mesh() {
 			}
 			//cout<<endl<<"\tu\t"<<u<<"\tbmu_dist\t"<<bmu_dist;
 			for (int in_i = 0; in_i < IV; in_i++) {
-				W.x[map_i] = weight_update_formula(W.x[map_i], orig_mesh.x[in_i], bmu_dist, alpha);
-				W.y[map_i] = weight_update_formula(W.y[map_i], orig_mesh.y[in_i], bmu_dist, alpha);
-				W.z[map_i] = weight_update_formula(W.z[map_i], orig_mesh.z[in_i], bmu_dist, alpha);
+				W.x[map_i] = weight_update(W.x[map_i], orig_mesh.x[in_i], bmu_dist, L_i, map_i, u);
+				W.y[map_i] = weight_update(W.y[map_i], orig_mesh.y[in_i], bmu_dist, L_i, map_i, u);
+				W.z[map_i] = weight_update(W.z[map_i], orig_mesh.z[in_i], bmu_dist, L_i, map_i, u);
 			}
 		}
 		print_weights(W);
