@@ -60,11 +60,11 @@ double neighbor(int map_i, int u, double bmu_dist, int time_step) {
 	double neighbor_score = 0.0;
 	double neighbor_region = 1 / (double) (time_step + 1); // +1 to avoid division by 0
 	double v_dist = find_euclidean_dist(downs_mesh.x[map_i], downs_mesh.y[map_i], downs_mesh.z[map_i], downs_mesh.x[u], downs_mesh.y[u], downs_mesh.z[u]);
-	cout<<" v_d "<<v_dist<<" ";//<<" v_x "<<v_x<<" v_y "<<v_y<<" v_z "<<v_z;
 
 	if (v_dist <= neighbor_region) {
 		neighbor_score = (1 - (v_dist / neighbor_region));
 	}
+	//cout<<" v_d "<<v_dist<<" "<<" n_s "<<neighbor_score<<" ";//<<" v_x "<<v_x<<" v_y "<<v_y<<" v_z "<<v_z;
 
 	return neighbor_score;
 }
@@ -88,10 +88,15 @@ double weight_update(double orig_coord, double weight, double bmu_dist, double t
 	double neighbor_score = neighbor(map_i, u, bmu_dist, time_step);
 	double alpha = learning_alpha(time_step);
 
+	if (time_step < 4) {
+		cout<<"~+~ w "<<weight<<" n s "<<neighbor_score<<" a "<<alpha<<" o_c "<<orig_coord<<" m_i "<<map_i<<" u "<<u;
+	}
+
 	weight = weight + neighbor_score * alpha * (orig_coord - weight);
-	/*if (time_step < 4) {
-		cout<<"w "<<weight<<" n s "<<neighbor_score<<" a "<<alpha<<" o_c "<<orig_coord<<" m_i "<<map_i<<" u "<<u;
-	}*/
+
+	if (time_step < 4) {
+		cout<<" new w "<<weight;
+	}
 
 	return weight;
 }
@@ -161,26 +166,31 @@ void downsample_mesh() {
 			for (int map_i = 0; map_i < T; map_i++) {
 				new_dist = find_euclidean_dist(orig_mesh.x[in_i], orig_mesh.y[in_i], orig_mesh.z[in_i], downs_mesh.x[map_i], downs_mesh.y[map_i], downs_mesh.z[map_i]);
 				if (new_dist < bmu_dist) {bmu_dist = new_dist; u = map_i;}
-				cout<<endl<<"\tu"<<u<<" o_x "<<orig_mesh.x[in_i]<<"\to_y "<<orig_mesh.y[in_i]<<"\to_z "<< orig_mesh.z[in_i]<<"\td_x "<< downs_mesh.x[map_i]<<"\td_y "<< downs_mesh.y[map_i]<<"\td_z "<< downs_mesh.z[map_i]<<"\tbmu_dist "<<bmu_dist<<" new_dist "<<new_dist;
+				//cout<<endl<<"\tu"<<u<<" o_x "<<orig_mesh.x[in_i]<<"\to_y "<<orig_mesh.y[in_i]<<"\to_z "<< orig_mesh.z[in_i]<<"\td_x "<< downs_mesh.x[map_i]<<"\td_y "<< downs_mesh.y[map_i]<<"\td_z "<< downs_mesh.z[map_i]<<"\tbmu_dist "<<bmu_dist<<" new_dist "<<new_dist;
 			}
 			cout<<endl<<"\tu\t"<<u<<"\tbmu_dist\t"<<bmu_dist;
 			for (int map_i = 0; map_i < T; map_i++) {
 				cout<<" *x*";
-				W.x[map_i] = weight_update(orig_mesh.x[in_i], W.x[map_i], bmu_dist, L_i, map_i, u);
+				W.x[map_i] = weight_update(orig_mesh.x[u], W.x[map_i], bmu_dist, L_i, map_i, u);
 				cout<<" *y* ";
-				W.y[map_i] = weight_update(orig_mesh.y[in_i], W.y[map_i], bmu_dist, L_i, map_i, u);
+				W.y[map_i] = weight_update(orig_mesh.y[u], W.y[map_i], bmu_dist, L_i, map_i, u);
 				cout<<" *z* ";
-				W.z[map_i] = weight_update(orig_mesh.z[in_i], W.z[map_i], bmu_dist, L_i, map_i, u);
+				W.z[map_i] = weight_update(orig_mesh.z[u], W.z[map_i], bmu_dist, L_i, map_i, u);
 			}
 		}
 		print_weights(W);
 	}
 
 	// apply
+	/*
+	 * directly saving weight values as new mesh vertex points instead of multiplying points by weights,
+	 * this appeared to create good results and will be used unless a better way is found.  SOM algorithm
+	 * didn't specify in particular another approach should be done.
+	 */
 	for (int i = 0; i < T; i++) {
-		downs_mesh.x[i] = downs_mesh.x[i] + W.x[i];
-		downs_mesh.y[i] = downs_mesh.y[i] + W.y[i];//W.y[map_i] = 1;
-		downs_mesh.z[i] = downs_mesh.z[i] + W.z[i];//W.z[map_i] = 1;
+		downs_mesh.x[i] = W.x[i];
+		downs_mesh.y[i] = W.y[i];//W.y[map_i] = 1;
+		downs_mesh.z[i] = W.z[i];//W.z[map_i] = 1;
 	}
 }
 
@@ -255,6 +265,32 @@ int main() {
 	test[2] = 5;
 	cout<<endl<<test[0]<<"\t"<<test[1]<<"\t"<<test[2];
 	cout<<endl<<ORIG_MESH_VERTS<<" "<<DOWNS_MESH_VERTS;*/
+
+	/*
+		original mesh coordinates:
+		-1.5	-1.5	-1.5
+		-1.5	-1.5	2.5
+		-1.5	2.5	-1.5
+		-1.5	2.5	2.5
+		2.5	-1.5	-1.5
+		2.5	-1.5	2.5
+		2.5	2.5	-1.5
+		2.5	2.5	2.5
+		6.5	-1.5	-1.5
+		6.5	-1.5	2.5
+		6.5	2.5	-1.5
+		6.5	2.5	2.5
+
+		target mesh coordinates:
+		0	0	0
+		0	0	2
+		0	2	0
+		0	2	2
+		2	0	0
+		2	0	2
+		2	2	0
+		2	2	2
+	 */
 
 	cout<<endl<<"finished"<<endl;
 	return 0;
