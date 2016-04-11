@@ -58,7 +58,7 @@ double neighbor(int map_i, int u, double bmu_dist, int time_step) {
 	 * TODO: A gaussian formula could be used for region calculation if wanted.
 	 */
 	double neighbor_score = 0.0;
-	double neighbor_region = 1 / (double) (time_step + 1); // +1 to avoid division by 0
+	double neighbor_region = 9 / pow((double) (time_step + 1),.333); // +1 to avoid division by 0
 	double v_dist = find_euclidean_dist(downs_mesh.x[map_i], downs_mesh.y[map_i], downs_mesh.z[map_i], downs_mesh.x[u], downs_mesh.y[u], downs_mesh.z[u]);
 
 	if (v_dist <= neighbor_region) {
@@ -73,10 +73,10 @@ double learning_alpha(double time_step) {
 	/*
 	 * α(s) is a monotonically decreasing learning coefficient
 	 */
-	double alpha = 1;
+	double alpha = 0.75;
 
-	alpha = alpha / (time_step + 1); // +1 to avoid division by 0
-
+	alpha = alpha / pow((time_step + 1),.333); // +1 to avoid division by 0
+	//cout<<" ^alpha^ "<<alpha<<" time_step "<<time_step<<" "<<pow((time_step + 1),.333)<<" "<<alpha / pow((time_step + 1),1/3);
 	return alpha;
 }
 
