@@ -89,12 +89,10 @@ void sort(double mesh[], string axis) {
 	 * Reference:
 	 * code from http://www.cplusplus.com/forum/general/127295/
 	 */
-	int IV = ORIG_MESH_VERTS;
-	int T = DOWNS_MESH_VERTS;
 	double swap = 0;
 
-	for (int in_i = 0; in_i < IV; in_i++) {
-		for (int in_i2 = 0; in_i2 < IV; in_i2++) {
+	for (int in_i = 0; in_i < ORIG_MESH_VERTS; in_i++) {
+		for (int in_i2 = 0; in_i2 < ORIG_MESH_VERTS; in_i2++) {
 			if (mesh[in_i2] > mesh[in_i]) /* For decreasing order use < */
 			{
 				swap       = mesh[in_i];
@@ -104,11 +102,49 @@ void sort(double mesh[], string axis) {
 		}
 	}
 
-	for (int i = 0; i < IV; i++) {
+	for (int i = 0; i < ORIG_MESH_VERTS; i++) {
 		if (axis == "x") {o_mesh_sorted.x[i] = mesh[i];}
 		else if (axis == "y") {o_mesh_sorted.y[i] = mesh[i];}
 		else if (axis == "z") {o_mesh_sorted.z[i] = mesh[i];}
  	}
+}
+
+void sort2() {
+	/*
+	 * To avoid duplicate entries indices_processed.find(in_i2) != indices_processed.end() ensures unique new
+	 * indices are searched.
+	 */
+	double new_dist = 100000000;
+	double closest_dist = 100000000;
+	double swap_x = 0, swap_y = 0, swap_z = 0;
+	set<int> indices_processed;
+
+	for (int in_i = 0; in_i < ORIG_MESH_VERTS; in_i++) {
+		new_dist = 100000000;
+		closest_dist = 100000000;
+		swap_x = 0, swap_y = 0, swap_z = 0;
+		for (int in_i2 = 0; in_i2 < ORIG_MESH_VERTS; in_i2++) {
+			// add unique vert finding code
+			new_dist = find_euclidean_dist(o_mesh_sorted.x[in_i], o_mesh_sorted.y[in_i], o_mesh_sorted.z[in_i],
+					o_mesh_sorted.x[in_i2], o_mesh_sorted.y[in_i2], o_mesh_sorted.z[in_i2]);
+			if (new_dist < closest_dist & indices_processed.find(in_i2) != indices_processed.end()) {
+				swap_x       = o_mesh_sorted.x[in_i];
+				swap_y       = o_mesh_sorted.y[in_i];
+				swap_z       = o_mesh_sorted.z[in_i];
+				o_mesh_sorted.x[in_i]   = o_mesh_sorted.x[in_i2];
+				o_mesh_sorted.y[in_i]   = o_mesh_sorted.y[in_i2];
+				o_mesh_sorted.z[in_i]   = o_mesh_sorted.z[in_i2];
+				o_mesh_sorted.x[in_i2] = swap_x;
+				o_mesh_sorted.y[in_i2] = swap_y;
+				o_mesh_sorted.z[in_i2] = swap_z;
+
+				indices_processed.insert(in_i);
+				indices_processed.insert(in_i2);
+
+				closest_dist = new_dist;
+			}
+		}
+	}
 }
 
 void find_init_positions(double mesh[], string axis, double window_size) {
@@ -129,7 +165,7 @@ void find_init_positions(double mesh[], string axis, double window_size) {
 		last_i = -1;
 		for (win_i = 0; win_i < window_size; win_i++) {
 			if ((map_i+win_i) < DOWNS_MESH_VERTS) {
-				downs_pos = mesh[(map_i+win_i)];
+				downs_pos += mesh[(map_i+win_i)];
 			}
 			else {
 				last_i = win_i;
@@ -152,9 +188,10 @@ void init_downs_verts(double s) {
 	 */
 	double window_size = s * ceil((double) ORIG_MESH_VERTS/(double) DOWNS_MESH_VERTS);
 
-	sort(orig_mesh.x, "x");
+	/*sort(orig_mesh.x, "x");
 	sort(orig_mesh.y, "y");
-	sort(orig_mesh.z, "z");
+	sort(orig_mesh.z, "z");*/
+	sort2();
 
 	find_init_positions(o_mesh_sorted.x, "x", window_size);
 	find_init_positions(o_mesh_sorted.y, "y", window_size);
@@ -425,6 +462,11 @@ int main() {
 
 	cout<<targ_mesh_print.str();
 	cout<<orig_mesh_print.str();
+
+	cout<<endl<<endl<<"sorted mesh coordinates:"<<endl;
+	for (int i = 0; i < ORIG_MESH_VERTS; i++) {
+		cout<<o_mesh_sorted.x[i]<<"\t"<<o_mesh_sorted.y[i]<<"\t"<<o_mesh_sorted.z[i]<<endl;
+	}
 
 	cout<<endl<<endl<<"downsampled mesh coordinates:"<<endl;
 	for (int i = 0; i < DOWNS_MESH_VERTS; i++) {
