@@ -9,6 +9,7 @@
 #include <iostream>
 #include <math.h>       /* sqrt */
 #include <sstream>		/* ostringstream */
+#include <set>
 
 using namespace std;
 
@@ -25,6 +26,7 @@ struct downsampled_mesh {
 };
 
 original_mesh orig_mesh;
+original_mesh o_mesh_sorted;
 downsampled_mesh downs_mesh;
 
 const int ORIG_MESH_VERTS = sizeof(orig_mesh.x)/sizeof(orig_mesh.x[0]);  // from http://stackoverflow.com/questions/2037736/finding-size-of-int-array
@@ -80,6 +82,80 @@ double learning_alpha(double time_step) {
 	return alpha;
 }
 
+double sort(double mesh[], string axis) {
+	/*
+	 * for convenience using the simple bubble sort
+	 *
+	 * Reference:
+	 * code from http://www.cplusplus.com/forum/general/127295/
+	 */
+	int IV = ORIG_MESH_VERTS;
+	int T = DOWNS_MESH_VERTS;
+	double swap = 0;
+
+	for (int in_i = 0; in_i < IV; in_i++) {
+		for (int in_i2 = 0; in_i2 < IV; in_i2++) {
+			if (mesh[in_i2] > mesh[in_i]) /* For decreasing order use < */
+			{
+				swap       = mesh[in_i];
+				mesh[in_i]   = mesh[in_i2];
+				mesh[in_i2] = swap;
+			}
+		}
+	}
+
+	for (int i = 0; i < IV; i++) {
+		if (axis == "x") {o_mesh_sorted.x[i] = mesh[i];}
+		else if (axis == "y") {o_mesh_sorted.y[i] = mesh[i];}
+		else if (axis == "z") {o_mesh_sorted.z[i] = mesh[i];}
+ 	}
+
+	return mesh;
+}
+
+void init_downs_verts(double s) {
+	/*
+	 * Initialization of downs verts:
+	 * s = a parameter that does a scalar multiplication on window_size to increase the size if wanted
+	 * Slide windows of verticies through each axis of the original mesh.  For each window take the avg value of the positions
+	 * of the verticies in the axis.  Store the avg values in each downs vert.  Sorting is done
+	 *
+	 * Reference:
+	 * for convenience sorting code from http://www.cplusplus.com/forum/general/127295/
+	 */
+	double window_size = s * ceil((double) ORIG_MESH_VERTS/(double) DOWNS_MESH_VERTS);
+
+	sort(orig_mesh.x, "x");
+	sort(orig_mesh.y, "y");
+	sort(orig_mesh.z, "z");
+
+
+}
+/*int array[100], n, c, d, swap;
+
+	printf("Enter number of elements\n");
+	scanf("%d", &n);
+
+	printf("Enter %d integers\n", n);
+
+	for (c = 0; c < n; c++)
+	scanf("%d", &array[c]);
+
+	for (c = 0 ; c < ( n - 1 ); c++)
+	{
+	for (d = 0 ; d < n - c - 1; d++)
+	{
+	  if (array[d] > array[d+1])
+	  {
+		swap       = array[d];
+		array[d]   = array[d+1];
+		array[d+1] = swap;
+	  }
+	}
+	}*/
+
+}
+
 double weight_update(double orig_coord, double weight, double bmu_dist, double time_step, int map_i, int u) {
 	/*
 	 * SOM formula:
@@ -105,6 +181,85 @@ void print_weights(W W) {
 	cout<<endl;
 	for (int i = 0; i < DOWNS_MESH_VERTS; i++) {
 		cout<<W.x[i]<<"\t"<<W.y[i]<<"\t"<<W.z[i]<<endl;
+	}
+}
+
+void downsample_mesh2(double downsample_percent) {
+	/*
+	 * New algorithm for downsampling
+	 *
+	 * (cluster_bin_size - 1) is used because original vertex that is compared to the others adds (+1) to create cluster_bin_size size
+	 */
+	int s = 0, t = 0, v = 0, u = 0;
+	int L = 10;
+	int IV = ORIG_MESH_VERTS;
+	int T = DOWNS_MESH_VERTS;
+	//double alpha = 1.0;
+	double new_dist = 0;
+	double bmu_dist = 0;
+
+	const int MAX_BIN_SIZE = 10000;
+	struct bmus_verts {
+		int i[MAX_BIN_SIZE]; // hardcoded at 10000 bin size limit but can make dynamic later
+		double dist[MAX_BIN_SIZE];
+	};
+	bmus_verts bmus;
+	for (int i = 0; i < MAX_BIN_SIZE; i++) {bmus.dist[i]=1000000;}
+
+	bool bmu_found = false;
+	set<int> total_bmus_found;
+	double new_x = 0, new_y = 0, new_z = 0;
+	int downs_vert_counter = 0;
+
+	W W;
+
+	double cluster_bin_size = ceil(100/downsample_percent); // this needs to be less than total orig verts
+
+
+	for (int in_i = 0; in_i < IV; in_i++) {
+		total_bmus_found.insert(in_i);
+		for (int in_i2 = 0; in_i2 < IV; in_i2++) {
+			if (total_bmus_found.find(in_i2) != total_bmus_found.end()) {
+				// new bmu search
+				bmu_found = false;
+				new_dist = 1000000;
+				for (int bmus_i = 0; bmus_i < (cluster_bin_size - 1); bmus_i++) {
+					new_dist = find_euclidean_dist(orig_mesh.x[in_i], orig_mesh.y[in_i], orig_mesh.z[in_i], orig_mesh.x[in_i2], orig_mesh.y[in_i2], orig_mesh.z[in_i2]);
+					if (new_dist < bmus.dist[bmus_i] & bmu_found == false) {
+						bmus.i[bmus_i] = in_i2;
+						bmus.dist[bmus_i] = new_dist;
+						bmu_found == true;
+					}
+				}
+			}
+		}
+
+		// downsampled verts
+		new_x = 0, new_y = 0, new_z = 0;
+		for (int bmus_i = 0; bmus_i < (cluster_bin_size - 1); bmus_i++) {
+			new_x += orig_mesh.x[bmus.i[bmus_i]];
+			new_y += orig_mesh.y[bmus.i[bmus_i]];
+			new_z += orig_mesh.z[bmus.i[bmus_i]];
+
+			total_bmus_found.insert(bmus.i[bmus_i]);
+		}
+		new_x = new_x / cluster_bin_size;
+		new_y = new_y / cluster_bin_size;
+		new_z = new_z / cluster_bin_size;
+
+		downs_mesh.x[downs_vert_counter] = new_x;
+		downs_mesh.y[downs_vert_counter] = new_y;
+		downs_mesh.z[downs_vert_counter] = new_z;
+		downs_vert_counter++;
+	}
+
+	cout<<endl<<"found bmus:"<<endl;
+	/*for (std::set<int>::const_iterator it = total_bmus_found.begin();it!=total_bmus_found.end();it++) {
+		std::cout << "total_bmus_found " << it. << std::endl;
+	}*/
+	for (int const& bmu_entry : total_bmus_found)
+	{
+		std::cout << bmu_entry << ' ';
 	}
 }
 
@@ -227,6 +382,14 @@ void create_mesh(int mesh_x, int mesh_y, int mesh_z, string type) {
 	//cout<<endl<<endl<<"test "<<orig_mesh.x[0]<<" "<<orig_mesh.y[0]<<" "<<orig_mesh.z[0];
 }
 
+void copy_mesh() {
+	for (int i = 0; i < ORIG_MESH_VERTS; i++) {
+		o_mesh_sorted.x[i] = orig_mesh.x[i];
+		o_mesh_sorted.y[i] = orig_mesh.y[i];
+		o_mesh_sorted.z[i] = orig_mesh.z[i];
+	}
+}
+
 int main() {
 	/*
 	 * Create downsampling
@@ -237,6 +400,8 @@ int main() {
 	cout<<endl<<"started"<<endl;
 
 	create_mesh(3,2,2,"orig");
+	copy_mesh();
+	init_downs_verts(1.0);
 	create_mesh(2,2,2,"downs");
 
 	orig_mesh_print<<"\r\n"<<"\r\n"<<"original mesh coordinates:"<<"\r\n";
@@ -249,7 +414,8 @@ int main() {
 		targ_mesh_print<<downs_mesh.x[i]<<"\t"<<downs_mesh.y[i]<<"\t"<<downs_mesh.z[i]<<"\r\n";
 	}
 
-	downsample_mesh();
+	//downsample_mesh();
+	downsample_mesh2(50);
 
 	cout<<targ_mesh_print.str();
 	cout<<orig_mesh_print.str();
