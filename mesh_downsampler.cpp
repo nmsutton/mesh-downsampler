@@ -82,7 +82,7 @@ double learning_alpha(double time_step) {
 	return alpha;
 }
 
-double sort(double mesh[], string axis) {
+void sort(double mesh[], string axis) {
 	/*
 	 * for convenience using the simple bubble sort
 	 *
@@ -109,19 +109,46 @@ double sort(double mesh[], string axis) {
 		else if (axis == "y") {o_mesh_sorted.y[i] = mesh[i];}
 		else if (axis == "z") {o_mesh_sorted.z[i] = mesh[i];}
  	}
+}
 
-	return mesh;
+void find_init_positions(double mesh[], string axis, double window_size) {
+	/*
+	 * Slide windows of vertices through each axis of the original mesh.  For each window take the avg value of the positions
+	 * of the vertices in the axis.  Store the avg values in each downs vert.
+	 *
+	 * TODO: make window slide in a more centered position amongst orig_mesh vertices.  I am guessing this is a low priority
+	 * todo, the resulting dows_mesh could be more centered compared to the orig_mesh this way but just having windows starting
+	 * at orig_mesh indices sequentially instead of shifted to center seems like it can be fine.
+	 */
+	double downs_pos = 0;
+	int win_i = 0;
+	int last_i = -1;
+
+	for (int map_i = 0; map_i < DOWNS_MESH_VERTS; map_i++) {
+		downs_pos = 0;
+		last_i = -1;
+		for (win_i = 0; win_i < window_size; win_i++) {
+			if ((map_i+win_i) < DOWNS_MESH_VERTS) {
+				downs_pos = mesh[(map_i+win_i)];
+			}
+			else {
+				last_i = win_i;
+			}
+		}
+		if (last_i == -1) {last_i = win_i;};
+
+		downs_pos = downs_pos / (double) last_i;
+
+		if (axis == "x") {downs_mesh.x[map_i] = downs_pos;}
+		else if (axis == "y") {downs_mesh.y[map_i] = downs_pos;}
+		else if (axis == "z") {downs_mesh.z[map_i] = downs_pos;}
+	}
 }
 
 void init_downs_verts(double s) {
 	/*
 	 * Initialization of downs verts:
 	 * s = a parameter that does a scalar multiplication on window_size to increase the size if wanted
-	 * Slide windows of verticies through each axis of the original mesh.  For each window take the avg value of the positions
-	 * of the verticies in the axis.  Store the avg values in each downs vert.  Sorting is done
-	 *
-	 * Reference:
-	 * for convenience sorting code from http://www.cplusplus.com/forum/general/127295/
 	 */
 	double window_size = s * ceil((double) ORIG_MESH_VERTS/(double) DOWNS_MESH_VERTS);
 
@@ -129,30 +156,9 @@ void init_downs_verts(double s) {
 	sort(orig_mesh.y, "y");
 	sort(orig_mesh.z, "z");
 
-
-}
-/*int array[100], n, c, d, swap;
-
-	printf("Enter number of elements\n");
-	scanf("%d", &n);
-
-	printf("Enter %d integers\n", n);
-
-	for (c = 0; c < n; c++)
-	scanf("%d", &array[c]);
-
-	for (c = 0 ; c < ( n - 1 ); c++)
-	{
-	for (d = 0 ; d < n - c - 1; d++)
-	{
-	  if (array[d] > array[d+1])
-	  {
-		swap       = array[d];
-		array[d]   = array[d+1];
-		array[d+1] = swap;
-	  }
-	}
-	}*/
+	find_init_positions(o_mesh_sorted.x, "x", window_size);
+	find_init_positions(o_mesh_sorted.y, "y", window_size);
+	find_init_positions(o_mesh_sorted.z, "z", window_size);
 
 }
 
@@ -401,7 +407,6 @@ int main() {
 
 	create_mesh(3,2,2,"orig");
 	copy_mesh();
-	init_downs_verts(1.0);
 	create_mesh(2,2,2,"downs");
 
 	orig_mesh_print<<"\r\n"<<"\r\n"<<"original mesh coordinates:"<<"\r\n";
@@ -415,7 +420,8 @@ int main() {
 	}
 
 	//downsample_mesh();
-	downsample_mesh2(50);
+	//downsample_mesh2(50);
+	init_downs_verts(1.0);
 
 	cout<<targ_mesh_print.str();
 	cout<<orig_mesh_print.str();
