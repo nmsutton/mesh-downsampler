@@ -158,26 +158,74 @@ void find_init_positions(double mesh[], string axis, double window_size) {
 	 */
 	double downs_pos = 0;
 	int win_i = 0;
-	int last_i = -1;
+	double last_i = -1;
+	int offset_index = 0;
 
 	for (int map_i = 0; map_i < DOWNS_MESH_VERTS; map_i++) {
 		downs_pos = 0;
 		last_i = -1;
+		cout<<endl<<"map_i "<<map_i<<" window_size: "<<window_size;
 		for (win_i = 0; win_i < window_size; win_i++) {
-			if ((map_i+win_i) < DOWNS_MESH_VERTS) {
-				downs_pos += mesh[(map_i+win_i)];
+			offset_index = ceil(((double) map_i*window_size)+(double) win_i);
+			//cout<<endl<<"offset_index "<<offset_index;
+			//offset_index = (map_i)+win_i;
+			if (offset_index < ORIG_MESH_VERTS) {
+				downs_pos += mesh[offset_index];
+				//cout<<"mesh[offset_index] "<<mesh[offset_index];
 			}
 			else {
-				last_i = win_i;
+				last_i = 1.0;
 			}
 		}
-		if (last_i == -1) {last_i = win_i;};
+		if (last_i == -1) {last_i = (double) win_i;};
+		//cout<<endl<<"lasti"<<last_i;
 
-		downs_pos = downs_pos / (double) last_i;
+		downs_pos = downs_pos / last_i;
 
 		if (axis == "x") {downs_mesh.x[map_i] = downs_pos;}
 		else if (axis == "y") {downs_mesh.y[map_i] = downs_pos;}
 		else if (axis == "z") {downs_mesh.z[map_i] = downs_pos;}
+	}
+}
+
+void find_init_positions2(double window_size) {
+	int offset_index = 0;
+
+	cout<<endl<<"start";
+	for (int map_i = 0; map_i < DOWNS_MESH_VERTS; map_i++) {
+		offset_index = ceil((double) map_i*window_size);
+		cout<<endl<<offset_index;
+
+		/*downs_mesh.x[offset_index] = o_mesh_sorted.x[offset_index];
+		downs_mesh.y[offset_index] = o_mesh_sorted.y[offset_index];
+		downs_mesh.z[offset_index] = o_mesh_sorted.z[offset_index];*/
+
+		downs_mesh.x[map_i] = orig_mesh.x[offset_index];
+		downs_mesh.y[map_i] = orig_mesh.y[offset_index];
+		downs_mesh.z[map_i] = orig_mesh.z[offset_index];
+
+		/*last_i = -1;
+		//cout<<endl<<"map_i "<<map_i<<" window_size: "<<window_size;
+		for (win_i = 0; win_i < window_size; win_i++) {
+			offset_index = ceil(((double) map_i*window_size)+(double) win_i);
+			//cout<<endl<<"offset_index "<<offset_index;
+			//offset_index = (map_i)+win_i;
+			if (offset_index < ORIG_MESH_VERTS) {
+				downs_pos += mesh[offset_index];
+				//cout<<"mesh[offset_index] "<<mesh[offset_index];
+			}
+			else {
+				last_i = 1.0;
+			}
+		}*/
+		//if (last_i == -1) {last_i = (double) win_i;};
+		//cout<<endl<<"lasti"<<last_i;
+
+		//downs_pos = downs_pos / last_i;
+
+		/*if (axis == "x") {downs_mesh.x[map_i] = downs_pos;}
+		else if (axis == "y") {downs_mesh.y[map_i] = downs_pos;}
+		else if (axis == "z") {downs_mesh.z[map_i] = downs_pos;}*/
 	}
 }
 
@@ -186,16 +234,18 @@ void init_downs_verts(double s) {
 	 * Initialization of downs verts:
 	 * s = a parameter that does a scalar multiplication on window_size to increase the size if wanted
 	 */
-	double window_size = s * ceil((double) ORIG_MESH_VERTS/(double) DOWNS_MESH_VERTS);
+	double window_size = s * ((double) ORIG_MESH_VERTS/(double) DOWNS_MESH_VERTS);
 
 	/*sort(orig_mesh.x, "x");
 	sort(orig_mesh.y, "y");
 	sort(orig_mesh.z, "z");*/
 	sort2();
 
-	find_init_positions(o_mesh_sorted.x, "x", window_size);
+	find_init_positions2(window_size);
+
+	/*find_init_positions(o_mesh_sorted.x, "x", window_size);
 	find_init_positions(o_mesh_sorted.y, "y", window_size);
-	find_init_positions(o_mesh_sorted.z, "z", window_size);
+	find_init_positions(o_mesh_sorted.z, "z", window_size);*/
 
 }
 
