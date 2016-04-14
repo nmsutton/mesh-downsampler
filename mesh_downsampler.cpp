@@ -14,28 +14,34 @@
 using namespace std;
 
 struct original_mesh {
-	double x[12]; // = {1,2,3};
+	/*double x[12]; // = {1,2,3};
 	double y[12]; // = {4,5,6};
-	double z[12]; // = {3,2,1};
+	double z[12]; // = {3,2,1};*/
+	double x[]; // = {1,2,3};
+	double y[]; // = {4,5,6};
+	double z[]; // = {3,2,1};
 };
 
 struct downsampled_mesh {
-	double x[8]; // = {1,1};
+	/*double x[8]; // = {1,1};
 	double y[8]; // = {1,1};
-	double z[8]; // = {1,1};
+	double z[8]; // = {1,1};*/
+	double x[]; // = {1,1};
+	double y[]; // = {1,1};
+	double z[]; // = {1,1};
 };
 
 original_mesh orig_mesh;
 original_mesh o_mesh_sorted;
 downsampled_mesh downs_mesh;
 
-const int ORIG_MESH_VERTS = sizeof(orig_mesh.x)/sizeof(orig_mesh.x[0]);  // from http://stackoverflow.com/questions/2037736/finding-size-of-int-array
-const int DOWNS_MESH_VERTS = sizeof(downs_mesh.x)/sizeof(downs_mesh.x[0]);
+int ORIG_MESH_VERTS; //= sizeof(orig_mesh.x)/sizeof(orig_mesh.x[0]);  // from http://stackoverflow.com/questions/2037736/finding-size-of-int-array
+int DOWNS_MESH_VERTS; //= sizeof(downs_mesh.x)/sizeof(downs_mesh.x[0]);
 
 struct W {
-	double x[DOWNS_MESH_VERTS];
-	double y[DOWNS_MESH_VERTS];
-	double z[DOWNS_MESH_VERTS];
+	double x[];
+	double y[];
+	double z[];
 };
 
 double find_euclidean_dist(double x_1, double y_1, double z_1, double x_2, double y_2, double z_2) {
@@ -257,15 +263,15 @@ double weight_update(double orig_coord, double weight, double bmu_dist, double t
 	double neighbor_score = neighbor(map_i, u, bmu_dist, time_step);
 	double alpha = learning_alpha(time_step);
 
-	if (time_step < 4) {
+	/*if (time_step < 4) {
 		cout<<"~+~ w "<<weight<<" n s "<<neighbor_score<<" a "<<alpha<<" o_c "<<orig_coord<<" m_i "<<map_i<<" u "<<u;
-	}
+	}*/
 
 	weight = weight + neighbor_score * alpha * (orig_coord - weight);
 
-	if (time_step < 4) {
+	/*if (time_step < 4) {
 		cout<<" new w "<<weight;
-	}
+	}*/
 
 	return weight;
 }
@@ -492,9 +498,11 @@ int main() {
 
 	cout<<endl<<"started"<<endl;
 
-	create_mesh(3,2,2,"orig");
+	//create_mesh(3,2,2,"orig");
+	create_mesh(6,4,4,"orig");
 	copy_mesh();
-	create_mesh(2,2,2,"downs");
+	//create_mesh(2,2,2,"downs");
+	create_mesh(4,4,4,"downs");
 
 	orig_mesh_print<<"\r\n"<<"\r\n"<<"original mesh coordinates:"<<"\r\n";
 	for (int i = 0; i < ORIG_MESH_VERTS; i++) {
