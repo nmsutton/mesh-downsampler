@@ -405,28 +405,28 @@ void downsample_mesh() {
 
 	// train
 	for (int L_i = 0; L_i < L; L_i++) {
-		cout<<endl<<"SOM iteration "<<L_i;
+		//cout<<endl<<"SOM iteration "<<L_i;
 		for (int in_i = 0; in_i < IV; in_i++) {
 			u = 0;
 			new_dist = 0;
 			bmu_dist = 100000;//find_euclidean_dist(orig_mesh.x[0], orig_mesh.y[0], orig_mesh.z[0], downs_mesh.x[0], downs_mesh.y[0], downs_mesh.z[0]); // reinitialize
-			cout<<endl<<"bmu find o_m index "<<in_i;
+			//cout<<endl<<"bmu find o_m index "<<in_i;
 			for (int map_i = 0; map_i < T; map_i++) {
 				new_dist = find_euclidean_dist(orig_mesh.x[in_i], orig_mesh.y[in_i], orig_mesh.z[in_i], downs_mesh.x[map_i], downs_mesh.y[map_i], downs_mesh.z[map_i]);
 				if (new_dist < bmu_dist) {bmu_dist = new_dist; u = map_i;}
 				//cout<<endl<<"\tu"<<u<<" o_x "<<orig_mesh.x[in_i]<<"\to_y "<<orig_mesh.y[in_i]<<"\to_z "<< orig_mesh.z[in_i]<<"\td_x "<< downs_mesh.x[map_i]<<"\td_y "<< downs_mesh.y[map_i]<<"\td_z "<< downs_mesh.z[map_i]<<"\tbmu_dist "<<bmu_dist<<" new_dist "<<new_dist;
 			}
-			cout<<endl<<"\tu\t"<<u<<"\tbmu_dist\t"<<bmu_dist;
+			//cout<<endl<<"\tu\t"<<u<<"\tbmu_dist\t"<<bmu_dist;
 			for (int map_i = 0; map_i < T; map_i++) {
-				cout<<" *x*";
+				//cout<<" *x*";
 				W.x[map_i] = weight_update(orig_mesh.x[u], W.x[map_i], bmu_dist, L_i, map_i, u);
-				cout<<" *y* ";
+				//cout<<" *y* ";
 				W.y[map_i] = weight_update(orig_mesh.y[u], W.y[map_i], bmu_dist, L_i, map_i, u);
-				cout<<" *z* ";
+				//cout<<" *z* ";
 				W.z[map_i] = weight_update(orig_mesh.z[u], W.z[map_i], bmu_dist, L_i, map_i, u);
 			}
 		}
-		print_weights(W);
+		//print_weights(W);
 	}
 
 	// apply
@@ -513,10 +513,17 @@ int main() {
 	cout<<targ_mesh_print.str();
 	cout<<orig_mesh_print.str();
 
-	cout<<endl<<endl<<"sorted mesh coordinates:"<<endl;
+	/*cout<<endl<<endl<<"sorted mesh coordinates:"<<endl;
 	for (int i = 0; i < ORIG_MESH_VERTS; i++) {
 		cout<<o_mesh_sorted.x[i]<<"\t"<<o_mesh_sorted.y[i]<<"\t"<<o_mesh_sorted.z[i]<<endl;
+	}*/
+
+	cout<<endl<<endl<<"initial downs mesh coordinates:"<<endl;
+	for (int i = 0; i < DOWNS_MESH_VERTS; i++) {
+		cout<<downs_mesh.x[i]<<"\t"<<downs_mesh.y[i]<<"\t"<<downs_mesh.z[i]<<endl;
 	}
+
+	downsample_mesh();
 
 	cout<<endl<<endl<<"downsampled mesh coordinates:"<<endl;
 	for (int i = 0; i < DOWNS_MESH_VERTS; i++) {
