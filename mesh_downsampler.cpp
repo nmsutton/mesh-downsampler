@@ -10,6 +10,9 @@
 #include <math.h>       /* sqrt */
 #include <sstream>		/* ostringstream */
 #include <set>
+#include <stdlib.h>     /* exit, EXIT_FAILURE */
+//#include "./io_util/io_operations.cpp";
+#include "io_operations.h"
 
 using namespace std;
 
@@ -112,7 +115,7 @@ void sort(double mesh[], string axis) {
 		if (axis == "x") {o_mesh_sorted.x[i] = mesh[i];}
 		else if (axis == "y") {o_mesh_sorted.y[i] = mesh[i];}
 		else if (axis == "z") {o_mesh_sorted.z[i] = mesh[i];}
- 	}
+	}
 }
 
 void sort2() {
@@ -489,14 +492,45 @@ void copy_mesh() {
 	}
 }
 
-int main() {
+int main(int argc, char *argv[]) {
 	/*
 	 * Create downsampling
+	 *
+	 * Reference:
+	 * http://www.cplusplus.com/forum/articles/13355/
 	 */
 	ostringstream orig_mesh_print;
 	ostringstream targ_mesh_print;
+	string infile = "";
+	string outfile = "";
+	double downs_percent = 100;
+	// parse args
+	if (argc < 4) {
+		cerr << "usage is -i <input file> -o <output file> -ds <downsample percentage>";
+		exit(EXIT_FAILURE);
+	}
+	else {
+		for (int i = 1; i < argc; i++) {
+			//cout<<argv[1]<<" +"<<argv[2]<<"+ "<<argv[3]<<" "<<argv[4]<<" "<<endl;
+			//cout<<(string(argv[1])=="-i");
+			//cout<<(argv[1]=="-i");
+			if (string(argv[i]) == "-i") {
+				//infile = (argv[i+1]);
+				infile = string(argv[i+1]);
+			}
+			else if (string(argv[i]) == "-o") {
+				outfile = string(argv[i+1]);
+			}
+			else if (string(argv[i]) == "-ds") {
+				//downs_percent = (double) argv[i+1];//
+			}
+		}
+	}
 
 	cout<<endl<<"started"<<endl;
+
+	input_file orig_data = import_data(infile);
+	cout<<orig_data.bounding_box_vert[0]<<endl;
 
 	//create_mesh(3,2,2,"orig");
 	create_mesh(6,4,4,"orig");

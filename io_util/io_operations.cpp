@@ -1,13 +1,12 @@
 /*
- * References:
- * http://stackoverflow.com/questions/24987600/i-would-like-to-create-a-function-that-reads-each-line-of-the-input-and-produces
- * http://stackoverflow.com/questions/7868936/read-file-line-by-line
+ * Tools for I/O
  */
 
 #include <sstream>
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <stdlib.h>     /* exit, EXIT_FAILURE */
 
 using namespace std;
 
@@ -17,33 +16,26 @@ struct input_file {
 	double vel_x[], vel_y[], vel_z[], vel_t[];
 	double ela_p_j[], ela_r_ij[], ela_val1[], ela_val2[];
 	double mem_val1[], mem_val2[], mem_val3[];
-	double partMemInd;
+	double partMemInd[];
 };
 
 input_file import_data(string in_filename) {
-	/*string line;
-	input_file input_file_prop;
-	ifstream infile(in_filename);
-	for( std::string line; getline( infile, line ); )
-	{
-	    istringstream iss(line);
-	    iss<<
-
-	    // process pair (a,b) //
-	}*/
-
+	/*
+	 * References:
+	 * http://stackoverflow.com/questions/24987600/i-would-like-to-create-a-function-that-reads-each-line-of-the-input-and-produces
+	 * http://stackoverflow.com/questions/7868936/read-file-line-by-line
+	 */
 	input_file input_file_prop;
 	int bb_i = 0, p_i = 0, v_i = 0, e_i= 0, m_i = 0, pmi_i = 0; // indices for all sections.
-	//double b_box_val = 0.0;
-	//int bb_x, bb_y, bb_z;
 	bool bb_sect = true, pos_sect = false, vel_sect = false,
 			conn_sect = false, mem_sect = false, part_sect = false;
 	double input_x = 0, input_y = 0, input_z = 0, input_t = 0;
 
+	cout<<"input file: "<<in_filename<<endl;
 	ifstream inFile(in_filename);
 	if (!inFile) {
 		cerr << "File "<<in_filename<<" not found." << endl;
-		return -1;
+		exit (EXIT_FAILURE);
 	}
 
 	// Using getline() to read one line at a time.
