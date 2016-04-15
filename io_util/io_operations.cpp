@@ -44,16 +44,18 @@ input_file import_data(string in_filename) {
 		if (line.empty()) continue;
 
 		istringstream file_data(line);
+		cout<<endl<<" line "<<line;
 
-		if (file_data == "[position]") {pos_sect = true; bb_sect = false;}
-		else if (file_data == "[velocity]") {vel_sect = true; pos_sect = false;}
-		else if (file_data == "[connection]") {conn_sect = true; vel_sect = false;}
-		else if (file_data == "[membranes]") {mem_sect = true; conn_sect = false;}
-		else if (file_data == "[particleMemIndex]") {part_sect = true; mem_sect = false;}
-		else if (file_data == "[end]") {part_sect = false;}
+		if (line == "[position]") {pos_sect = true; bb_sect = false;}
+		else if (line == "[velocity]") {vel_sect = true; pos_sect = false;}
+		else if (line == "[connection]") {conn_sect = true; vel_sect = false;}
+		else if (line == "[membranes]") {mem_sect = true; conn_sect = false;}
+		else if (line == "[particleMemIndex]") {part_sect = true; mem_sect = false;}
+		else if (line == "[end]") {part_sect = false;}
 		else if (bb_sect == true) {
 			if (file_data >> input_x) {
 				input_file_prop.bounding_box_vert[bb_i] = input_x;
+				cout<<input_x<<endl;
 				bb_i++;
 			}
 		}

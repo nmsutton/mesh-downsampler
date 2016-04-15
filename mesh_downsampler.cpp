@@ -17,34 +17,39 @@
 using namespace std;
 
 struct original_mesh {
-	/*double x[12]; // = {1,2,3};
-	double y[12]; // = {4,5,6};
-	double z[12]; // = {3,2,1};*/
 	double x[]; // = {1,2,3};
 	double y[]; // = {4,5,6};
 	double z[]; // = {3,2,1};
+	/*double x[]; // = {1,2,3};
+	double y[]; // = {4,5,6};
+	double z[]; // = {3,2,1};*/
 };
 
 struct downsampled_mesh {
-	/*double x[8]; // = {1,1};
-	double y[8]; // = {1,1};
-	double z[8]; // = {1,1};*/
 	double x[]; // = {1,1};
 	double y[]; // = {1,1};
 	double z[]; // = {1,1};
+	/*double x[]; // = {1,1};
+	double y[]; // = {1,1};
+	double z[]; // = {1,1};*/
 };
 
 original_mesh orig_mesh;
 original_mesh o_mesh_sorted;
 downsampled_mesh downs_mesh;
 
-int ORIG_MESH_VERTS; //= sizeof(orig_mesh.x)/sizeof(orig_mesh.x[0]);  // from http://stackoverflow.com/questions/2037736/finding-size-of-int-array
-int DOWNS_MESH_VERTS; //= sizeof(downs_mesh.x)/sizeof(downs_mesh.x[0]);
+int ORIG_MESH_VERTS = sizeof(orig_mesh.x)/sizeof(orig_mesh.x[0]);  // from http://stackoverflow.com/questions/2037736/finding-size-of-int-array
+int DOWNS_MESH_VERTS = sizeof(downs_mesh.x)/sizeof(downs_mesh.x[0]);
+/*int ORIG_MESH_VERTS; //= sizeof(orig_mesh.x)/sizeof(orig_mesh.x[0]);  // from http://stackoverflow.com/questions/2037736/finding-size-of-int-array
+int DOWNS_MESH_VERTS; //= sizeof(downs_mesh.x)/sizeof(downs_mesh.x[0]);*/
 
 struct W {
-	double x[];
+	double x[]; // = {1,1};
+	double y[]; // = {1,1};
+	double z[]; // = {1,1};
+	/*double x[];
 	double y[];
-	double z[];
+	double z[];*/
 };
 
 double find_euclidean_dist(double x_1, double y_1, double z_1, double x_2, double y_2, double z_2) {
@@ -530,7 +535,7 @@ int main(int argc, char *argv[]) {
 	cout<<endl<<"started"<<endl;
 
 	input_file orig_data = import_data(infile);
-	cout<<orig_data.bounding_box_vert[0]<<endl;
+	cout<<endl<<orig_data.bounding_box_vert[0]<<endl;
 
 	//create_mesh(3,2,2,"orig");
 	create_mesh(6,4,4,"orig");
