@@ -197,15 +197,15 @@ void find_init_positions2(double window_size) {
 	cout<<endl<<"start";
 	for (int map_i = 0; map_i < DOWNS_MESH_VERTS; map_i++) {
 		offset_index = ceil((double) map_i*window_size);
-		cout<<endl<<offset_index;
+		//cout<<endl<<offset_index;
 
 		/*downs_mesh.x[offset_index] = o_mesh_sorted.x[offset_index];
 		downs_mesh.y[offset_index] = o_mesh_sorted.y[offset_index];
 		downs_mesh.z[offset_index] = o_mesh_sorted.z[offset_index];*/
 
-		downs_mesh.x[map_i] = orig_data.x[offset_index];
-		downs_mesh.y[map_i] = orig_data.y[offset_index];
-		downs_mesh.z[map_i] = orig_data.z[offset_index];
+		downs_mesh.x.push_back(orig_data.x[offset_index]);
+		downs_mesh.y.push_back(orig_data.y[offset_index]);
+		downs_mesh.z.push_back(orig_data.z[offset_index]);
 
 		/*last_i = -1;
 		//cout<<endl<<"map_i "<<map_i<<" window_size: "<<window_size;
@@ -238,11 +238,13 @@ void init_downs_verts(double s) {
 	 * s = a parameter that does a scalar multiplication on window_size to increase the size if wanted
 	 */
 	double window_size = s * ((double) ORIG_MESH_VERTS/(double) DOWNS_MESH_VERTS);
+	cout<<endl<<"ws "<<window_size;
 
 	/*sort(orig_mesh.x, "x");
 	sort(orig_mesh.y, "y");
 	sort(orig_mesh.z, "z");*/
-	sort2();
+
+	//sort2();
 
 	find_init_positions2(window_size);
 
@@ -522,8 +524,8 @@ int main(int argc, char *argv[]) {
 	}
 
 	orig_data = import_data(infile);
-	int ORIG_MESH_VERTS = orig_data.x.size();
-	int DOWNS_MESH_VERTS = ceil((double) ORIG_MESH_VERTS * (downs_percent/100.0));
+	ORIG_MESH_VERTS = orig_data.x.size();
+	DOWNS_MESH_VERTS = ceil((double) ORIG_MESH_VERTS * (downs_percent/100.0));
 
 	cout<<endl<<"started"<<endl;
 
@@ -543,41 +545,18 @@ int main(int argc, char *argv[]) {
 		orig_mesh_print<<orig_data.x[i]<<"\t"<<orig_data.y[i]<<"\t"<<orig_data.z[i]<<"\r\n";
 	}
 
-	targ_mesh_print<<"\r\n"<<"\r\n"<<"target mesh coordinates:"<<"\r\n";
-	for (int i = 0; i < DOWNS_MESH_VERTS; i++) {
-		targ_mesh_print<<downs_mesh.x[i]<<"\t"<<downs_mesh.y[i]<<"\t"<<downs_mesh.z[i]<<"\r\n";
-	}
-
-	//downsample_mesh();
-	//downsample_mesh2(50);
 	init_downs_verts(1.0);
 
-	cout<<targ_mesh_print.str();
 	cout<<orig_mesh_print.str();
 
-	/*cout<<endl<<endl<<"sorted mesh coordinates:"<<endl;
-	for (int i = 0; i < ORIG_MESH_VERTS; i++) {
-		cout<<o_mesh_sorted.x[i]<<"\t"<<o_mesh_sorted.y[i]<<"\t"<<o_mesh_sorted.z[i]<<endl;
-	}*/
-
-	cout<<endl<<endl<<"initial downs mesh coordinates:"<<endl;
-	for (int i = 0; i < DOWNS_MESH_VERTS; i++) {
-		cout<<downs_mesh.x[i]<<"\t"<<downs_mesh.y[i]<<"\t"<<downs_mesh.z[i]<<endl;
-	}
-
-	downsample_mesh();
+	/*
+		downsample_mesh();
+	*/
 
 	cout<<endl<<endl<<"downsampled mesh coordinates:"<<endl;
-	for (int i = 0; i < DOWNS_MESH_VERTS; i++) {
+	for (int i = 0; i < downs_mesh.x.size(); i++) {
 		cout<<downs_mesh.x[i]<<"\t"<<downs_mesh.y[i]<<"\t"<<downs_mesh.z[i]<<endl;
 	}
-
-	/*double test[3];
-	test[0] = 4;
-	test[0] = 3;
-	test[2] = 5;
-	cout<<endl<<test[0]<<"\t"<<test[1]<<"\t"<<test[2];
-	cout<<endl<<ORIG_MESH_VERTS<<" "<<DOWNS_MESH_VERTS;*/
 
 	/*
 		original mesh coordinates:
