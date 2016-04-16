@@ -532,16 +532,20 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
+	input_file orig_data = import_data(infile);
+
 	cout<<endl<<"started"<<endl;
 
-	input_file orig_data = import_data(infile);
-	cout<<endl<<orig_data.bounding_box_vert[0]<<endl;
+	cout<<endl<<"BB4: "<<orig_data.bounding_box_vert.at(3)<<endl;
+	//cout<<endl<<(input_file) import_data(infile).bounding_box_vert[0]<<endl;
+
+	cout<<endl<<test()<<endl;
 
 	//create_mesh(3,2,2,"orig");
-	create_mesh(6,4,4,"orig");
-	copy_mesh();
+	//create_mesh(6,4,4,"orig");
+	//copy_mesh();
 	//create_mesh(2,2,2,"downs");
-	create_mesh(4,4,4,"downs");
+	//create_mesh(4,4,4,"downs");
 
 	orig_mesh_print<<"\r\n"<<"\r\n"<<"original mesh coordinates:"<<"\r\n";
 	for (int i = 0; i < ORIG_MESH_VERTS; i++) {
