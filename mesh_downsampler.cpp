@@ -11,7 +11,6 @@
 #include <sstream>		/* ostringstream */
 #include <set>
 #include <stdlib.h>     /* exit, EXIT_FAILURE */
-//#include "./io_util/io_operations.cpp";
 #include "io_operations.h"
 
 using namespace std;
@@ -44,69 +43,6 @@ double find_euclidean_dist(double x_1, double y_1, double z_1, double x_2, doubl
 	 */
 	double distance = sqrt(pow((x_2-x_1),2)+pow((y_2-y_1),2)+pow((z_2-z_1),2));
 	return distance;
-}
-
-double neighbor(int map_i, int u, double bmu_dist, int time_step) {
-	/*
-	 * Neighbor function determines the area of neighboring verticies to the bmu
-	 * that are able to effect weights
-	 *
-	 * The neigborhood reduces its area over timesteps
-	 *
-	 * Max score is 1;
-	 *
-	 * neighbor_score = 1 for the bmu.  else score is reduced by distance
-	 *
-	 * TODO: A gaussian formula could be used for region calculation if wanted.
-	 */
-	double neighbor_score = 0.0;
-	double neighbor_region = 9 / pow((double) (time_step + 1),.333); // +1 to avoid division by 0
-	double v_dist = find_euclidean_dist(downs_mesh.x[map_i], downs_mesh.y[map_i], downs_mesh.z[map_i], downs_mesh.x[u], downs_mesh.y[u], downs_mesh.z[u]);
-
-	if (v_dist <= neighbor_region) {
-		neighbor_score = (1 - (v_dist / neighbor_region));
-	}
-	//cout<<" v_d "<<v_dist<<" "<<" n_s "<<neighbor_score<<" ";//<<" v_x "<<v_x<<" v_y "<<v_y<<" v_z "<<v_z;
-
-	return neighbor_score;
-}
-
-double learning_alpha(double time_step) {
-	/*
-	 * α(s) is a monotonically decreasing learning coefficient
-	 */
-	double alpha = 0.75;
-
-	alpha = alpha / pow((time_step + 1),.333); // +1 to avoid division by 0
-	//cout<<" ^alpha^ "<<alpha<<" time_step "<<time_step<<" "<<pow((time_step + 1),.333)<<" "<<alpha / pow((time_step + 1),1/3);
-	return alpha;
-}
-
-void sort(double mesh[], string axis) {
-	/*
-	 * for convenience using the simple bubble sort
-	 *
-	 * Reference:
-	 * code from http://www.cplusplus.com/forum/general/127295/
-	 */
-	double swap = 0;
-
-	for (int in_i = 0; in_i < ORIG_MESH_VERTS; in_i++) {
-		for (int in_i2 = 0; in_i2 < ORIG_MESH_VERTS; in_i2++) {
-			if (mesh[in_i2] > mesh[in_i]) /* For decreasing order use < */
-			{
-				swap       = mesh[in_i];
-				mesh[in_i]   = mesh[in_i2];
-				mesh[in_i2] = swap;
-			}
-		}
-	}
-
-	for (int i = 0; i < ORIG_MESH_VERTS; i++) {
-		if (axis == "x") {o_mesh_sorted.x[i] = mesh[i];}
-		else if (axis == "y") {o_mesh_sorted.y[i] = mesh[i];}
-		else if (axis == "z") {o_mesh_sorted.z[i] = mesh[i];}
-	}
 }
 
 void sort2() {
@@ -147,85 +83,16 @@ void sort2() {
 	}
 }
 
-void find_init_positions(double mesh[], string axis, double window_size) {
-	/*
-	 * Slide windows of vertices through each axis of the original mesh.  For each window take the avg value of the positions
-	 * of the vertices in the axis.  Store the avg values in each downs vert.
-	 *
-	 * TODO: make window slide in a more centered position amongst orig_mesh vertices.  I am guessing this is a low priority
-	 * todo, the resulting dows_mesh could be more centered compared to the orig_mesh this way but just having windows starting
-	 * at orig_mesh indices sequentially instead of shifted to center seems like it can be fine.
-	 */
-	double downs_pos = 0;
-	int win_i = 0;
-	double last_i = -1;
-	int offset_index = 0;
-
-	for (int map_i = 0; map_i < DOWNS_MESH_VERTS; map_i++) {
-		downs_pos = 0;
-		last_i = -1;
-		cout<<endl<<"map_i "<<map_i<<" window_size: "<<window_size;
-		for (win_i = 0; win_i < window_size; win_i++) {
-			offset_index = ceil(((double) map_i*window_size)+(double) win_i);
-			//cout<<endl<<"offset_index "<<offset_index;
-			//offset_index = (map_i)+win_i;
-			if (offset_index < ORIG_MESH_VERTS) {
-				downs_pos += mesh[offset_index];
-				//cout<<"mesh[offset_index] "<<mesh[offset_index];
-			}
-			else {
-				last_i = 1.0;
-			}
-		}
-		if (last_i == -1) {last_i = (double) win_i;};
-		//cout<<endl<<"lasti"<<last_i;
-
-		downs_pos = downs_pos / last_i;
-
-		if (axis == "x") {downs_mesh.x[map_i] = downs_pos;}
-		else if (axis == "y") {downs_mesh.y[map_i] = downs_pos;}
-		else if (axis == "z") {downs_mesh.z[map_i] = downs_pos;}
-	}
-}
-
 void find_init_positions2(double window_size) {
 	int offset_index = 0;
 
 	cout<<endl<<"start";
 	for (int map_i = 0; map_i < DOWNS_MESH_VERTS; map_i++) {
 		offset_index = ceil((double) map_i*window_size);
-		//cout<<endl<<offset_index;
-
-		/*downs_mesh.x[offset_index] = o_mesh_sorted.x[offset_index];
-		downs_mesh.y[offset_index] = o_mesh_sorted.y[offset_index];
-		downs_mesh.z[offset_index] = o_mesh_sorted.z[offset_index];*/
 
 		downs_mesh.x.push_back(orig_data.x[offset_index]);
 		downs_mesh.y.push_back(orig_data.y[offset_index]);
 		downs_mesh.z.push_back(orig_data.z[offset_index]);
-
-		/*last_i = -1;
-		//cout<<endl<<"map_i "<<map_i<<" window_size: "<<window_size;
-		for (win_i = 0; win_i < window_size; win_i++) {
-			offset_index = ceil(((double) map_i*window_size)+(double) win_i);
-			//cout<<endl<<"offset_index "<<offset_index;
-			//offset_index = (map_i)+win_i;
-			if (offset_index < ORIG_MESH_VERTS) {
-				downs_pos += mesh[offset_index];
-				//cout<<"mesh[offset_index] "<<mesh[offset_index];
-			}
-			else {
-				last_i = 1.0;
-			}
-		}*/
-		//if (last_i == -1) {last_i = (double) win_i;};
-		//cout<<endl<<"lasti"<<last_i;
-
-		//downs_pos = downs_pos / last_i;
-
-		/*if (axis == "x") {downs_mesh.x[map_i] = downs_pos;}
-		else if (axis == "y") {downs_mesh.y[map_i] = downs_pos;}
-		else if (axis == "z") {downs_mesh.z[map_i] = downs_pos;}*/
 	}
 }
 
@@ -237,18 +104,46 @@ void init_downs_verts(double s) {
 	double window_size = s * ((double) ORIG_MESH_VERTS/(double) DOWNS_MESH_VERTS);
 	cout<<endl<<"ws "<<window_size;
 
-	/*sort(orig_mesh.x, "x");
-	sort(orig_mesh.y, "y");
-	sort(orig_mesh.z, "z");*/
-
 	//sort2();
 
 	find_init_positions2(window_size);
 
-	/*find_init_positions(o_mesh_sorted.x, "x", window_size);
-	find_init_positions(o_mesh_sorted.y, "y", window_size);
-	find_init_positions(o_mesh_sorted.z, "z", window_size);*/
+}
 
+double neighbor(int map_i, int u, double bmu_dist, int time_step) {
+	/*
+	 * Neighbor function determines the area of neighboring verticies to the bmu
+	 * that are able to effect weights
+	 *
+	 * The neigborhood reduces its area over timesteps
+	 *
+	 * Max score is 1;
+	 *
+	 * neighbor_score = 1 for the bmu.  else score is reduced by distance
+	 *
+	 * TODO: A gaussian formula could be used for region calculation if wanted.
+	 */
+	double neighbor_score = 0.0;
+	double neighbor_region = 9 / pow((double) (time_step + 1),.333); // +1 to avoid division by 0
+	double v_dist = find_euclidean_dist(downs_mesh.x[map_i], downs_mesh.y[map_i], downs_mesh.z[map_i], downs_mesh.x[u], downs_mesh.y[u], downs_mesh.z[u]);
+
+	if (v_dist <= neighbor_region) {
+		neighbor_score = (1 - (v_dist / neighbor_region));
+	}
+	//cout<<" v_d "<<v_dist<<" "<<" n_s "<<neighbor_score<<" ";//<<" v_x "<<v_x<<" v_y "<<v_y<<" v_z "<<v_z;
+
+	return neighbor_score;
+}
+
+double learning_alpha(double time_step) {
+	/*
+	 * α(s) is a monotonically decreasing learning coefficient
+	 */
+	double alpha = 0.75;
+
+	alpha = alpha / pow((time_step + 1),.333); // +1 to avoid division by 0
+	//cout<<" ^alpha^ "<<alpha<<" time_step "<<time_step<<" "<<pow((time_step + 1),.333)<<" "<<alpha / pow((time_step + 1),1/3);
+	return alpha;
 }
 
 double weight_update(double orig_coord, double weight, double bmu_dist, double time_step, int map_i, int u) {
@@ -276,85 +171,6 @@ void print_weights(W W) {
 	cout<<endl;
 	for (int i = 0; i < DOWNS_MESH_VERTS; i++) {
 		cout<<W.x[i]<<"\t"<<W.y[i]<<"\t"<<W.z[i]<<endl;
-	}
-}
-
-void downsample_mesh2(double downsample_percent) {
-	/*
-	 * New algorithm for downsampling
-	 *
-	 * (cluster_bin_size - 1) is used because original vertex that is compared to the others adds (+1) to create cluster_bin_size size
-	 */
-	int s = 0, t = 0, v = 0, u = 0;
-	int L = 10;
-	int IV = ORIG_MESH_VERTS;
-	int T = DOWNS_MESH_VERTS;
-	//double alpha = 1.0;
-	double new_dist = 0;
-	double bmu_dist = 0;
-
-	const int MAX_BIN_SIZE = 10000;
-	struct bmus_verts {
-		int i[MAX_BIN_SIZE]; // hardcoded at 10000 bin size limit but can make dynamic later
-		double dist[MAX_BIN_SIZE];
-	};
-	bmus_verts bmus;
-	for (int i = 0; i < MAX_BIN_SIZE; i++) {bmus.dist[i]=1000000;}
-
-	bool bmu_found = false;
-	set<int> total_bmus_found;
-	double new_x = 0, new_y = 0, new_z = 0;
-	int downs_vert_counter = 0;
-
-	W W;
-
-	double cluster_bin_size = ceil(100/downsample_percent); // this needs to be less than total orig verts
-
-
-	for (int in_i = 0; in_i < IV; in_i++) {
-		total_bmus_found.insert(in_i);
-		for (int in_i2 = 0; in_i2 < IV; in_i2++) {
-			if (total_bmus_found.find(in_i2) != total_bmus_found.end()) {
-				// new bmu search
-				bmu_found = false;
-				new_dist = 1000000;
-				for (int bmus_i = 0; bmus_i < (cluster_bin_size - 1); bmus_i++) {
-					new_dist = find_euclidean_dist(orig_data.x[in_i], orig_data.y[in_i], orig_data.z[in_i], orig_data.x[in_i2], orig_data.y[in_i2], orig_data.z[in_i2]);
-					if (new_dist < bmus.dist[bmus_i] & bmu_found == false) {
-						bmus.i[bmus_i] = in_i2;
-						bmus.dist[bmus_i] = new_dist;
-						bmu_found == true;
-					}
-				}
-			}
-		}
-
-		// downsampled verts
-		new_x = 0, new_y = 0, new_z = 0;
-		for (int bmus_i = 0; bmus_i < (cluster_bin_size - 1); bmus_i++) {
-			new_x += orig_data.x[bmus.i[bmus_i]];
-			new_y += orig_data.y[bmus.i[bmus_i]];
-			new_z += orig_data.z[bmus.i[bmus_i]];
-
-			total_bmus_found.insert(bmus.i[bmus_i]);
-		}
-		new_x = new_x / cluster_bin_size;
-		new_y = new_y / cluster_bin_size;
-		new_z = new_z / cluster_bin_size;
-
-		downs_mesh.x[downs_vert_counter] = new_x;
-		downs_mesh.y[downs_vert_counter] = new_y;
-		downs_mesh.z[downs_vert_counter] = new_z;
-		downs_vert_counter++;
-	}
-
-	cout<<endl<<"found bmus:"<<endl;
-	/*for (std::set<int>::const_iterator it = total_bmus_found.begin();it!=total_bmus_found.end();it++) {
-		std::cout << "total_bmus_found " << it. << std::endl;
-	}*/
-	for (int const& bmu_entry : total_bmus_found)
-	{
-		std::cout << bmu_entry << ' ';
 	}
 }
 
@@ -539,7 +355,7 @@ int main(int argc, char *argv[]) {
 
 	orig_mesh_print<<"\r\n"<<"\r\n"<<"original mesh coordinates:"<<"\r\n";
 	for (int i = 0; i < ORIG_MESH_VERTS; i++) {
-		orig_mesh_print<<orig_data.x[i]<<"\t"<<orig_data.y[i]<<"\t"<<orig_data.z[i]<<"\r\n";
+		orig_mesh_print<<"["<<orig_data.x[i]<<", "<<orig_data.y[i]<<", "<<orig_data.z[i]<<"], \r\n";
 	}
 
 	init_downs_verts(1.0);
@@ -548,15 +364,16 @@ int main(int argc, char *argv[]) {
 
 	cout<<endl<<endl<<"initial downsampled mesh coordinates:"<<endl;
 	for (int i = 0; i < downs_mesh.x.size(); i++) {
-		cout<<downs_mesh.x[i]<<"\t"<<downs_mesh.y[i]<<"\t"<<downs_mesh.z[i]<<endl;
+		cout<<"["<<downs_mesh.x[i]<<", "<<downs_mesh.y[i]<<", "<<downs_mesh.z[i]<<"], "<<endl;
 	}
 
 	downsample_mesh();
 
 	cout<<endl<<endl<<"processed downsampled mesh coordinates:"<<endl;
 	for (int i = 0; i < downs_mesh.x.size(); i++) {
-		cout<<downs_mesh.x[i]<<"\t"<<downs_mesh.y[i]<<"\t"<<downs_mesh.z[i]<<endl;
+		cout<<"["<<downs_mesh.x[i]<<", "<<downs_mesh.y[i]<<", "<<downs_mesh.z[i]<<"], "<<endl;
 	}
+	cout<<endl<<endl<<"plot: http://jsfiddle.net/pd3jp1s2/";
 
 	/*
 		original mesh coordinates:
