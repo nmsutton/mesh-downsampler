@@ -33,12 +33,9 @@ int ORIG_MESH_VERTS = -1;
 int DOWNS_MESH_VERTS = -1;
 
 struct W {
-	double x[]; // = {1,1};
-	double y[]; // = {1,1};
-	double z[]; // = {1,1};
-	/*double x[];
-	double y[];
-	double z[];*/
+	vector<double> x;
+	vector<double> y;
+	vector<double> z;
 };
 
 double find_euclidean_dist(double x_1, double y_1, double z_1, double x_2, double y_2, double z_2) {
@@ -406,7 +403,7 @@ void downsample_mesh() {
 	W W;
 
 	// initialize
-	for (int map_i = 0; map_i < T; map_i++) {W.x[map_i] = 1; W.y[map_i] = 1; W.z[map_i] = 1;}
+	for (int map_i = 0; map_i < T; map_i++) {W.x.push_back(1); W.y.push_back(1); W.z.push_back(1);}
 
 	// train
 	for (int L_i = 0; L_i < L; L_i++) {
@@ -549,11 +546,14 @@ int main(int argc, char *argv[]) {
 
 	cout<<orig_mesh_print.str();
 
-	/*
-		downsample_mesh();
-	*/
+	cout<<endl<<endl<<"initial downsampled mesh coordinates:"<<endl;
+	for (int i = 0; i < downs_mesh.x.size(); i++) {
+		cout<<downs_mesh.x[i]<<"\t"<<downs_mesh.y[i]<<"\t"<<downs_mesh.z[i]<<endl;
+	}
 
-	cout<<endl<<endl<<"downsampled mesh coordinates:"<<endl;
+	downsample_mesh();
+
+	cout<<endl<<endl<<"processed downsampled mesh coordinates:"<<endl;
 	for (int i = 0; i < downs_mesh.x.size(); i++) {
 		cout<<downs_mesh.x[i]<<"\t"<<downs_mesh.y[i]<<"\t"<<downs_mesh.z[i]<<endl;
 	}
