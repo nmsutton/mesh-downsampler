@@ -16,32 +16,21 @@
 
 using namespace std;
 
-struct original_mesh {
-	double x[]; // = {1,2,3};
-	double y[]; // = {4,5,6};
-	double z[]; // = {3,2,1};
-	/*double x[]; // = {1,2,3};
-	double y[]; // = {4,5,6};
-	double z[]; // = {3,2,1};*/
-};
-
 struct downsampled_mesh {
-	double x[]; // = {1,1};
-	double y[]; // = {1,1};
-	double z[]; // = {1,1};
-	/*double x[]; // = {1,1};
-	double y[]; // = {1,1};
-	double z[]; // = {1,1};*/
+	vector<double> bounding_box_vert;
+	vector<double> x, y, z, t;
+	vector<double> vel_x, vel_y, vel_z, vel_t;
+	vector<double> ela_p_j, ela_r_ij, ela_val1, ela_val2;
+	vector<double> mem_val1, mem_val2, mem_val3;
+	vector<double> partMemInd;
 };
 
-original_mesh orig_mesh;
-original_mesh o_mesh_sorted;
 downsampled_mesh downs_mesh;
+input_file orig_data;
+input_file o_mesh_sorted;
 
-int ORIG_MESH_VERTS = sizeof(orig_mesh.x)/sizeof(orig_mesh.x[0]);  // from http://stackoverflow.com/questions/2037736/finding-size-of-int-array
-int DOWNS_MESH_VERTS = sizeof(downs_mesh.x)/sizeof(downs_mesh.x[0]);
-/*int ORIG_MESH_VERTS; //= sizeof(orig_mesh.x)/sizeof(orig_mesh.x[0]);  // from http://stackoverflow.com/questions/2037736/finding-size-of-int-array
-int DOWNS_MESH_VERTS; //= sizeof(downs_mesh.x)/sizeof(downs_mesh.x[0]);*/
+int ORIG_MESH_VERTS = -1;
+int DOWNS_MESH_VERTS = -1;
 
 struct W {
 	double x[]; // = {1,1};
@@ -214,9 +203,9 @@ void find_init_positions2(double window_size) {
 		downs_mesh.y[offset_index] = o_mesh_sorted.y[offset_index];
 		downs_mesh.z[offset_index] = o_mesh_sorted.z[offset_index];*/
 
-		downs_mesh.x[map_i] = orig_mesh.x[offset_index];
-		downs_mesh.y[map_i] = orig_mesh.y[offset_index];
-		downs_mesh.z[map_i] = orig_mesh.z[offset_index];
+		downs_mesh.x[map_i] = orig_data.x[offset_index];
+		downs_mesh.y[map_i] = orig_data.y[offset_index];
+		downs_mesh.z[map_i] = orig_data.z[offset_index];
 
 		/*last_i = -1;
 		//cout<<endl<<"map_i "<<map_i<<" window_size: "<<window_size;
@@ -331,7 +320,7 @@ void downsample_mesh2(double downsample_percent) {
 				bmu_found = false;
 				new_dist = 1000000;
 				for (int bmus_i = 0; bmus_i < (cluster_bin_size - 1); bmus_i++) {
-					new_dist = find_euclidean_dist(orig_mesh.x[in_i], orig_mesh.y[in_i], orig_mesh.z[in_i], orig_mesh.x[in_i2], orig_mesh.y[in_i2], orig_mesh.z[in_i2]);
+					new_dist = find_euclidean_dist(orig_data.x[in_i], orig_data.y[in_i], orig_data.z[in_i], orig_data.x[in_i2], orig_data.y[in_i2], orig_data.z[in_i2]);
 					if (new_dist < bmus.dist[bmus_i] & bmu_found == false) {
 						bmus.i[bmus_i] = in_i2;
 						bmus.dist[bmus_i] = new_dist;
@@ -344,9 +333,9 @@ void downsample_mesh2(double downsample_percent) {
 		// downsampled verts
 		new_x = 0, new_y = 0, new_z = 0;
 		for (int bmus_i = 0; bmus_i < (cluster_bin_size - 1); bmus_i++) {
-			new_x += orig_mesh.x[bmus.i[bmus_i]];
-			new_y += orig_mesh.y[bmus.i[bmus_i]];
-			new_z += orig_mesh.z[bmus.i[bmus_i]];
+			new_x += orig_data.x[bmus.i[bmus_i]];
+			new_y += orig_data.y[bmus.i[bmus_i]];
+			new_z += orig_data.z[bmus.i[bmus_i]];
 
 			total_bmus_found.insert(bmus.i[bmus_i]);
 		}
@@ -426,18 +415,18 @@ void downsample_mesh() {
 			bmu_dist = 100000;//find_euclidean_dist(orig_mesh.x[0], orig_mesh.y[0], orig_mesh.z[0], downs_mesh.x[0], downs_mesh.y[0], downs_mesh.z[0]); // reinitialize
 			//cout<<endl<<"bmu find o_m index "<<in_i;
 			for (int map_i = 0; map_i < T; map_i++) {
-				new_dist = find_euclidean_dist(orig_mesh.x[in_i], orig_mesh.y[in_i], orig_mesh.z[in_i], downs_mesh.x[map_i], downs_mesh.y[map_i], downs_mesh.z[map_i]);
+				new_dist = find_euclidean_dist(orig_data.x[in_i], orig_data.y[in_i], orig_data.z[in_i], downs_mesh.x[map_i], downs_mesh.y[map_i], downs_mesh.z[map_i]);
 				if (new_dist < bmu_dist) {bmu_dist = new_dist; u = map_i;}
 				//cout<<endl<<"\tu"<<u<<" o_x "<<orig_mesh.x[in_i]<<"\to_y "<<orig_mesh.y[in_i]<<"\to_z "<< orig_mesh.z[in_i]<<"\td_x "<< downs_mesh.x[map_i]<<"\td_y "<< downs_mesh.y[map_i]<<"\td_z "<< downs_mesh.z[map_i]<<"\tbmu_dist "<<bmu_dist<<" new_dist "<<new_dist;
 			}
 			//cout<<endl<<"\tu\t"<<u<<"\tbmu_dist\t"<<bmu_dist;
 			for (int map_i = 0; map_i < T; map_i++) {
 				//cout<<" *x*";
-				W.x[map_i] = weight_update(orig_mesh.x[u], W.x[map_i], bmu_dist, L_i, map_i, u);
+				W.x[map_i] = weight_update(orig_data.x[u], W.x[map_i], bmu_dist, L_i, map_i, u);
 				//cout<<" *y* ";
-				W.y[map_i] = weight_update(orig_mesh.y[u], W.y[map_i], bmu_dist, L_i, map_i, u);
+				W.y[map_i] = weight_update(orig_data.y[u], W.y[map_i], bmu_dist, L_i, map_i, u);
 				//cout<<" *z* ";
-				W.z[map_i] = weight_update(orig_mesh.z[u], W.z[map_i], bmu_dist, L_i, map_i, u);
+				W.z[map_i] = weight_update(orig_data.z[u], W.z[map_i], bmu_dist, L_i, map_i, u);
 			}
 		}
 		//print_weights(W);
@@ -472,7 +461,7 @@ void create_mesh(int mesh_x, int mesh_y, int mesh_z, string type) {
 					x = x_i*4-1.5;
 					y = y_i*4-1.5;
 					z = z_i*4-1.5;
-					orig_mesh.x[i]=x; orig_mesh.y[i]=y; orig_mesh.z[i]=z;
+					orig_data.x[i]=x; orig_data.y[i]=y; orig_data.z[i]=z;
 					//cout<<endl<<x<<"\t"<<y<<"\t"<<z<<"\t"<<i<<"\t"<<(double)x;
 				}
 				if (type == "downs") {
@@ -491,9 +480,9 @@ void create_mesh(int mesh_x, int mesh_y, int mesh_z, string type) {
 
 void copy_mesh() {
 	for (int i = 0; i < ORIG_MESH_VERTS; i++) {
-		o_mesh_sorted.x[i] = orig_mesh.x[i];
-		o_mesh_sorted.y[i] = orig_mesh.y[i];
-		o_mesh_sorted.z[i] = orig_mesh.z[i];
+		o_mesh_sorted.x[i] = orig_data.x[i];
+		o_mesh_sorted.y[i] = orig_data.y[i];
+		o_mesh_sorted.z[i] = orig_data.z[i];
 	}
 }
 
@@ -527,12 +516,14 @@ int main(int argc, char *argv[]) {
 				outfile = string(argv[i+1]);
 			}
 			else if (string(argv[i]) == "-ds") {
-				//downs_percent = (double) argv[i+1];//
+				downs_percent = double(atoi(argv[i+1]));//
 			}
 		}
 	}
 
-	input_file orig_data = import_data(infile);
+	orig_data = import_data(infile);
+	int ORIG_MESH_VERTS = orig_data.x.size();
+	int DOWNS_MESH_VERTS = ceil((double) ORIG_MESH_VERTS * (downs_percent/100.0));
 
 	cout<<endl<<"started"<<endl;
 
@@ -549,7 +540,7 @@ int main(int argc, char *argv[]) {
 
 	orig_mesh_print<<"\r\n"<<"\r\n"<<"original mesh coordinates:"<<"\r\n";
 	for (int i = 0; i < ORIG_MESH_VERTS; i++) {
-		orig_mesh_print<<orig_mesh.x[i]<<"\t"<<orig_mesh.y[i]<<"\t"<<orig_mesh.z[i]<<"\r\n";
+		orig_mesh_print<<orig_data.x[i]<<"\t"<<orig_data.y[i]<<"\t"<<orig_data.z[i]<<"\r\n";
 	}
 
 	targ_mesh_print<<"\r\n"<<"\r\n"<<"target mesh coordinates:"<<"\r\n";

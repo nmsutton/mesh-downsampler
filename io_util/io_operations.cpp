@@ -17,7 +17,7 @@ struct input_file {
 	 * in a straightforward way
 	 */
 	vector<double> bounding_box_vert;
-	vector<double> pos_x, pos_y, pos_z, pos_t;
+	vector<double> x, y, z, t;
 	vector<double> vel_x, vel_y, vel_z, vel_t;
 	vector<double> ela_p_j, ela_r_ij, ela_val1, ela_val2;
 	vector<double> mem_val1, mem_val2, mem_val3;
@@ -69,9 +69,9 @@ struct input_file import_data(string in_filename) {
 		}
 		else if (pos_sect == true) {
 			if (file_data >> input_x >> input_y >> input_z >> input_t) {
-				input_file_prop.pos_x.push_back(input_x);
-				input_file_prop.pos_y.push_back(input_y);
-				input_file_prop.pos_z.push_back(input_z);
+				input_file_prop.x.push_back(input_x);
+				input_file_prop.y.push_back(input_y);
+				input_file_prop.z.push_back(input_z);
 				//input_file_prop.pos_t[p_i] = input_t;
 				//cout<<endl<<"BB3 "<<input_file_prop.bounding_box_vert.at(1)<<endl;
 				//p_i++;
