@@ -73,7 +73,6 @@ void sort2(int ORIG_MESH_VERTS, input_file &o_mesh_sorted) {
 void find_init_positions2(double window_size, int DOWNS_MESH_VERTS, input_file &orig_data, downsampled_mesh &downs_mesh) {
 	int offset_index = 0;
 
-	cout<<endl<<"start";
 	for (int map_i = 0; map_i < DOWNS_MESH_VERTS; map_i++) {
 		offset_index = ceil((double) map_i*window_size);
 
@@ -89,7 +88,6 @@ void init_downs_verts(double s, int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input
 	 * s = a parameter that does a scalar multiplication on window_size to increase the size if wanted
 	 */
 	double window_size = s * ((double) ORIG_MESH_VERTS/(double) DOWNS_MESH_VERTS);
-	cout<<endl<<"ws "<<window_size;
 
 	//sort2();
 

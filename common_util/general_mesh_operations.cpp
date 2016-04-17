@@ -7,6 +7,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -73,6 +74,31 @@ void copy_mesh() {
 		o_mesh_sorted.x[i] = orig_data.x[i];
 		o_mesh_sorted.y[i] = orig_data.y[i];
 		o_mesh_sorted.z[i] = orig_data.z[i];
+	}
+}
+
+void print_data_results(string section) {
+	if (section == "start") {
+		cout<<endl<<"Mesh position results:"
+			<<endl<<"1.) original mesh coordinates"
+			<<endl<<"2.) initial downsampled mesh coordinates:"
+			<<endl<<"3.) som processed downsampled mesh coordinates:"<<endl<<endl;
+
+		for (int i = 0; i < orig_data.x.size(); i++) {
+			cout<<"["<<orig_data.x[i]<<", "<<orig_data.y[i]<<", "<<orig_data.z[i]<<"], "<<endl;
+		}
+
+		cout<<endl;
+		for (int i = 0; i < downs_mesh.x.size(); i++) {
+			cout<<"["<<downs_mesh.x[i]<<", "<<downs_mesh.y[i]<<", "<<downs_mesh.z[i]<<"], "<<endl;
+		}
+		cout<<endl;
+	}
+	else if (section == "end") {
+		for (int i = 0; i < downs_mesh.x.size(); i++) {
+			cout<<"["<<downs_mesh.x[i]<<", "<<downs_mesh.y[i]<<", "<<downs_mesh.z[i]<<"], "<<endl;
+		}
+		cout<<endl<<endl<<"plot: http://jsfiddle.net/pd3jp1s2/2/"<<endl;
 	}
 }
 

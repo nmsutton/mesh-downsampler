@@ -17,4 +17,6 @@ void create_mesh(int mesh_x, int mesh_y, int mesh_z, string type);
 
 void copy_mesh();
 
+void print_data_results(string section);
+
 #endif /* GENERAL_MESH_OPERATIONS_H_ */

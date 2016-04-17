@@ -14,6 +14,7 @@
 #include "io_operations.h"
 #include "init_downs_data.h"
 #include "create_downsample.h"
+#include "general_mesh_operations.h"
 
 using namespace std;
 
@@ -35,8 +36,25 @@ int main(int argc, char *argv[]) {
 	som.neigh = 9.0;
 	som.learn = 0.75;
 	// parse args
-	if (argc < 4) {
-		cerr << "usage is -i <input file> -o <output file> -ds <downsample percentage>";
+	if (argc == 2) {
+		if (string(argv[1]) == "--help") {
+			cout << "Help for Usage "<<endl<<endl
+				<<"-i = input configuration file"<< endl
+				<<"-o = output configuration file"<< endl
+				<<"-ds = percentage of input file to output through downsampling"<< endl
+				<<"-som = self-organizing maps (som) are activated or not"<< endl
+				<<"-steps = iteration steps the som should use.  Default = 10"<< endl
+				<<"-neigh = scalar multiplier that increases the vertex neighborhood area"<<endl
+				<<"som uses for each downsampled point.  Default = 9.0.  Larger = more."<< endl
+				<<"-learn = scalar multiplier that effects the learning rate of the som."<< endl
+				<<"The learning rate effects the amount of pull vertices in the neighborhood"<<endl
+				<<"cause change on the downsampled points.  Default = 0.75.";
+			exit(EXIT_SUCCESS);
+		}
+	}
+	else if (argc < 4) {
+		cerr << "usage is -i <input file> -o <output file> -ds <downsample percentage> -som <true/false> -steps <som steps> -neigh <som neighbor multiplier> -learn <som learning multiplier>\r\n";
+		cerr << "enter --help for longer help description";
 		exit(EXIT_FAILURE);
 	}
 	else {
@@ -73,28 +91,13 @@ int main(int argc, char *argv[]) {
 
 	init_downs_verts(1.0, ORIG_MESH_VERTS, DOWNS_MESH_VERTS, orig_data, downs_mesh);
 
-	cout<<endl<<endl<<"1.) original mesh coordinates";
-	cout<<endl<<"2.) initial downsampled mesh coordinates:";
-	cout<<endl<<"3.) processed downsampled mesh coordinates:"<<endl<<endl;
-
-	for (int i = 0; i < orig_data.x.size(); i++) {
-		cout<<"["<<orig_data.x[i]<<", "<<orig_data.y[i]<<", "<<orig_data.z[i]<<"], "<<endl;
-	}
-
-	cout<<endl;
-	for (int i = 0; i < downs_mesh.x.size(); i++) {
-		cout<<"["<<downs_mesh.x[i]<<", "<<downs_mesh.y[i]<<", "<<downs_mesh.z[i]<<"], "<<endl;
-	}
+	print_data_results("start");
 
 	if (som.active == true) {
 		downsample_mesh(ORIG_MESH_VERTS, DOWNS_MESH_VERTS, orig_data, downs_mesh, som);
 	}
 
-	cout<<endl;
-	for (int i = 0; i < downs_mesh.x.size(); i++) {
-		cout<<"["<<downs_mesh.x[i]<<", "<<downs_mesh.y[i]<<", "<<downs_mesh.z[i]<<"], "<<endl;
-	}
-	cout<<endl<<endl<<"plot: http://jsfiddle.net/pd3jp1s2/2/"<<endl;
+	print_data_results("end");
 
 	cout<<endl<<"finished"<<endl;
 	return 0;
