@@ -25,11 +25,15 @@ int main(int argc, char *argv[]) {
 	 * http://www.cplusplus.com/forum/articles/13355/
 	 * http://www.learncpp.com/cpp-tutorial/73-passing-arguments-by-reference/
 	 */
-	ostringstream orig_mesh_print;
-	ostringstream targ_mesh_print;
+	//ostringstream orig_mesh_print;
+	//ostringstream targ_mesh_print;
 	string infile = "";
 	string outfile = "";
 	double downs_percent = 100;
+	som.active = false;
+	som.steps = 10;
+	som.neigh = 9.0;
+	som.learn = 0.75;
 	// parse args
 	if (argc < 4) {
 		cerr << "usage is -i <input file> -o <output file> -ds <downsample percentage>";
@@ -45,6 +49,18 @@ int main(int argc, char *argv[]) {
 			}
 			else if (string(argv[i]) == "-ds") {
 				downs_percent = double(atoi(argv[i+1]));
+			}
+			else if (string(argv[i]) == "-som") {
+				if (string(argv[i+1])=="true") {som.active = true;}
+			}
+			else if (string(argv[i]) == "-steps") {
+				som.steps = atoi(argv[i+1]);
+			}
+			else if (string(argv[i]) == "-neigh") {
+				som.neigh = double(atoi(argv[i+1]));
+			}
+			else if (string(argv[i]) == "-learn") {
+				som.learn = double(atoi(argv[i+1]));
 			}
 		}
 	}
@@ -70,7 +86,9 @@ int main(int argc, char *argv[]) {
 		cout<<"["<<downs_mesh.x[i]<<", "<<downs_mesh.y[i]<<", "<<downs_mesh.z[i]<<"], "<<endl;
 	}
 
-	downsample_mesh(ORIG_MESH_VERTS, DOWNS_MESH_VERTS, orig_data, downs_mesh);
+	if (som.active == true) {
+		downsample_mesh(ORIG_MESH_VERTS, DOWNS_MESH_VERTS, orig_data, downs_mesh, som);
+	}
 
 	cout<<endl;
 	for (int i = 0; i < downs_mesh.x.size(); i++) {

@@ -22,6 +22,6 @@ double weight_update(double orig_coord, double weight, double bmu_dist, double t
 
 void print_weights(W W);
 
-void downsample_mesh(int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input_file &orig_data, downsampled_mesh &Sdowns_mesh);
+void downsample_mesh(int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input_file &orig_data, downsampled_mesh &downs_mesh, som_data &som);
 
 #endif /* CREATE_DOWNSAMPLE_H_ */

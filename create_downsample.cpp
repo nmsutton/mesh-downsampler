@@ -38,7 +38,14 @@ struct W {
 	vector<double> z;
 };
 
-double neighbor(int map_i, int u, double bmu_dist, int time_step, downsampled_mesh &downs_mesh) {
+struct som_data {
+	bool active;
+	int steps;
+	double neigh;
+	double learn;
+};
+
+double neighbor(int map_i, int u, double bmu_dist, int time_step, downsampled_mesh &downs_mesh, som_data &som) {
 	/*
 	 * Neighbor function determines the area of neighboring verticies to the bmu
 	 * that are able to effect weights
@@ -52,7 +59,8 @@ double neighbor(int map_i, int u, double bmu_dist, int time_step, downsampled_me
 	 * TODO: A gaussian formula could be used for region calculation if wanted.
 	 */
 	double neighbor_score = 0.0;
-	double neighbor_region = 9 / pow((double) (time_step + 1),.333); // +1 to avoid division by 0
+	double neighbor_muliple = som.neigh;
+	double neighbor_region = neighbor_muliple / pow((double) (time_step + 1),.333); // +1 to avoid division by 0
 	double v_dist = find_euclidean_dist(downs_mesh.x[map_i], downs_mesh.y[map_i], downs_mesh.z[map_i], downs_mesh.x[u], downs_mesh.y[u], downs_mesh.z[u]);
 
 	if (v_dist <= neighbor_region) {
@@ -63,26 +71,26 @@ double neighbor(int map_i, int u, double bmu_dist, int time_step, downsampled_me
 	return neighbor_score;
 }
 
-double learning_alpha(double time_step) {
+double learning_alpha(double time_step, som_data &som) {
 	/*
 	 * α(s) is a monotonically decreasing learning coefficient
 	 *
 	 * Plotting tool: https://www.desmos.com/calculator
 	 */
-	double alpha = 0.75;
+	double alpha = som.learn;//0.75;
 
 	alpha = alpha / pow((time_step + 1),.333); // +1 to avoid division by 0
 	//cout<<" ^alpha^ "<<alpha<<" time_step "<<time_step<<" "<<pow((time_step + 1),.333)<<" "<<alpha / pow((time_step + 1),1/3);
 	return alpha;
 }
 
-double weight_update(double orig_coord, double weight, double bmu_dist, double time_step, int map_i, int u, downsampled_mesh &downs_mesh) {
+double weight_update(double orig_coord, double weight, double bmu_dist, double time_step, int map_i, int u, downsampled_mesh &downs_mesh, som_data &som) {
 	/*
 	 * SOM formula:
 	 * Wv(s + 1) = Wv(s) + Θ(u, v, s) α(s)(D(t) - Wv(s))
 	 */
-	double neighbor_score = neighbor(map_i, u, bmu_dist, time_step, downs_mesh);
-	double alpha = learning_alpha(time_step);
+	double neighbor_score = neighbor(map_i, u, bmu_dist, time_step, downs_mesh, som);
+	double alpha = learning_alpha(time_step, som);
 
 	/*if (time_step < 4) {
 		cout<<"~+~ w "<<weight<<" n s "<<neighbor_score<<" a "<<alpha<<" o_c "<<orig_coord<<" m_i "<<map_i<<" u "<<u;
@@ -104,7 +112,7 @@ void print_weights(W W, int DOWNS_MESH_VERTS) {
 	}
 }
 
-void downsample_mesh(int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input_file &orig_data, downsampled_mesh &downs_mesh) {
+void downsample_mesh(int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input_file &orig_data, downsampled_mesh &downs_mesh, som_data &som) {
 	/*
 	Use self organizing maps to cluster downsampled verticies
 
@@ -139,7 +147,7 @@ void downsample_mesh(int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input_file &orig
 	 */
 
 	int s = 0, t = 0, v = 0, u = 0;
-	int L = 3;//10;
+	int L = som.steps;//3;//10;
 	int IV = ORIG_MESH_VERTS;
 	int T = DOWNS_MESH_VERTS;
 	//double alpha = 1.0;
@@ -167,11 +175,11 @@ void downsample_mesh(int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input_file &orig
 			//cout<<endl<<"\tu\t"<<u<<"\tbmu_dist\t"<<bmu_dist;
 			for (int map_i = 0; map_i < T; map_i++) {
 				//cout<<" *x*";
-				W.x[map_i] = weight_update(orig_data.x[u], W.x[map_i], bmu_dist, L_i, map_i, u, downs_mesh);
+				W.x[map_i] = weight_update(orig_data.x[u], W.x[map_i], bmu_dist, L_i, map_i, u, downs_mesh, som);
 				//cout<<" *y* ";
-				W.y[map_i] = weight_update(orig_data.y[u], W.y[map_i], bmu_dist, L_i, map_i, u, downs_mesh);
+				W.y[map_i] = weight_update(orig_data.y[u], W.y[map_i], bmu_dist, L_i, map_i, u, downs_mesh, som);
 				//cout<<" *z* ";
-				W.z[map_i] = weight_update(orig_data.z[u], W.z[map_i], bmu_dist, L_i, map_i, u, downs_mesh);
+				W.z[map_i] = weight_update(orig_data.z[u], W.z[map_i], bmu_dist, L_i, map_i, u, downs_mesh, som);
 			}
 		}
 		//print_weights(W);

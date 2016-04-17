@@ -30,17 +30,25 @@ struct downsampled_mesh {
 	vector<double> partMemInd;
 };
 
-downsampled_mesh downs_mesh;
-input_file orig_data;
-input_file o_mesh_sorted;
-
-int ORIG_MESH_VERTS = -1;
-int DOWNS_MESH_VERTS = -1;
-
 struct W {
 	vector<double> x;
 	vector<double> y;
 	vector<double> z;
 };
+
+struct som_data {
+	bool active;
+	int steps;
+	double neigh;
+	double learn;
+};
+
+downsampled_mesh downs_mesh;
+input_file orig_data;
+input_file o_mesh_sorted;
+som_data som;
+
+int ORIG_MESH_VERTS = -1;
+int DOWNS_MESH_VERTS = -1;
 
 #endif /* CORE_OBJECTS_H_ */
