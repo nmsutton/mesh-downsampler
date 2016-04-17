@@ -66,6 +66,8 @@ double neighbor(int map_i, int u, double bmu_dist, int time_step, downsampled_me
 double learning_alpha(double time_step) {
 	/*
 	 * α(s) is a monotonically decreasing learning coefficient
+	 *
+	 * Plotting tool: https://www.desmos.com/calculator
 	 */
 	double alpha = 0.75;
 
@@ -137,7 +139,7 @@ void downsample_mesh(int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input_file &orig
 	 */
 
 	int s = 0, t = 0, v = 0, u = 0;
-	int L = 10;
+	int L = 3;//10;
 	int IV = ORIG_MESH_VERTS;
 	int T = DOWNS_MESH_VERTS;
 	//double alpha = 1.0;
@@ -155,7 +157,7 @@ void downsample_mesh(int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input_file &orig
 		for (int in_i = 0; in_i < IV; in_i++) {
 			u = 0;
 			new_dist = 0;
-			bmu_dist = 100000;//find_euclidean_dist(orig_mesh.x[0], orig_mesh.y[0], orig_mesh.z[0], downs_mesh.x[0], downs_mesh.y[0], downs_mesh.z[0]); // reinitialize
+			bmu_dist = 100000;
 			//cout<<endl<<"bmu find o_m index "<<in_i;
 			for (int map_i = 0; map_i < T; map_i++) {
 				new_dist = find_euclidean_dist(orig_data.x[in_i], orig_data.y[in_i], orig_data.z[in_i], downs_mesh.x[map_i], downs_mesh.y[map_i], downs_mesh.z[map_i]);

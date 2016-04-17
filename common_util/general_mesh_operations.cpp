@@ -6,8 +6,7 @@
  */
 
 #include <string>
-#include "find_distances.h"
-#include "io_operations.h"
+#include <vector>
 
 using namespace std;
 
@@ -35,8 +34,6 @@ extern input_file o_mesh_sorted;
 
 extern int ORIG_MESH_VERTS;
 extern int DOWNS_MESH_VERTS;
-
-struct W;
 
 void create_mesh(int mesh_x, int mesh_y, int mesh_z, string type) {
 	/*

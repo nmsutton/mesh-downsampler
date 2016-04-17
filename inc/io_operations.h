@@ -10,9 +10,6 @@
 
 #include <string>
 #include <vector>
-//#include "core_objects.h"
-
-//struct input_file;
 
 using namespace std;
 

@@ -19,10 +19,11 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 	/*
-	 * Create downsampling
+	 * This is the section that calls the processes that generate downsampling.
 	 *
 	 * Reference:
 	 * http://www.cplusplus.com/forum/articles/13355/
+	 * http://www.learncpp.com/cpp-tutorial/73-passing-arguments-by-reference/
 	 */
 	ostringstream orig_mesh_print;
 	ostringstream targ_mesh_print;
@@ -54,58 +55,28 @@ int main(int argc, char *argv[]) {
 
 	cout<<endl<<"started"<<endl;
 
-	cout<<endl<<"BB4: "<<orig_data.bounding_box_vert.at(3)<<endl;
-	//cout<<endl<<(input_file) import_data(infile).bounding_box_vert[0]<<endl;////
-
-	cout<<endl<<test()<<endl;
-
-	orig_mesh_print<<"\r\n"<<"\r\n"<<"original mesh coordinates:"<<"\r\n";
-	for (int i = 0; i < ORIG_MESH_VERTS; i++) {
-		orig_mesh_print<<"["<<orig_data.x[i]<<", "<<orig_data.y[i]<<", "<<orig_data.z[i]<<"], \r\n";
-	}
-
 	init_downs_verts(1.0, ORIG_MESH_VERTS, DOWNS_MESH_VERTS, orig_data, downs_mesh);
 
-	cout<<orig_mesh_print.str();
+	cout<<endl<<endl<<"1.) original mesh coordinates";
+	cout<<endl<<"2.) initial downsampled mesh coordinates:";
+	cout<<endl<<"3.) processed downsampled mesh coordinates:"<<endl<<endl;
 
-	cout<<endl<<endl<<"initial downsampled mesh coordinates:"<<endl;
+	for (int i = 0; i < orig_data.x.size(); i++) {
+		cout<<"["<<orig_data.x[i]<<", "<<orig_data.y[i]<<", "<<orig_data.z[i]<<"], "<<endl;
+	}
+
+	cout<<endl;
 	for (int i = 0; i < downs_mesh.x.size(); i++) {
 		cout<<"["<<downs_mesh.x[i]<<", "<<downs_mesh.y[i]<<", "<<downs_mesh.z[i]<<"], "<<endl;
 	}
 
 	downsample_mesh(ORIG_MESH_VERTS, DOWNS_MESH_VERTS, orig_data, downs_mesh);
 
-	cout<<endl<<endl<<"processed downsampled mesh coordinates:"<<endl;
+	cout<<endl;
 	for (int i = 0; i < downs_mesh.x.size(); i++) {
 		cout<<"["<<downs_mesh.x[i]<<", "<<downs_mesh.y[i]<<", "<<downs_mesh.z[i]<<"], "<<endl;
 	}
-	cout<<endl<<endl<<"plot: http://jsfiddle.net/pd3jp1s2/";
-
-	/*
-		original mesh coordinates:
-		-1.5	-1.5	-1.5
-		-1.5	-1.5	2.5
-		-1.5	2.5	-1.5
-		-1.5	2.5	2.5
-		2.5	-1.5	-1.5
-		2.5	-1.5	2.5
-		2.5	2.5	-1.5
-		2.5	2.5	2.5
-		6.5	-1.5	-1.5
-		6.5	-1.5	2.5
-		6.5	2.5	-1.5
-		6.5	2.5	2.5
-
-		target mesh coordinates:
-		0	0	0
-		0	0	2
-		0	2	0
-		0	2	2
-		2	0	0
-		2	0	2
-		2	2	0
-		2	2	2
-	 */
+	cout<<endl<<endl<<"plot: http://jsfiddle.net/pd3jp1s2/2/"<<endl;
 
 	cout<<endl<<"finished"<<endl;
 	return 0;
