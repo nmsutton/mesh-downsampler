@@ -10,17 +10,11 @@
 
 #include <string>
 #include <vector>
+//#include "core_objects.h"
+
+//struct input_file;
 
 using namespace std;
-
-struct input_file {
-	vector<double> bounding_box_vert;
-	vector<double> x, y, z, t;
-	vector<double> vel_x, vel_y, vel_z, vel_t;
-	vector<double> ela_p_j, ela_r_ij, ela_val1, ela_val2;
-	vector<double> mem_val1, mem_val2, mem_val3;
-	vector<double> partMemInd;
-};
 
 struct input_file import_data(string in_filename);
 

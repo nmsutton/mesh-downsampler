@@ -12,10 +12,6 @@
 using namespace std;
 
 struct input_file {
-	/*
-	 * vectors were used to enable dynamic sizing of the value groups
-	 * in a straightforward way
-	 */
 	vector<double> bounding_box_vert;
 	vector<double> x, y, z, t;
 	vector<double> vel_x, vel_y, vel_z, vel_t;
