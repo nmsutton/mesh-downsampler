@@ -1,5 +1,6 @@
 /*
- * main.cpp
+ * This software downsamples meshes for scenes the format of configuration files
+ * in the Open Worm project's Sibernetic software.
  *
  *  Created on: Apr 6, 2016
  *      Author: nmsutton
@@ -26,8 +27,7 @@ int main(int argc, char *argv[]) {
 	 * http://www.cplusplus.com/forum/articles/13355/
 	 * http://www.learncpp.com/cpp-tutorial/73-passing-arguments-by-reference/
 	 */
-	//ostringstream orig_mesh_print;
-	//ostringstream targ_mesh_print;
+
 	string infile = "";
 	string outfile = "";
 	double downs_percent = 100;
@@ -35,6 +35,7 @@ int main(int argc, char *argv[]) {
 	som.steps = 10;
 	som.neigh = 9.0;
 	som.learn = 0.75;
+
 	// parse args
 	if (argc == 2) {
 		if (string(argv[1]) == "--help") {
@@ -83,7 +84,7 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
-	orig_data = import_data(infile); //how is io_operations different from the past?
+	orig_data = import_data(infile); // NOTE: how is io_operations different from the past?
 	ORIG_MESH_VERTS = orig_data.x.size();
 	DOWNS_MESH_VERTS = ceil((double) ORIG_MESH_VERTS * (downs_percent/100.0));
 
