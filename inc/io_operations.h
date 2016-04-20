@@ -15,6 +15,6 @@ using namespace std;
 
 struct input_file import_data(string in_filename);
 
-int test();
+void export_config_file(string temp_downs_output, downsampled_mesh downs_mesh, string config_gen_program, string python_path, string outfile);
 
 #endif /* IO_OPERATIONS_H_ */

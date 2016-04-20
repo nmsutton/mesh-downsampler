@@ -30,6 +30,8 @@ int main(int argc, char *argv[]) {
 
 	string infile = "";
 	string outfile = "";
+	string config_gen_path = "";
+	string python_path = "";
 	double downs_percent = 100;
 	som.active = false;
 	som.steps = 10;
@@ -49,7 +51,10 @@ int main(int argc, char *argv[]) {
 				<<"som uses for each downsampled point.  Default = 9.0.  Larger = more."<< endl
 				<<"-learn = scalar multiplier that effects the learning rate of the som."<< endl
 				<<"The learning rate effects the amount of pull vertices in the neighborhood"<<endl
-				<<"cause change on the downsampled points.  Default = 0.75.";
+				<<"cause change on the downsampled points.  Default = 0.75."<<endl
+				<<"-config_gen_path = path of the sibernetic_config_gen folder"<<endl
+				<<"NOTE: this software assumes python can be run from any folder"<<endl
+				<<"because it will try to run python from config_gen_path";
 			exit(EXIT_SUCCESS);
 		}
 	}
@@ -81,6 +86,12 @@ int main(int argc, char *argv[]) {
 			else if (string(argv[i]) == "-learn") {
 				som.learn = double(atoi(argv[i+1]));
 			}
+			else if (string(argv[i]) == "-config_gen_program") {
+				config_gen_path = string(argv[i+1]);
+			}
+			else if (string(argv[i]) == "-python_path") {
+				python_path = string(argv[i+1]);
+			}
 		}
 	}
 
@@ -99,6 +110,8 @@ int main(int argc, char *argv[]) {
 	}
 
 	print_data_results("end");
+
+	export_config_file(temp_downs_output, downs_mesh, config_gen_path, python_path, outfile);
 
 	cout<<endl<<"finished"<<endl;
 	return 0;

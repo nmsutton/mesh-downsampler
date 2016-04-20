@@ -12,6 +12,8 @@
 
 using namespace std;
 
+string temp_downs_output = "./temp_output/temp_downs.txt";
+
 struct input_file {
 	vector<double> bounding_box_vert;
 	vector<double> x, y, z, t;
