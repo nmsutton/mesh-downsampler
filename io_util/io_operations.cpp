@@ -35,6 +35,8 @@ struct downsampled_mesh {
 
 struct input_file import_data(string in_filename) {
 	/*
+	 * NOTE: Using getline() to read one line at a time.
+	 *
 	 * References:
 	 * http://stackoverflow.com/questions/24987600/i-would-like-to-create-a-function-that-reads-each-line-of-the-input-and-produces
 	 * http://stackoverflow.com/questions/7868936/read-file-line-by-line
@@ -54,13 +56,11 @@ struct input_file import_data(string in_filename) {
 		exit (EXIT_FAILURE);
 	}
 
-	// Using getline() to read one line at a time.
 	string line;
 	while (getline(inFile, line)) {
 		if (line.empty()) continue;
 
 		istringstream file_data(line);
-		//cout<<endl<<" line "<<line;
 
 		if (line == "[position]") {pos_sect = true; bb_sect = false;}
 		else if (line == "[velocity]") {vel_sect = true; pos_sect = false;}
@@ -140,12 +140,14 @@ string exec(const char* cmd) {
     return result;
 }
 
-void export_config_file(string temp_downs_output, downsampled_mesh downs_mesh, string config_gen_path, string python_path, string outfile) {
+void export_config_file(string temp_downs_output, downsampled_mesh downs_mesh, string config_gen_path, string current_path, string outfile) {
 	/*
 	 * output downsampled data.  process it with sibernetic_config_gen.
 	 * export config file with sibernetic_config_gen to be run with
 	 * sibernetic.
 	 */
+	string trimmed_current_path = current_path.substr(0,current_path.size()-24);
+	string trimmed_temp_downs = temp_downs_output.substr(2,temp_downs_output.size());
 	ofstream outFile(temp_downs_output);
 
 	for (int i = 0; i < downs_mesh.x.size(); i++) {
@@ -155,7 +157,8 @@ void export_config_file(string temp_downs_output, downsampled_mesh downs_mesh, s
 	outFile.close();
 
 	//wrapper for sibernetic_config_gen
-	string prog_and_new_data = "cd " + config_gen_path + " && python -u " + config_gen_path + "main.py -i " + temp_downs_output + " -o " + outfile;
+	string prog_and_new_data = "cd " + config_gen_path + " && python -u " + config_gen_path + "main.py -i " + trimmed_current_path +
+			trimmed_temp_downs + " -o " + trimmed_current_path + outfile;
 	const char * prog_with_downs_data = prog_and_new_data.c_str ();
 	exec(prog_with_downs_data);
 }

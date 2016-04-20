@@ -30,6 +30,7 @@ int main(int argc, char *argv[]) {
 
 	string infile = "";
 	string outfile = "";
+	string current_path = "";
 	string config_gen_path = "";
 	string python_path = "";
 	double downs_percent = 100;
@@ -64,6 +65,7 @@ int main(int argc, char *argv[]) {
 		exit(EXIT_FAILURE);
 	}
 	else {
+		current_path = string(argv[0]);
 		for (int i = 1; i < argc; i++) {
 			if (string(argv[i]) == "-i") {
 				infile = string(argv[i+1]);
@@ -90,6 +92,7 @@ int main(int argc, char *argv[]) {
 				config_gen_path = string(argv[i+1]);
 			}
 			else if (string(argv[i]) == "-python_path") {
+				// currently not used
 				python_path = string(argv[i+1]);
 			}
 		}
@@ -111,7 +114,7 @@ int main(int argc, char *argv[]) {
 
 	print_data_results("end");
 
-	export_config_file(temp_downs_output, downs_mesh, config_gen_path, python_path, outfile);
+	export_config_file(temp_downs_output, downs_mesh, config_gen_path, current_path, outfile);
 
 	cout<<endl<<"finished"<<endl;
 	return 0;
