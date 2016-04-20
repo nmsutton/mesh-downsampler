@@ -55,7 +55,9 @@ int main(int argc, char *argv[]) {
 				<<"cause change on the downsampled points.  Default = 0.75."<<endl
 				<<"-config_gen_path = path of the sibernetic_config_gen folder"<<endl
 				<<"NOTE: this software assumes python can be run from any folder"<<endl
-				<<"because it will try to run python from config_gen_path";
+				<<"because it will try to run python from config_gen_path"<<endl
+				<<endl<<"Example: -i input/scene7 -o configuration/new_scene7b -ds 50 -som true"<<endl
+				<<"-config_gen_program /CompNeuro/Software/openworm/sibernetic_config_gen/";
 			exit(EXIT_SUCCESS);
 		}
 	}
