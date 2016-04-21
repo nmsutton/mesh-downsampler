@@ -47,7 +47,6 @@ struct input_file import_data(string in_filename) {
 			conn_sect = false, mem_sect = false, part_sect = false;
 	double input_x = 0, input_x2 = 0, input_y = 0, input_z = 0, input_t = 0;
 	stringstream line_tokens;
-	//s(in_filename);
 
 	cout<<"input file: "<<in_filename<<endl;
 	ifstream inFile(in_filename);
@@ -71,28 +70,26 @@ struct input_file import_data(string in_filename) {
 		else if (bb_sect == true) {
 			if (file_data >> input_x2) {
 				input_file_prop.bounding_box_vert.push_back(input_x2);
-				//cout<<endl<<"BB "<<input_x2<<endl;
-				//cout<<endl<<"BB "<<input_file_prop.bounding_box_vert.at(bb_i)<<endl;
-				//bb_i++;
 			}
 		}
 		else if (pos_sect == true) {
 			if (file_data >> input_x >> input_y >> input_z >> input_t) {
-				input_file_prop.x.push_back(input_x);
-				input_file_prop.y.push_back(input_y);
-				input_file_prop.z.push_back(input_z);
-				//input_file_prop.pos_t[p_i] = input_t;
-				//cout<<endl<<"BB3 "<<input_file_prop.bounding_box_vert.at(1)<<endl;
-				//p_i++;
+				if (input_t == 2.1) {
+					input_file_prop.x.push_back(input_x);
+					input_file_prop.y.push_back(input_y);
+					input_file_prop.z.push_back(input_z);
+					input_file_prop.t.push_back(input_t);
+				}
 			}
 		}
 		else if (vel_sect == true) {
 			if (file_data >> input_x >> input_y >> input_z >> input_t) {
-				input_file_prop.vel_x.push_back(input_x);
-				input_file_prop.vel_y.push_back(input_y);
-				input_file_prop.vel_z.push_back(input_z);
-				input_file_prop.vel_t.push_back(input_t);
-				//v_i++;
+				if (input_t == 2.1) {
+					input_file_prop.vel_x.push_back(input_x);
+					input_file_prop.vel_y.push_back(input_y);
+					input_file_prop.vel_z.push_back(input_z);
+					input_file_prop.vel_t.push_back(input_t);
+				}
 			}
 		}
 		else if (conn_sect == true) {
@@ -101,7 +98,6 @@ struct input_file import_data(string in_filename) {
 				input_file_prop.ela_r_ij.push_back(input_y);
 				input_file_prop.ela_val1.push_back(input_z);
 				input_file_prop.ela_val2.push_back(input_t);
-				//e_i++;
 			}
 		}
 		else if (mem_sect == true) {
@@ -109,35 +105,31 @@ struct input_file import_data(string in_filename) {
 				input_file_prop.mem_val1.push_back(input_x);
 				input_file_prop.mem_val2.push_back(input_y);
 				input_file_prop.mem_val3.push_back(input_z);
-				//m_i++;
 			}
 		}
 		else if (part_sect == true) {
 			if (file_data >> input_x) {
 				input_file_prop.partMemInd.push_back(input_x);
-				//pmi_i++;
 			}
 		}
 	}
 
 	inFile.close();
 
-	//cout<<endl<<"BB2 "<<input_file_prop.bounding_box_vert.at(7)<<endl;
-
 	return input_file_prop;
 }
 
 string exec(const char* cmd) {
-    FILE* pipe = popen(cmd, "r");
-    if (!pipe) return "ERROR";
-    char buffer[128];
-    string result = "";
-    while (!feof(pipe)) {
-        if (fgets(buffer, 128, pipe) != NULL)
-            result += buffer;
-    }
-    pclose(pipe);
-    return result;
+	FILE* pipe = popen(cmd, "r");
+	if (!pipe) return "ERROR";
+	char buffer[128];
+	string result = "";
+	while (!feof(pipe)) {
+		if (fgets(buffer, 128, pipe) != NULL)
+			result += buffer;
+	}
+	pclose(pipe);
+	return result;
 }
 
 void export_config_file(string temp_downs_output, downsampled_mesh downs_mesh, string config_gen_path, string current_path, string outfile) {
