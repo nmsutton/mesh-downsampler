@@ -35,6 +35,10 @@ struct downsampled_mesh {
 
 struct input_file import_data(string in_filename) {
 	/*
+	 * Only particle types (input_t) < 3.0 are imported because
+	 * >= 3.0 are boundry particles which are auto generated
+	 * and not needed to import.
+	 *
 	 * NOTE: Using getline() to read one line at a time.
 	 *
 	 * References:
@@ -74,7 +78,7 @@ struct input_file import_data(string in_filename) {
 		}
 		else if (pos_sect == true) {
 			if (file_data >> input_x >> input_y >> input_z >> input_t) {
-				if (input_t == 2.1) {
+				if (input_t < 3.0) {
 					input_file_prop.x.push_back(input_x);
 					input_file_prop.y.push_back(input_y);
 					input_file_prop.z.push_back(input_z);
@@ -84,7 +88,7 @@ struct input_file import_data(string in_filename) {
 		}
 		else if (vel_sect == true) {
 			if (file_data >> input_x >> input_y >> input_z >> input_t) {
-				if (input_t == 2.1) {
+				if (input_t < 3.0) {
 					input_file_prop.vel_x.push_back(input_x);
 					input_file_prop.vel_y.push_back(input_y);
 					input_file_prop.vel_z.push_back(input_z);
@@ -140,13 +144,22 @@ void export_config_file(string temp_downs_output, downsampled_mesh downs_mesh, s
 	 */
 	string trimmed_current_path = current_path.substr(0,current_path.size()-24);
 	string trimmed_temp_downs = temp_downs_output.substr(2,temp_downs_output.size());
+
 	ofstream outFile(temp_downs_output);
 
+	for (int bb_i = 0; bb_i < downs_mesh.bounding_box_vert.size(); bb_i++) {
+		outFile<<downs_mesh.bounding_box_vert[bb_i]<<endl;
+	}
+
+	outFile<<"[position]"<<endl;
+
 	for (int i = 0; i < downs_mesh.x.size(); i++) {
-		outFile<<downs_mesh.x[i]<<"\t"<<downs_mesh.y[i]<<"\t"<<downs_mesh.z[i]<<"\t2.1"<<endl;
+		outFile<<downs_mesh.x[i]<<"\t"<<downs_mesh.y[i]<<"\t"<<downs_mesh.z[i]<<"\t"<<downs_mesh.t[i]<<endl;
 	}
 
 	outFile.close();
+
+	cout<<endl<<"initiating sibernetic_config_gen with the new configuration data"<<endl;
 
 	//wrapper for sibernetic_config_gen
 	string prog_and_new_data = "cd " + config_gen_path + " && python -u " + config_gen_path + "main.py -i " + trimmed_current_path +

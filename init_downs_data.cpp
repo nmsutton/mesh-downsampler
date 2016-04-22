@@ -73,12 +73,17 @@ void sort2(int ORIG_MESH_VERTS, input_file &o_mesh_sorted) {
 void find_init_positions2(double window_size, int DOWNS_MESH_VERTS, input_file &orig_data, downsampled_mesh &downs_mesh) {
 	int offset_index = 0;
 
+	for (int bb_i = 0; bb_i < orig_data.bounding_box_vert.size(); bb_i++) {
+		downs_mesh.bounding_box_vert.push_back(orig_data.bounding_box_vert[bb_i]);
+	}
+
 	for (int map_i = 0; map_i < DOWNS_MESH_VERTS; map_i++) {
 		offset_index = ceil((double) map_i*window_size);
 
 		downs_mesh.x.push_back(orig_data.x[offset_index]);
 		downs_mesh.y.push_back(orig_data.y[offset_index]);
 		downs_mesh.z.push_back(orig_data.z[offset_index]);
+		downs_mesh.t.push_back(orig_data.t[offset_index]);
 	}
 }
 

@@ -101,7 +101,7 @@ void print_data_results(string section) {
 		cout<<endl<<endl<<"plot: http://jsfiddle.net/pd3jp1s2/2/"<<endl;
 		cout<<endl<<endl<<"For new config file:"<<endl;
 		for (int i = 0; i < downs_mesh.x.size(); i++) {
-			cout<<downs_mesh.x[i]<<"\t"<<downs_mesh.y[i]<<"\t"<<downs_mesh.z[i]<<"\t2.1"<<endl;
+			cout<<downs_mesh.x[i]<<"\t"<<downs_mesh.y[i]<<"\t"<<downs_mesh.z[i]<<"\t"<<downs_mesh.z[i]<<endl;
 		}
 	}
 }

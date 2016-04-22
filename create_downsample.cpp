@@ -167,11 +167,13 @@ void downsample_mesh(int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input_file &orig
 			new_dist = 0;
 			bmu_dist = 100000;
 			//cout<<endl<<"bmu find o_m index "<<in_i;
+			cout<<"initiated distance finding";
 			for (int map_i = 0; map_i < T; map_i++) {
 				new_dist = find_euclidean_dist(orig_data.x[in_i], orig_data.y[in_i], orig_data.z[in_i], downs_mesh.x[map_i], downs_mesh.y[map_i], downs_mesh.z[map_i]);
 				if (new_dist < bmu_dist) {bmu_dist = new_dist; u = map_i;}
 				//cout<<endl<<"\tu"<<u<<" o_x "<<orig_mesh.x[in_i]<<"\to_y "<<orig_mesh.y[in_i]<<"\to_z "<< orig_mesh.z[in_i]<<"\td_x "<< downs_mesh.x[map_i]<<"\td_y "<< downs_mesh.y[map_i]<<"\td_z "<< downs_mesh.z[map_i]<<"\tbmu_dist "<<bmu_dist<<" new_dist "<<new_dist;
 			}
+			cout<<"initiated weight updates";
 			//cout<<endl<<"\tu\t"<<u<<"\tbmu_dist\t"<<bmu_dist;
 			for (int map_i = 0; map_i < T; map_i++) {
 				//cout<<" *x*";
@@ -182,7 +184,7 @@ void downsample_mesh(int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input_file &orig
 				W.z[map_i] = weight_update(orig_data.z[u], W.z[map_i], bmu_dist, L_i, map_i, u, downs_mesh, som);
 			}
 		}
-		//print_weights(W);
+		//print_weights(W);/
 	}
 
 	// apply
