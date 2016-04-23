@@ -18,8 +18,8 @@ using namespace std;
 
 void sort2();
 
-void find_init_positions2(double window_size);
+void find_init_positions2(double window_size, int DOWNS_MESH_VERTS, input_file &orig_data, physics_sects &phys_sects, downs_conf_sects &downs_sects);
 
-void init_downs_verts(double s, int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input_file &orig_data, downsampled_mesh &downs_mesh);
+void init_downs_verts(double s, int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input_file &orig_data, physics_sects &phys_sects, downs_conf_sects &downs_sects);
 
 #endif /* INIT_DOWNS_DATA_H_ */

@@ -30,6 +30,15 @@ struct downsampled_mesh {
 	vector<double> partMemInd;
 };
 
+struct downs_conf_sects {
+	vector<downsampled_mesh> downs_mesh;
+};
+
+struct physics_sects {
+	vector<double> x1, x2, y1, y2, z1, z2;
+	vector<double> h_scalar;
+};
+
 using namespace std;
 
 void sort2(int ORIG_MESH_VERTS, input_file &o_mesh_sorted) {
@@ -70,24 +79,44 @@ void sort2(int ORIG_MESH_VERTS, input_file &o_mesh_sorted) {
 	}
 }
 
-void find_init_positions2(double window_size, int DOWNS_MESH_VERTS, input_file &orig_data, downsampled_mesh &downs_mesh) {
+void find_init_positions2(double window_size, int DOWNS_MESH_VERTS, input_file &orig_data, physics_sects &phys_sects, downs_conf_sects &downs_sects) {
+	/*
+	 * Convert input data into initial downsampled data.
+	 */
+	double x, y, z;
 	int offset_index = 0;
 
-	for (int bb_i = 0; bb_i < orig_data.bounding_box_vert.size(); bb_i++) {
-		downs_mesh.bounding_box_vert.push_back(orig_data.bounding_box_vert[bb_i]);
+	cout<<endl<<"tesT";
+
+	// bounding box
+	for (int sect_i = 0; sect_i < phys_sects.h_scalar.size(); sect_i++) {
+		for (int bb_i = 0; bb_i < orig_data.bounding_box_vert.size(); bb_i++) {
+			downs_sects.downs_mesh[sect_i].bounding_box_vert.push_back(orig_data.bounding_box_vert[bb_i]);
+		}
 	}
 
+	// sections
 	for (int map_i = 0; map_i < DOWNS_MESH_VERTS; map_i++) {
 		offset_index = ceil((double) map_i*window_size);
 
-		downs_mesh.x.push_back(orig_data.x[offset_index]);
-		downs_mesh.y.push_back(orig_data.y[offset_index]);
-		downs_mesh.z.push_back(orig_data.z[offset_index]);
-		downs_mesh.t.push_back(orig_data.t[offset_index]);
+		for (int sect_i = 0; sect_i < phys_sects.h_scalar.size(); sect_i++) {
+			x = orig_data.x[offset_index];
+			y = orig_data.y[offset_index];
+			z = orig_data.z[offset_index];
+			if (x >= phys_sects.x1[sect_i] & x <= phys_sects.x2[sect_i] &
+					y >= phys_sects.y1[sect_i] & y <= phys_sects.y2[sect_i] &
+					z >= phys_sects.z1[sect_i] & z <= phys_sects.z2[sect_i]) {
+
+				downs_sects.downs_mesh[sect_i].x.push_back(orig_data.x[offset_index]);
+				downs_sects.downs_mesh[sect_i].y.push_back(orig_data.y[offset_index]);
+				downs_sects.downs_mesh[sect_i].z.push_back(orig_data.z[offset_index]);
+				downs_sects.downs_mesh[sect_i].t.push_back(orig_data.t[offset_index]);
+			}
+		}
 	}
 }
 
-void init_downs_verts(double s, int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input_file &orig_data, downsampled_mesh &downs_mesh) {
+void init_downs_verts(double s, int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input_file &orig_data, physics_sects &phys_sects, downs_conf_sects &downs_sects) {
 	/*
 	 * Initialization of downs verts:
 	 * s = a parameter that does a scalar multiplication on window_size to increase the size if wanted
@@ -95,8 +124,9 @@ void init_downs_verts(double s, int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input
 	double window_size = s * ((double) ORIG_MESH_VERTS/(double) DOWNS_MESH_VERTS);
 
 	//sort2();
+	cout<<"test2";
 
-	find_init_positions2(window_size, DOWNS_MESH_VERTS, orig_data, downs_mesh);
+	find_init_positions2(window_size, DOWNS_MESH_VERTS, orig_data, phys_sects, downs_sects);
 
 }
 

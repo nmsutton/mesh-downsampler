@@ -12,7 +12,7 @@
 
 using namespace std;
 
-string temp_downs_output = "./temp_output/temp_downs.txt";
+string temp_downs_output = "./temp_output/temp_downs";
 
 struct input_file {
 	vector<double> bounding_box_vert;
@@ -32,6 +32,10 @@ struct downsampled_mesh {
 	vector<double> partMemInd;
 };
 
+struct downs_conf_sects {
+	vector<downsampled_mesh> downs_mesh;
+};
+
 struct W {
 	vector<double> x;
 	vector<double> y;
@@ -45,10 +49,17 @@ struct som_data {
 	double learn;
 };
 
+struct physics_sects {
+	vector<double> x1, x2, y1, y2, z1, z2;
+	vector<double> h_scalar;
+};
+
 downsampled_mesh downs_mesh;
+downs_conf_sects downs_sects;
 input_file orig_data;
 input_file o_mesh_sorted;
 som_data som;
+physics_sects phys_sects;
 
 int ORIG_MESH_VERTS = -1;
 int DOWNS_MESH_VERTS = -1;

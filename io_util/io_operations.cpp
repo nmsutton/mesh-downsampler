@@ -4,6 +4,7 @@
  * Reference:
  * http://stackoverflow.com/questions/478898/how-to-execute-a-command-and-get-output-of-command-within-c-using-posix
  * http://www.programmingforums.org/thread16393.html
+ * https://notfaq.wordpress.com/2006/08/30/c-convert-int-to-string/
  */
 
 #include <sstream>
@@ -31,6 +32,15 @@ struct downsampled_mesh {
 	vector<double> ela_p_j, ela_r_ij, ela_val1, ela_val2;
 	vector<double> mem_val1, mem_val2, mem_val3;
 	vector<double> partMemInd;
+};
+
+struct downs_conf_sects {
+	vector<downsampled_mesh> downs_mesh;
+};
+
+struct physics_sects {
+	vector<double> x1, x2, y1, y2, z1, z2;
+	vector<double> h_scalar;
 };
 
 struct input_file import_data(string in_filename) {
@@ -123,6 +133,42 @@ struct input_file import_data(string in_filename) {
 	return input_file_prop;
 }
 
+struct physics_sects import_phys_sects(string phys_sects_file) {
+	physics_sects initial_phys_sects;
+	double x1, x2, y1, y2, z1, z2, h_scalar;
+
+	stringstream line_tokens;
+
+	cout<<"phys_sects_file: "<<phys_sects_file<<endl;
+	ifstream inFile(phys_sects_file);
+	if (!inFile) {
+		cerr << "File "<<phys_sects_file<<" not found." << endl;
+		exit (EXIT_FAILURE);
+	}
+
+	string line;
+	while (getline(inFile, line)) {
+		if (line.empty()) continue;
+
+		istringstream file_data(line);
+
+		if (file_data >> x1 >> x2 >> y1 >> y2 >> z1 >> z2 >> h_scalar) {
+			initial_phys_sects.x1.push_back(x1);
+			initial_phys_sects.x2.push_back(x2);
+			initial_phys_sects.y1.push_back(y1);
+			initial_phys_sects.y2.push_back(y2);
+			initial_phys_sects.z1.push_back(z1);
+			initial_phys_sects.z2.push_back(z2);
+			initial_phys_sects.h_scalar.push_back(h_scalar);
+		}
+	}
+
+	inFile.close();
+
+	return initial_phys_sects;
+}
+
+
 string exec(const char* cmd) {
 	FILE* pipe = popen(cmd, "r");
 	if (!pipe) return "ERROR";
@@ -136,34 +182,60 @@ string exec(const char* cmd) {
 	return result;
 }
 
-void export_config_file(string temp_downs_output, downsampled_mesh downs_mesh, string config_gen_path, string current_path, string outfile) {
+string int_to_str(int i) {
+	stringstream ss;
+	ss << i;
+	return ss.str();
+}
+
+void write_config_file(string out_filename, downs_conf_sects &downs_sects, int section) {
+	/*
+	 * Write a temp output file containing all points in a region the physics group specifies.
+	 * E.g. one mesh such as a box in some cases
+	 */
+	downsampled_mesh d_sect = downs_sects.downs_mesh[section];
+	ofstream outFile(out_filename);
+
+	for (int bb_i = 0; bb_i < d_sect.bounding_box_vert.size(); bb_i++) {
+		outFile<<d_sect.bounding_box_vert[bb_i]<<endl;
+	}
+
+	outFile<<"[position]"<<endl;
+
+	for (int i = 0; i < d_sect.x.size(); i++) {
+		outFile<<d_sect.x[i]<<"\t"<<d_sect.y[i]<<"\t"<<d_sect.z[i]<<"\t"<<d_sect.t[i]<<endl;
+	}
+
+	outFile.close();
+}
+
+void export_config_files(string temp_downs_output, physics_sects &phys_sects, downs_conf_sects &downs_sects, string config_gen_path, string current_path, string outfile) {
 	/*
 	 * output downsampled data.  process it with sibernetic_config_gen.
 	 * export config file with sibernetic_config_gen to be run with
 	 * sibernetic.
 	 */
 	string trimmed_current_path = current_path.substr(0,current_path.size()-24);
-	string trimmed_temp_downs = temp_downs_output.substr(2,temp_downs_output.size());
+	string trimmed_temp_downs = "";
+	string temp_downs_filename = "";
 
-	ofstream outFile(temp_downs_output);
+	for (int sect_i = 0; sect_i < phys_sects.h_scalar.size(); sect_i++) {
+		temp_downs_filename = temp_downs_output+"_"+int_to_str(sect_i);
+		trimmed_temp_downs = temp_downs_filename.substr(2,temp_downs_filename.size());
+		write_config_file(temp_downs_filename, downs_sects, sect_i);
 
-	for (int bb_i = 0; bb_i < downs_mesh.bounding_box_vert.size(); bb_i++) {
-		outFile<<downs_mesh.bounding_box_vert[bb_i]<<endl;
+		cout<<endl<<"initiating sibernetic_config_gen with config sect "<<int_to_str(sect_i)<<endl;
+
+		//wrapper for sibernetic_config_gen
+		string prog_and_new_data = "cd " + config_gen_path + " && python -u " + config_gen_path + "main.py -i " + trimmed_current_path +
+				trimmed_temp_downs + " -o " + trimmed_current_path + outfile + "_" + int_to_str(sect_i);
+		const char * prog_with_downs_data = prog_and_new_data.c_str ();
+		exec(prog_with_downs_data);
 	}
+}
 
-	outFile<<"[position]"<<endl;
-
-	for (int i = 0; i < downs_mesh.x.size(); i++) {
-		outFile<<downs_mesh.x[i]<<"\t"<<downs_mesh.y[i]<<"\t"<<downs_mesh.z[i]<<"\t"<<downs_mesh.t[i]<<endl;
-	}
-
-	outFile.close();
-
-	cout<<endl<<"initiating sibernetic_config_gen with the new configuration data"<<endl;
-
-	//wrapper for sibernetic_config_gen
-	string prog_and_new_data = "cd " + config_gen_path + " && python -u " + config_gen_path + "main.py -i " + trimmed_current_path +
-			trimmed_temp_downs + " -o " + trimmed_current_path + outfile;
-	const char * prog_with_downs_data = prog_and_new_data.c_str ();
-	exec(prog_with_downs_data);
+void combine_config_files() {
+	/*
+	 * Combine multiple config files into one config file
+	 */
 }

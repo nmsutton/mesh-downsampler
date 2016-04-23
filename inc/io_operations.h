@@ -15,6 +15,12 @@ using namespace std;
 
 struct input_file import_data(string in_filename);
 
-void export_config_file(string temp_downs_output, downsampled_mesh downs_mesh, string config_gen_program, string python_path, string outfile);
+struct physics_sects import_phys_sects(string phys_sects_file);
+
+string int_to_str(int i);
+
+void write_config_file(string out_filename, downs_conf_sects &downs_sects, int section);
+
+void export_config_files(string temp_downs_output, physics_sects &phys_sects, downs_conf_sects &downs_sects, string config_gen_path, string current_path, string outfile);
 
 #endif /* IO_OPERATIONS_H_ */

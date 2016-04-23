@@ -32,6 +32,7 @@ int main(int argc, char *argv[]) {
 	string outfile = "";
 	string current_path = "";
 	string config_gen_path = "";
+	string phys_sects_file = "";
 	string python_path = "";
 	double downs_percent = 100;
 	som.active = false;
@@ -93,6 +94,9 @@ int main(int argc, char *argv[]) {
 			else if (string(argv[i]) == "-config_gen_program") {
 				config_gen_path = string(argv[i+1]);
 			}
+			else if (string(argv[i]) == "-phys_sects_file") {
+				phys_sects_file = string(argv[i+1]);
+			}
 			else if (string(argv[i]) == "-python_path") {
 				// currently not used
 				python_path = string(argv[i+1]);
@@ -101,12 +105,13 @@ int main(int argc, char *argv[]) {
 	}
 
 	orig_data = import_data(infile); // NOTE: how is io_operations different from the past?
+	phys_sects = import_phys_sects(phys_sects_file);
 	ORIG_MESH_VERTS = orig_data.x.size();
 	DOWNS_MESH_VERTS = ceil((double) ORIG_MESH_VERTS * (downs_percent/100.0));
 
 	cout<<endl<<"started"<<endl;
 
-	init_downs_verts(1.0, ORIG_MESH_VERTS, DOWNS_MESH_VERTS, orig_data, downs_mesh);
+	init_downs_verts(1.0, ORIG_MESH_VERTS, DOWNS_MESH_VERTS, orig_data, phys_sects, downs_sects);
 
 	print_data_results("start");
 
@@ -116,8 +121,11 @@ int main(int argc, char *argv[]) {
 
 	print_data_results("end");
 
-	export_config_file(temp_downs_output, downs_mesh, config_gen_path, current_path, outfile);
+	export_config_files(temp_downs_output, phys_sects, downs_sects, config_gen_path, current_path, outfile);
+
+	//combine_config_files();////
 
 	cout<<endl<<"finished"<<endl;
+
 	return 0;
 }
