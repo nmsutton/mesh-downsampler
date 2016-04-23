@@ -34,9 +34,9 @@ struct downsampled_mesh {
 	vector<double> partMemInd;
 };
 
-struct downs_conf_sects {
+/*struct downs_conf_sects {
 	vector<downsampled_mesh> downs_mesh;
-};
+};*/
 
 struct physics_sects {
 	vector<double> x1, x2, y1, y2, z1, z2;
@@ -188,12 +188,12 @@ string int_to_str(int i) {
 	return ss.str();
 }
 
-void write_config_file(string out_filename, downs_conf_sects &downs_sects, int section) {
+void write_config_file(string out_filename, vector<downsampled_mesh> &downs_sects, int section) {
 	/*
 	 * Write a temp output file containing all points in a region the physics group specifies.
 	 * E.g. one mesh such as a box in some cases
 	 */
-	downsampled_mesh d_sect = downs_sects.downs_mesh[section];
+	downsampled_mesh d_sect = downs_sects[section];
 	ofstream outFile(out_filename);
 
 	for (int bb_i = 0; bb_i < d_sect.bounding_box_vert.size(); bb_i++) {
@@ -209,7 +209,7 @@ void write_config_file(string out_filename, downs_conf_sects &downs_sects, int s
 	outFile.close();
 }
 
-void export_config_files(string temp_downs_output, physics_sects &phys_sects, downs_conf_sects &downs_sects, string config_gen_path, string current_path, string outfile) {
+void export_config_files(string temp_downs_output, physics_sects &phys_sects, vector<downsampled_mesh> &downs_sects, string config_gen_path, string current_path, string outfile) {
 	/*
 	 * output downsampled data.  process it with sibernetic_config_gen.
 	 * export config file with sibernetic_config_gen to be run with

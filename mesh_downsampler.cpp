@@ -39,6 +39,7 @@ int main(int argc, char *argv[]) {
 	som.steps = 10;
 	som.neigh = 9.0;
 	som.learn = 0.75;
+	bool detailed_results_print = false;
 
 	// parse args
 	if (argc == 2) {
@@ -113,17 +114,17 @@ int main(int argc, char *argv[]) {
 
 	init_downs_verts(1.0, ORIG_MESH_VERTS, DOWNS_MESH_VERTS, orig_data, phys_sects, downs_sects);
 
-	print_data_results("start");
+	if (detailed_results_print) {print_data_results("start");}
 
 	if (som.active == true) {
 		downsample_mesh(ORIG_MESH_VERTS, DOWNS_MESH_VERTS, orig_data, downs_mesh, som);
 	}
 
-	print_data_results("end");
+	if (detailed_results_print) {print_data_results("end");}
 
 	export_config_files(temp_downs_output, phys_sects, downs_sects, config_gen_path, current_path, outfile);
 
-	//combine_config_files();////
+	//combine_config_files();////////
 
 	cout<<endl<<"finished"<<endl;
 
