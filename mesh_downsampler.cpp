@@ -105,7 +105,7 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
-	orig_data = import_data(infile); // NOTE: how is io_operations different from the past?
+	orig_data = import_data(infile);
 	phys_sects = import_phys_sects(phys_sects_file);
 	ORIG_MESH_VERTS = orig_data.x.size();
 	DOWNS_MESH_VERTS = ceil((double) ORIG_MESH_VERTS * (downs_percent/100.0));
@@ -124,7 +124,7 @@ int main(int argc, char *argv[]) {
 
 	export_config_files(temp_downs_output, phys_sects, downs_sects, config_gen_path, current_path, outfile);
 
-	//combine_config_files();////////
+	combine_config_files(phys_sects, current_path, outfile);
 
 	cout<<endl<<"finished"<<endl;
 
