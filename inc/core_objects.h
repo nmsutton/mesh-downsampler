@@ -48,6 +48,7 @@ struct som_data {
 struct physics_sects {
 	vector<double> x1, x2, y1, y2, z1, z2;
 	vector<double> h_scalar;
+	string file;
 };
 
 downsampled_mesh downs_mesh;

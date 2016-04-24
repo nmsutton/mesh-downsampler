@@ -17,6 +17,8 @@ struct input_file import_data(string in_filename);
 
 struct physics_sects import_phys_sects(string phys_sects_file);
 
+string dbl_to_str(double i);
+
 string int_to_str(int i);
 
 void write_config_file(string out_filename, vector<downsampled_mesh> &downs_sects, int section);

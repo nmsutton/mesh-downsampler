@@ -37,6 +37,7 @@ struct downsampled_mesh {
 struct physics_sects {
 	vector<double> x1, x2, y1, y2, z1, z2;
 	vector<double> h_scalar;
+	string file;
 };
 
 struct input_file import_data(string in_filename) {
@@ -156,6 +157,7 @@ struct physics_sects import_phys_sects(string phys_sects_file) {
 			initial_phys_sects.z1.push_back(z1);
 			initial_phys_sects.z2.push_back(z2);
 			initial_phys_sects.h_scalar.push_back(h_scalar);
+			//initial_phys_sects.file.push_back(phys_sects_file);
 		}
 	}
 
@@ -176,6 +178,12 @@ string exec(const char* cmd) {
 	}
 	pclose(pipe);
 	return result;
+}
+
+string dbl_to_str(double i) {
+	stringstream ss;
+	ss << i;
+	return ss.str();
 }
 
 string int_to_str(int i) {
@@ -224,8 +232,9 @@ void export_config_files(string temp_downs_output, physics_sects &phys_sects, ve
 
 		//wrapper for sibernetic_config_gen
 		string prog_and_new_data = "cd " + config_gen_path + " && python -u " + config_gen_path + "main.py -i " + trimmed_current_path +
-				trimmed_temp_downs + " -o " + trimmed_current_path + outfile + "_" + int_to_str(sect_i);
+				trimmed_temp_downs + " -p " + dbl_to_str(phys_sects.h_scalar[sect_i]) + " -o " + trimmed_current_path + outfile + "_" + int_to_str(sect_i);
 		const char * prog_with_downs_data = prog_and_new_data.c_str ();
+		cout<<endl<<"running: "<<prog_and_new_data<<endl;
 		exec(prog_with_downs_data);
 	}
 }
