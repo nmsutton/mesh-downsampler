@@ -32,10 +32,6 @@ struct downsampled_mesh {
 	vector<double> partMemInd;
 };
 
-/*struct downs_conf_sects {
-	vector<downsampled_mesh> downs_mesh;
-};*/
-
 struct W {
 	vector<double> x;
 	vector<double> y;

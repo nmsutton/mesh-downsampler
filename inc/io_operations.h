@@ -27,6 +27,6 @@ void find_sect_positions(string in_filename, vector<long> &sects_line_indices);
 
 void copy_file(string file_in, string file_out);
 
-void combine_config_files(physics_sects &phys_sects, string current_path, string outfile);
+void combine_config_files(physics_sects &phys_sects, vector<downsampled_mesh> &downs_sects, string current_path, string outfile);
 
 #endif /* IO_OPERATIONS_H_ */

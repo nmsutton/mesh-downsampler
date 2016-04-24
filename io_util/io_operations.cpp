@@ -34,10 +34,6 @@ struct downsampled_mesh {
 	vector<double> partMemInd;
 };
 
-/*struct downs_conf_sects {
-	vector<downsampled_mesh> downs_mesh;
-};*/
-
 struct physics_sects {
 	vector<double> x1, x2, y1, y2, z1, z2;
 	vector<double> h_scalar;
@@ -280,7 +276,7 @@ void copy_file(string file_in, string file_out) {
 	inFile.close();
 }
 
-void combine_config_files(physics_sects &phys_sects, string current_path, string outfile) {
+void combine_config_files(physics_sects &phys_sects, vector<downsampled_mesh> &downs_sects, string current_path, string outfile) {
 	/*
 	 * Combine multiple config files into one config file
 	 *
@@ -293,21 +289,23 @@ void combine_config_files(physics_sects &phys_sects, string current_path, string
 	string in_filename = "";
 	string out_filename = outfile+"_comb";
 	string trimmed_out_filename = out_filename.substr(2,out_filename.size());
-	string pos_marker = "[position]", vel_marker = "[connection]", con_marker = "[connection]",
-			mem_marker = "[membranes]", pmi_marker = "[particleMemIndex]", end_marker = "[end]";
-	vector<long> sects_line_indices;
-	for (int i = 0; i < 6; i++) (sects_line_indices.push_back(0));
+	vector<string> pos_markers = {"[position]", "[velocity]", "[connection]", "[membranes]", "[particleMemIndex]", "[end]"};
+	vector<vector<string>> config_output_sects;
+	int file_sections = pos_markers.size();
+	for (int i = 0; i < file_sections; i++) {vector<string> section; config_output_sects.push_back(section);};
 
 	cout<<endl<<"combining config file sections"<<endl;
 
-	in_filename = trimmed_current_path + outfile + "_0";//temp_downs_output+"_0";
-	copy_file(in_filename, out_filename);
+	/*in_filename = trimmed_current_path + outfile + "_0";//temp_downs_output+"_0";
+	copy_file(in_filename, out_filename);*/
 
-	for (int sect_i = 1; sect_i < phys_sects.h_scalar.size(); sect_i++) {
+	for (int sect_i = 0; sect_i < phys_sects.h_scalar.size(); sect_i++) {
 		in_filename = trimmed_current_path + outfile + "_" +int_to_str(sect_i);
 
-		find_sect_positions(out_filename, sects_line_indices);
-		cout<<endl<<"pos "<<sects_line_indices[1]<<endl;
+		bb_sect = true; pos_sect = false; vel_sect = false;
+		conn_sect = false; mem_sect = false; part_sect = false;
+		/*find_sect_positions(out_filename, sects_line_indices);
+		cout<<endl<<"pos "<<sects_line_indices[1]<<endl;*/
 
 		ifstream inFile(in_filename);
 		if (!inFile) {
@@ -315,47 +313,55 @@ void combine_config_files(physics_sects &phys_sects, string current_path, string
 			exit (EXIT_FAILURE);
 		}
 
-		ofstream outFile(out_filename);
-
 		string line;
 		while (getline(inFile, line)) {
 			if (line.empty()) continue;
 
 			istringstream file_data(line);
 
-			if (line == pos_marker) {pos_sect = true; bb_sect = false;}// outFile.seekp(sects_line_indices[0]); outFile<<endl;}
-			else if (line == vel_marker) {vel_sect = true; pos_sect = false;}//  outFile.seekp(sects_line_indices[1]); outFile<<endl;}
-			else if (line == con_marker) {conn_sect = true; vel_sect = false;}//  outFile.seekp(sects_line_indices[2]); outFile<<endl;}
-			else if (line == mem_marker) {mem_sect = true; conn_sect = false;}//  outFile.seekp(sects_line_indices[3]); outFile<<endl;}
-			else if (line == pmi_marker) {part_sect = true; mem_sect = false;}//  outFile.seekp(sects_line_indices[4]); outFile<<endl;}
-			else if (line == end_marker) {part_sect = false;}
-			else if (bb_sect == true) {
-				outFile<<line;
+			if (line == pos_markers[0]) {pos_sect = true; bb_sect = false;}// outFile.seekp(sects_line_indices[0]); outFile<<endl;}
+			else if (line == pos_markers[1]) {vel_sect = true; pos_sect = false;}//  outFile.seekp(sects_line_indices[1]); outFile<<endl;}
+			else if (line == pos_markers[2]) {conn_sect = true; vel_sect = false;}//  outFile.seekp(sects_line_indices[2]); outFile<<endl;}
+			else if (line == pos_markers[3]) {mem_sect = true; conn_sect = false;}//  outFile.seekp(sects_line_indices[3]); outFile<<endl;}
+			else if (line == pos_markers[4]) {part_sect = true; mem_sect = false;}//  outFile.seekp(sects_line_indices[4]); outFile<<endl;}
+			else if (line == pos_markers[5]) {part_sect = false;}
+			/*else if (bb_sect == true) {
+
+			}*/
+			else if (pos_sect == true & line != pos_markers[0]) {
+				config_output_sects[0].push_back(line);
 			}
-			else if (pos_sect == true) {
-				outFile.seekp(sects_line_indices[0]);
-				outFile<<line<<endl;
+			else if (vel_sect == true & line != pos_markers[1]) {
+				config_output_sects[1].push_back(line);
 			}
-			else if (vel_sect == true) {
-				outFile.seekp(sects_line_indices[1]);
-				outFile<<line<<endl;
+			else if (conn_sect == true & line != pos_markers[2]) {
+				config_output_sects[2].push_back(line);
 			}
-			else if (conn_sect == true) {
-				outFile.seekp(sects_line_indices[2]);
-				outFile<<line<<endl;
+			else if (mem_sect == true & line != pos_markers[3]) {
+				config_output_sects[3].push_back(line);
 			}
-			else if (mem_sect == true) {
-				outFile.seekp(sects_line_indices[3]);
-				outFile<<line<<endl;
-			}
-			else if (part_sect == true) {
-				outFile.seekp(sects_line_indices[4]);
-				outFile<<line<<endl;
+			else if (part_sect == true & line != pos_markers[4]) {
+				config_output_sects[4].push_back(line);
 			}
 		}
 
-		outFile.close();
-
 		inFile.close();
 	}
+
+	ofstream outFile(out_filename);
+
+	for (int i = 0; i < downs_sects[0].bounding_box_vert.size(); i++) {
+		outFile<<downs_sects[0].bounding_box_vert[i]<<endl;
+	}
+
+	for (int i = 0; i < (file_sections); i++) {
+		outFile<<pos_markers[i]<<endl;
+		for (string new_conf_line : config_output_sects[i]) {
+			outFile<<new_conf_line<<endl;
+		}
+	}
+
+	//outFile<<
+
+	outFile.close();
 }

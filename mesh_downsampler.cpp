@@ -124,7 +124,7 @@ int main(int argc, char *argv[]) {
 
 	export_config_files(temp_downs_output, phys_sects, downs_sects, config_gen_path, current_path, outfile);
 
-	combine_config_files(phys_sects, current_path, outfile);
+	combine_config_files(phys_sects, downs_sects, current_path, outfile);
 
 	cout<<endl<<"finished"<<endl;
 
