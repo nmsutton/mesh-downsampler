@@ -36,7 +36,7 @@ struct downsampled_mesh {
 
 struct physics_sects {
 	vector<double> x1, x2, y1, y2, z1, z2;
-	vector<double> h_scalar;
+	vector<double> h_scalar, p_type_range_min, p_type_range_max;
 	string file;
 };
 
@@ -132,7 +132,8 @@ struct input_file import_data(string in_filename) {
 
 struct physics_sects import_phys_sects(string phys_sects_file) {
 	physics_sects initial_phys_sects;
-	double x1, x2, y1, y2, z1, z2, h_scalar;
+	double x1, x2, y1, y2, z1, z2;
+	double h_scalar, p_type_range_min, p_type_range_max;
 
 	stringstream line_tokens;
 
@@ -149,7 +150,7 @@ struct physics_sects import_phys_sects(string phys_sects_file) {
 
 		istringstream file_data(line);
 
-		if (file_data >> x1 >> x2 >> y1 >> y2 >> z1 >> z2 >> h_scalar) {
+		if (file_data >> x1 >> x2 >> y1 >> y2 >> z1 >> z2 >> h_scalar >> p_type_range_min >> p_type_range_max) {
 			initial_phys_sects.x1.push_back(x1);
 			initial_phys_sects.x2.push_back(x2);
 			initial_phys_sects.y1.push_back(y1);
@@ -157,7 +158,8 @@ struct physics_sects import_phys_sects(string phys_sects_file) {
 			initial_phys_sects.z1.push_back(z1);
 			initial_phys_sects.z2.push_back(z2);
 			initial_phys_sects.h_scalar.push_back(h_scalar);
-			//initial_phys_sects.file.push_back(phys_sects_file);
+			initial_phys_sects.p_type_range_min.push_back(p_type_range_min);
+			initial_phys_sects.p_type_range_max.push_back(p_type_range_max);
 		}
 	}
 

@@ -36,7 +36,8 @@ struct downsampled_mesh {
 
 struct physics_sects {
 	vector<double> x1, x2, y1, y2, z1, z2;
-	vector<double> h_scalar;
+	vector<double> h_scalar, p_type_range_min, p_type_range_max;
+	string file;
 };
 
 using namespace std;
@@ -88,7 +89,7 @@ void init_downs_verts(double s, int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input
 
 	//sort2();
 
-	double curr_x, curr_y, curr_z;
+	double curr_x, curr_y, curr_z, curr_t;
 	int offset_index = 0;
 
 	// initialize.  NOTE: the struct is passed by reference and not by pointer here right?
@@ -112,9 +113,11 @@ void init_downs_verts(double s, int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input
 			curr_x = orig_data.x[offset_index];
 			curr_y = orig_data.y[offset_index];
 			curr_z = orig_data.z[offset_index];
+			curr_t = orig_data.t[offset_index];
 			if (curr_x >= phys_sects.x1[sect_i] & curr_x <= phys_sects.x2[sect_i] &
 					curr_y >= phys_sects.y1[sect_i] & curr_y <= phys_sects.y2[sect_i] &
-					curr_z >= phys_sects.z1[sect_i] & curr_z <= phys_sects.z2[sect_i]) {
+					curr_z >= phys_sects.z1[sect_i] & curr_z <= phys_sects.z2[sect_i] &
+					curr_t >= phys_sects.p_type_range_min[sect_i] & curr_t <= phys_sects.p_type_range_max[sect_i]) {
 
 				downs_sects[sect_i].x.push_back(orig_data.x[offset_index]);
 				downs_sects[sect_i].y.push_back(orig_data.y[offset_index]);

@@ -154,6 +154,8 @@ void downsample_mesh(int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input_file &orig
 	double new_dist = 0;
 	double bmu_dist = 0;
 
+	cout<<"downsample";
+
 	W W;
 
 	// initialize
