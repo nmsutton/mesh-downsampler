@@ -40,6 +40,16 @@ struct physics_sects {
 	string file;
 };
 
+struct particle_range_sections{
+	/*
+	 * Ranges to have adjusted physics values
+	 */
+
+	vector<int> start_range, end_range;
+	vector<double> mod_r0, p_type;
+	string output_filename;
+};
+
 using namespace std;
 
 void sort2(int ORIG_MESH_VERTS, input_file &o_mesh_sorted) {
@@ -80,12 +90,15 @@ void sort2(int ORIG_MESH_VERTS, input_file &o_mesh_sorted) {
 	}
 }
 
-void init_downs_verts(double s, int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input_file &orig_data, physics_sects &phys_sects, vector<downsampled_mesh> &downs_sects) {
+void init_downs_verts(double s, int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input_file &orig_data,
+		physics_sects &phys_sects, vector<downsampled_mesh> &downs_sects, particle_range_sections &particle_ranges) {
 	/*
 	 * Initialization of downs verts:
 	 * s = a parameter that does a scalar multiplication on window_size to increase the size if wanted
 	 */
 	double window_size = s * ((double) ORIG_MESH_VERTS/(double) DOWNS_MESH_VERTS);
+	int particle_index = 0, start_part_range = 0, end_part_range = 0;
+	bool start_range_found = false;
 
 	//sort2();
 
@@ -106,10 +119,12 @@ void init_downs_verts(double s, int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input
 	}
 
 	// sections
-	for (int map_i = 0; map_i < DOWNS_MESH_VERTS; map_i++) {
-		offset_index = ceil((double) map_i*window_size);
+	for (int sect_i = 0; sect_i < phys_sects.h_scalar.size(); sect_i++) {
+		start_range_found = false;
 
-		for (int sect_i = 0; sect_i < phys_sects.h_scalar.size(); sect_i++) {
+		for (int map_i = 0; map_i < DOWNS_MESH_VERTS; map_i++) {
+			offset_index = ceil((double) map_i*window_size);
+
 			curr_x = orig_data.x[offset_index];
 			curr_y = orig_data.y[offset_index];
 			curr_z = orig_data.z[offset_index];
@@ -119,12 +134,23 @@ void init_downs_verts(double s, int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input
 					curr_z >= phys_sects.z1[sect_i] & curr_z <= phys_sects.z2[sect_i] &
 					curr_t >= phys_sects.p_type_range_min[sect_i] & curr_t <= phys_sects.p_type_range_max[sect_i]) {
 
+				if (start_range_found == false) {
+					particle_ranges.start_range[sect_i] = particle_index;
+					particle_ranges.mod_r0[sect_i] = phys_sects.h_scalar[sect_i];
+					particle_ranges.p_type[sect_i] = orig_data.t[offset_index];
+					start_range_found = true;
+				}
+
 				downs_sects[sect_i].x.push_back(orig_data.x[offset_index]);
 				downs_sects[sect_i].y.push_back(orig_data.y[offset_index]);
 				downs_sects[sect_i].z.push_back(orig_data.z[offset_index]);
 				downs_sects[sect_i].t.push_back(orig_data.t[offset_index]);
+
+				particle_ranges.end_range[sect_i] = particle_index;
 			}
 		}
+
+		particle_index++;
 	}
 
 }

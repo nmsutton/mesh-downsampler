@@ -31,4 +31,6 @@ void copy_file(string file_in, string file_out);
 
 void combine_config_files(physics_sects &phys_sects, vector<downsampled_mesh> &downs_sects, string current_path, string outfile);
 
+void export_particle_ranges(particle_range_sections &particle_ranges, string current_path);
+
 #endif /* IO_OPERATIONS_H_ */

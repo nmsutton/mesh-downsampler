@@ -51,12 +51,23 @@ struct physics_sects {
 	string file;
 };
 
+struct particle_range_sections{
+	/*
+	 * Ranges to have adjusted physics values
+	 */
+
+	vector<int> start_range, end_range;
+	vector<double> mod_r0, p_type;
+	string output_filename;
+};
+
 downsampled_mesh downs_mesh;
 vector<downsampled_mesh> downs_sects;
 input_file orig_data;
 input_file o_mesh_sorted;
 som_data som;
 physics_sects phys_sects;
+particle_range_sections particle_ranges;
 
 int ORIG_MESH_VERTS = -1;
 int DOWNS_MESH_VERTS = -1;

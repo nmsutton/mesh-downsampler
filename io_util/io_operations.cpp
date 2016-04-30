@@ -40,6 +40,16 @@ struct physics_sects {
 	string file;
 };
 
+struct particle_range_sections{
+	/*
+	 * Ranges to have adjusted physics values
+	 */
+
+	vector<int> start_range, end_range;
+	vector<double> mod_r0, p_type;
+	string output_filename;
+};
+
 struct input_file import_data(string in_filename) {
 	/*
 	 * Only particle types (input_t) < 3.0 are imported because
@@ -375,4 +385,24 @@ void combine_config_files(physics_sects &phys_sects, vector<downsampled_mesh> &d
 	//outFile<<
 
 	outFile.close();
+}
+
+void export_particle_ranges(particle_range_sections &particle_ranges, string current_path) {
+	/*
+	 * Output ranges of particles with corresponding modified smoothing radius ('r' a.k.a. 'h')
+	 * values for adjusting areas that elastic connections will be created.
+	 */
+	string current_path_trimmed = current_path.substr(0,current_path.size()-24);
+	string export_ranges_filename = current_path_trimmed + particle_ranges.output_filename;
+
+	ofstream outFile(export_ranges_filename);
+
+	for (int i = 0; i < particle_ranges.mod_r0.size(); i++) {
+		outFile<<int_to_str(particle_ranges.start_range[i])<<"\t"<<int_to_str(particle_ranges.end_range[i])<<"\t"
+				<<dbl_to_str(particle_ranges.mod_r0[i])<<"\t"<<dbl_to_str(particle_ranges.p_type[i]);
+		if (i+1 != particle_ranges.mod_r0.size()) {outFile<<endl;}
+	}
+
+	outFile.close();
+
 }

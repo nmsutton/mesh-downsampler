@@ -97,9 +97,10 @@ int main(int argc, char *argv[]) {
 			}
 			else if (string(argv[i]) == "-phys_sects_file") {
 				phys_sects_file = string(argv[i+1]);
+				particle_ranges.output_filename = "parti_" + phys_sects_file;
 			}
 			else if (string(argv[i]) == "-python_path") {
-				// currently not used/////
+				//////// currently not used///////
 				python_path = string(argv[i+1]);
 			}
 		}
@@ -112,7 +113,9 @@ int main(int argc, char *argv[]) {
 
 	cout<<endl<<"started"<<endl;
 
-	init_downs_verts(1.0, ORIG_MESH_VERTS, DOWNS_MESH_VERTS, orig_data, phys_sects, downs_sects);
+	init_downs_verts(1.0, ORIG_MESH_VERTS, DOWNS_MESH_VERTS, orig_data, phys_sects, downs_sects, particle_ranges);
+
+	//export_particle_ranges(particle_ranges, current_path);
 
 	if (detailed_results_print) {print_data_results("start");}
 
