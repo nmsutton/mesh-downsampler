@@ -46,7 +46,7 @@ struct particle_range_sections{
 	 */
 
 	vector<int> start_range, end_range;
-	vector<double> mod_r0, p_type;
+	vector<double> mod_r0, p_type_range_min, p_type_range_max;
 	string output_filename;
 };
 
@@ -109,6 +109,12 @@ void init_downs_verts(double s, int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input
 	for (int sect_i = 0; sect_i < phys_sects.h_scalar.size(); sect_i++) {
 		downsampled_mesh new_downs_mesh;
 		downs_sects.push_back(new_downs_mesh);
+
+		particle_ranges.start_range.push_back(0);
+		particle_ranges.end_range.push_back(0);
+		particle_ranges.mod_r0.push_back(0);
+		particle_ranges.p_type_range_min.push_back(0);
+		particle_ranges.p_type_range_max.push_back(0);
 	}
 
 	// bounding box
@@ -121,6 +127,7 @@ void init_downs_verts(double s, int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input
 	// sections
 	for (int sect_i = 0; sect_i < phys_sects.h_scalar.size(); sect_i++) {
 		start_range_found = false;
+		particle_index = 0;
 
 		for (int map_i = 0; map_i < DOWNS_MESH_VERTS; map_i++) {
 			offset_index = ceil((double) map_i*window_size);
@@ -137,7 +144,8 @@ void init_downs_verts(double s, int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input
 				if (start_range_found == false) {
 					particle_ranges.start_range[sect_i] = particle_index;
 					particle_ranges.mod_r0[sect_i] = phys_sects.h_scalar[sect_i];
-					particle_ranges.p_type[sect_i] = orig_data.t[offset_index];
+					particle_ranges.p_type_range_min[sect_i] = phys_sects.p_type_range_min[sect_i];
+					particle_ranges.p_type_range_max[sect_i] = phys_sects.p_type_range_max[sect_i];
 					start_range_found = true;
 				}
 
@@ -148,9 +156,9 @@ void init_downs_verts(double s, int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input
 
 				particle_ranges.end_range[sect_i] = particle_index;
 			}
+			particle_index++;
 		}
 
-		particle_index++;
 	}
 
 }

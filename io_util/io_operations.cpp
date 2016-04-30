@@ -46,7 +46,7 @@ struct particle_range_sections{
 	 */
 
 	vector<int> start_range, end_range;
-	vector<double> mod_r0, p_type;
+	vector<double> mod_r0, p_type_range_min, p_type_range_max;
 	string output_filename;
 };
 
@@ -392,14 +392,17 @@ void export_particle_ranges(particle_range_sections &particle_ranges, string cur
 	 * Output ranges of particles with corresponding modified smoothing radius ('r' a.k.a. 'h')
 	 * values for adjusting areas that elastic connections will be created.
 	 */
-	string current_path_trimmed = current_path.substr(0,current_path.size()-24);
-	string export_ranges_filename = current_path_trimmed + particle_ranges.output_filename;
+	//string current_path_trimmed = current_path.substr(0,current_path.size()-24);
+	string export_ranges_filename = particle_ranges.output_filename;
+
+	cout<<endl<<export_ranges_filename<<endl;
 
 	ofstream outFile(export_ranges_filename);
 
 	for (int i = 0; i < particle_ranges.mod_r0.size(); i++) {
 		outFile<<int_to_str(particle_ranges.start_range[i])<<"\t"<<int_to_str(particle_ranges.end_range[i])<<"\t"
-				<<dbl_to_str(particle_ranges.mod_r0[i])<<"\t"<<dbl_to_str(particle_ranges.p_type[i]);
+				<<dbl_to_str(particle_ranges.mod_r0[i])<<"\t"<<dbl_to_str(particle_ranges.p_type_range_min[i])
+				<<"\t"<<dbl_to_str(particle_ranges.p_type_range_max[i]);
 		if (i+1 != particle_ranges.mod_r0.size()) {outFile<<endl;}
 	}
 

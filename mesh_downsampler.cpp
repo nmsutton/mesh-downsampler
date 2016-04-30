@@ -97,7 +97,7 @@ int main(int argc, char *argv[]) {
 			}
 			else if (string(argv[i]) == "-phys_sects_file") {
 				phys_sects_file = string(argv[i+1]);
-				particle_ranges.output_filename = "parti_" + phys_sects_file;
+				particle_ranges.output_filename = phys_sects_file + "_particles";
 			}
 			else if (string(argv[i]) == "-python_path") {
 				//////// currently not used///////
@@ -115,7 +115,7 @@ int main(int argc, char *argv[]) {
 
 	init_downs_verts(1.0, ORIG_MESH_VERTS, DOWNS_MESH_VERTS, orig_data, phys_sects, downs_sects, particle_ranges);
 
-	//export_particle_ranges(particle_ranges, current_path);
+	export_particle_ranges(particle_ranges, current_path);
 
 	if (detailed_results_print) {print_data_results("start");}
 

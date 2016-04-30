@@ -57,7 +57,7 @@ struct particle_range_sections{
 	 */
 
 	vector<int> start_range, end_range;
-	vector<double> mod_r0, p_type;
+	vector<double> mod_r0, p_type_range_min, p_type_range_max;
 	string output_filename;
 };
 
