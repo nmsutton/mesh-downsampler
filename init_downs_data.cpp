@@ -153,10 +153,10 @@ void init_downs_verts(double s, int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input
 					start_range_found = true;
 				}
 
-				downs_sects[sect_i].x.push_back(orig_data.x[offset_index]);
+				/*downs_sects[sect_i].x.push_back(orig_data.x[offset_index]);
 				downs_sects[sect_i].y.push_back(orig_data.y[offset_index]);
 				downs_sects[sect_i].z.push_back(orig_data.z[offset_index]);
-				downs_sects[sect_i].t.push_back(orig_data.t[offset_index]);
+				downs_sects[sect_i].t.push_back(orig_data.t[offset_index]);*/
 
 				particle_ranges.end_range[sect_i] = particle_index;
 
@@ -165,6 +165,15 @@ void init_downs_verts(double s, int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input
 			particle_index++;
 		}
 
+	}
+
+	for (int map_i = 0; map_i < DOWNS_MESH_VERTS; map_i++) {
+		offset_index = ceil((double) map_i*window_size);
+
+		downs_sects[0].x.push_back(orig_data.x[offset_index]);
+		downs_sects[0].y.push_back(orig_data.y[offset_index]);
+		downs_sects[0].z.push_back(orig_data.z[offset_index]);
+		downs_sects[0].t.push_back(orig_data.t[offset_index]);
 	}
 
 }

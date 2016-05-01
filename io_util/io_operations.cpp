@@ -235,7 +235,8 @@ void export_config_files(string temp_downs_output, physics_sects &phys_sects, ve
 	string trimmed_temp_downs = "";
 	string temp_downs_filename = "";
 
-	for (int sect_i = 0; sect_i < phys_sects.h_scalar.size(); sect_i++) {
+	int sect_i = 0;
+	//for (int sect_i = 0; sect_i < phys_sects.h_scalar.size(); sect_i++) {
 		temp_downs_filename = temp_downs_output+"_"+int_to_str(sect_i);
 		trimmed_temp_downs = temp_downs_filename.substr(2,temp_downs_filename.size());
 		write_config_file(temp_downs_filename, downs_sects, sect_i);
@@ -249,7 +250,7 @@ void export_config_files(string temp_downs_output, physics_sects &phys_sects, ve
 		const char * prog_with_downs_data = prog_and_new_data.c_str ();
 		cout<<endl<<"running: "<<prog_and_new_data<<endl;
 		exec(prog_with_downs_data);
-	}
+	//}
 }
 
 void find_sect_positions(string in_filename, vector<long> &sects_line_indices) {
