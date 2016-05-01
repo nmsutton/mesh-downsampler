@@ -97,10 +97,12 @@ int main(int argc, char *argv[]) {
 			}
 			else if (string(argv[i]) == "-phys_sects_file") {
 				phys_sects_file = string(argv[i+1]);
-				particle_ranges.output_filename = phys_sects_file + "_particles";
+			}
+			else if (string(argv[i]) == "-phys_mod_file") {
+				phys_mod_filename = string(argv[i+1]);
 			}
 			else if (string(argv[i]) == "-python_path") {
-				//////// currently not used///////
+				////////////currently not used///////////
 				python_path = string(argv[i+1]);
 			}
 		}
@@ -113,9 +115,10 @@ int main(int argc, char *argv[]) {
 
 	cout<<endl<<"started"<<endl;
 
-	init_downs_verts(1.0, ORIG_MESH_VERTS, DOWNS_MESH_VERTS, orig_data, phys_sects, downs_sects, particle_ranges);
+	init_downs_verts(1.0, ORIG_MESH_VERTS, DOWNS_MESH_VERTS, orig_data, phys_sects, downs_sects, particle_ranges, particle_physics_mods);
 
-	export_particle_ranges(particle_ranges, current_path);
+	//export_particle_ranges(particle_ranges, current_path);
+	export_physics_mods(particle_physics_mods, current_path, phys_mod_filename, DOWNS_MESH_VERTS);
 
 	if (detailed_results_print) {print_data_results("start");}
 
@@ -125,7 +128,7 @@ int main(int argc, char *argv[]) {
 
 	if (detailed_results_print) {print_data_results("end");}
 
-	export_config_files(temp_downs_output, phys_sects, downs_sects, config_gen_path, current_path, outfile);
+	export_config_files(temp_downs_output, phys_sects, downs_sects, config_gen_path, current_path, outfile, phys_mod_filename);
 
 	combine_config_files(phys_sects, downs_sects, current_path, outfile);
 

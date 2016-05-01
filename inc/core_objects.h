@@ -68,6 +68,8 @@ input_file o_mesh_sorted;
 som_data som;
 physics_sects phys_sects;
 particle_range_sections particle_ranges;
+vector<double> particle_physics_mods;
+string phys_mod_filename;
 
 int ORIG_MESH_VERTS = -1;
 int DOWNS_MESH_VERTS = -1;

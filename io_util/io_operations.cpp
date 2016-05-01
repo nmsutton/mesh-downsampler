@@ -225,7 +225,7 @@ void write_config_file(string out_filename, vector<downsampled_mesh> &downs_sect
 	outFile.close();
 }
 
-void export_config_files(string temp_downs_output, physics_sects &phys_sects, vector<downsampled_mesh> &downs_sects, string config_gen_path, string current_path, string outfile) {
+void export_config_files(string temp_downs_output, physics_sects &phys_sects, vector<downsampled_mesh> &downs_sects, string config_gen_path, string current_path, string outfile, string phys_mod_filename) {
 	/*
 	 * output downsampled data.  process it with sibernetic_config_gen.
 	 * export config file with sibernetic_config_gen to be run with
@@ -244,7 +244,8 @@ void export_config_files(string temp_downs_output, physics_sects &phys_sects, ve
 
 		//wrapper for sibernetic_config_gen
 		string prog_and_new_data = "cd " + config_gen_path + " && python -u " + config_gen_path + "main.py -i " + trimmed_current_path +
-				trimmed_temp_downs + " -p " + dbl_to_str(phys_sects.h_scalar[sect_i]) + " -o " + trimmed_current_path + outfile + "_" + int_to_str(sect_i);
+				trimmed_temp_downs + " -p " + dbl_to_str(phys_sects.h_scalar[sect_i]) + " -m " + trimmed_current_path + phys_mod_filename +
+				" -o " + trimmed_current_path + outfile + "_" + int_to_str(sect_i);
 		const char * prog_with_downs_data = prog_and_new_data.c_str ();
 		cout<<endl<<"running: "<<prog_and_new_data<<endl;
 		exec(prog_with_downs_data);
@@ -387,11 +388,12 @@ void combine_config_files(physics_sects &phys_sects, vector<downsampled_mesh> &d
 	outFile.close();
 }
 
-void export_particle_ranges(particle_range_sections &particle_ranges, string current_path) {
+void export_particle_ranges(particle_range_sections &particle_ranges, string current_path, vector<double> particle_physics_mods) {
 	/*
 	 * Output ranges of particles with corresponding modified smoothing radius ('r' a.k.a. 'h')
 	 * values for adjusting areas that elastic connections will be created.
 	 */
+	/*
 	//string current_path_trimmed = current_path.substr(0,current_path.size()-24);
 	string export_ranges_filename = particle_ranges.output_filename;
 
@@ -407,5 +409,20 @@ void export_particle_ranges(particle_range_sections &particle_ranges, string cur
 	}
 
 	outFile.close();
+	*/
+}
 
+void export_physics_mods(vector<double> particle_physics_mods, string current_path, string phys_mod_filename, int DOWNS_MESH_VERTS) {
+	string trimmed_current_path = current_path.substr(0,current_path.size()-24);
+
+	cout<<endl<<"phys_mod_filename: "<<phys_mod_filename<<endl;
+
+	ofstream outFile(phys_mod_filename);
+
+	for (int i = 0; i < DOWNS_MESH_VERTS; i++) {
+		outFile<<i<<"\t"<<particle_physics_mods[i];
+		if (i+1 != DOWNS_MESH_VERTS) {outFile<<endl;}
+	}
+
+	outFile.close();
 }

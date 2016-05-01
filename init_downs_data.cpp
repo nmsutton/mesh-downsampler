@@ -91,7 +91,7 @@ void sort2(int ORIG_MESH_VERTS, input_file &o_mesh_sorted) {
 }
 
 void init_downs_verts(double s, int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input_file &orig_data,
-		physics_sects &phys_sects, vector<downsampled_mesh> &downs_sects, particle_range_sections &particle_ranges) {
+		physics_sects &phys_sects, vector<downsampled_mesh> &downs_sects, particle_range_sections &particle_ranges, vector<double> &particle_physics_mods) {
 	/*
 	 * Initialization of downs verts:
 	 * s = a parameter that does a scalar multiplication on window_size to increase the size if wanted
@@ -115,6 +115,10 @@ void init_downs_verts(double s, int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input
 		particle_ranges.mod_r0.push_back(0);
 		particle_ranges.p_type_range_min.push_back(0);
 		particle_ranges.p_type_range_max.push_back(0);
+	}
+
+	for (int map_i = 0; map_i < DOWNS_MESH_VERTS; map_i++) {
+		particle_physics_mods.push_back(1);
 	}
 
 	// bounding box
@@ -155,6 +159,8 @@ void init_downs_verts(double s, int ORIG_MESH_VERTS, int DOWNS_MESH_VERTS, input
 				downs_sects[sect_i].t.push_back(orig_data.t[offset_index]);
 
 				particle_ranges.end_range[sect_i] = particle_index;
+
+				particle_physics_mods[particle_index] = phys_sects.h_scalar[sect_i];
 			}
 			particle_index++;
 		}

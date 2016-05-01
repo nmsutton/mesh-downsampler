@@ -23,7 +23,7 @@ string int_to_str(int i);
 
 void write_config_file(string out_filename, vector<downsampled_mesh> &downs_sects, int section);
 
-void export_config_files(string temp_downs_output, physics_sects &phys_sects, vector<downsampled_mesh> &downs_sects, string config_gen_path, string current_path, string outfile);
+void export_config_files(string temp_downs_output, physics_sects &phys_sects, vector<downsampled_mesh> &downs_sects, string config_gen_path, string current_path, string outfile, string phys_mod_filename);
 
 void find_sect_positions(string in_filename, vector<long> &sects_line_indices);
 
@@ -31,6 +31,8 @@ void copy_file(string file_in, string file_out);
 
 void combine_config_files(physics_sects &phys_sects, vector<downsampled_mesh> &downs_sects, string current_path, string outfile);
 
-void export_particle_ranges(particle_range_sections &particle_ranges, string current_path);
+void export_particle_ranges(particle_range_sections &particle_ranges, string current_path, vector<double> particle_physics_mods);
+
+void export_physics_mods(vector<double> particle_physics_mods, string current_path, string phys_mod_filename, int DOWNS_MESH_VERTS);
 
 #endif /* IO_OPERATIONS_H_ */
